@@ -25,11 +25,26 @@
   },
   "homepage": "https://github.com/mozilla-lockbox/lockbox-datastore#readme",
   "devDependencies": {
+    "chai": "^4.1.0",
     "eslint": "^4.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "istanbul-instrumenter-loader": "^2.0.0",
+    "karma": "^1.7.0",
+    "karma-coverage-istanbul-reporter": "^1.3.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.3",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.4",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3",
+    "webpack": "^3.4.0"
+  },
+  "dependencies": {
+    "uuid": "^3.1.0"
   }
 }

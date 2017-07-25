@@ -1,0 +1,7 @@
+{
+  "include": ["lib/**/*.js"],
+  "reporter": ["html", "text-summary"],
+  "report-dir": "coverage/node",
+  "temp-directory": "coverage/.nyc",
+  "cache": false
+}
