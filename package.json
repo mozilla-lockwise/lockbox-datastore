@@ -4,9 +4,12 @@
   "description": "DataStore module for Lockbox",
   "main": "lib/index.js",
   "scripts": {
+    ":clean:coverage": "git clean -fdX ./coverage",
+    "clean": "npm run :clean:coverage",
     "lint": "eslint lib/**/*.js test/**/*.js",
-    "pretest": "npm run lint",
-    "test": "karma start"
+    "pretest": "npm run lint && npm run :clean:coverage",
+    "test": "karma start",
+    "watch": "watch --interval=30 'npm run test' ./lib ./test"
   },
   "repository": {
     "type": "git",
@@ -42,6 +45,7 @@
     "karma-webpack": "^2.0.4",
     "mocha": "^3.4.2",
     "nyc": "^11.0.3",
+    "watch": "^1.0.2",
     "webpack": "^3.4.0"
   },
   "dependencies": {
