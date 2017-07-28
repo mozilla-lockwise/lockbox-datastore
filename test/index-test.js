@@ -6,11 +6,12 @@
 
 const assert = require("chai").assert;
 
-const ds = require("../lib");
+const index = require("../lib"),
+      DataStore = require("../lib/datastore");
 
-describe("datastore", () => {
+describe("index", () => {
   it("creates an instance", () => {
-    let data = ds.create();
-    assert.exists(data);
+    let data = index.create();
+    assert.instanceOf(data, DataStore);
   });
 });
