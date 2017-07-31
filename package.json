@@ -4,12 +4,15 @@
   "description": "DataStore module for Lockbox",
   "main": "lib/index.js",
   "scripts": {
-    ":clean:coverage": "git clean -fdX ./coverage",
-    "clean": "npm run :clean:coverage",
+    ":clean:doc": "rimraf ./doc/api",
+    "predoc": "npm run :clean:doc",
+    "doc": "jsdoc -c ./jsdoc.conf.js",
     "lint": "eslint lib/**/*.js test/**/*.js",
     "pretest": "npm run lint && npm run :clean:coverage",
     "test": "karma start",
-    "watch": "watch --interval=30 'npm run test' ./lib ./test"
+    "watch": "watch --interval=10 'npm run test && npm run doc' ./lib ./test",
+    ":clean:coverage": "git clean -fdX ./coverage",
+    "clean": "npm run :clean:coverage"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "istanbul-instrumenter-loader": "^2.0.0",
+    "jsdoc": "^3.5.3",
     "karma": "^1.7.0",
     "karma-coverage-istanbul-reporter": "^1.3.0",
     "karma-firefox-launcher": "^1.0.1",
