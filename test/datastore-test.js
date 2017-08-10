@@ -9,10 +9,26 @@ const assert = require("chai").assert;
 const UUID = require("uuid"),
       DataStore = require("../lib/datastore");
 
+// Initializing item keys database (empty)
+// Created using the following:
+//   secret: resin peccadillo cartage circumnavigate arithmetic reverential
+//   iterations: 8192
+//   salt: "htkB9-4QzaY-JEsZyBx9PA"
+const PASSWORD = "resin peccadillo cartage circumnavigate arithmetic reverential";
+const KEYS = "eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMmMiOjgxOTIsInAycyI6Imh0a0I5LTRRemFZLUpFc1p5Qng5UEEiLCJraWQiOiJXa3hjLUUyY0h1SDdwS244cDFDdVdKUmd1SlFiMzhSZkZKdmk3Q3VJMVg4IiwiZW5jIjoiQTEyOENCQy1IUzI1NiJ9.sanv_pn0vvCVkchsoM_Y9lRfFjn-7d_UXdUootqFtYuSF9UIIgu0PQ.cGra2P2VLal-uBbw7n3Wvg.MKukEKr6UhabZtVYMBZ_SQ.-TgzzMo8GTDj7b1Hr0-C4w";
+
 describe("datastore", () => {
   let main;
+
+  let unlockWin = async (request) => {
+    return PASSWORD;
+  };
+
   it("constructs an instance", () => {
-    main = new DataStore();
+    main = new DataStore({
+      unlockPrompt: unlockWin,
+      keys: KEYS
+    });
     assert.instanceOf(main, DataStore);
     assert.ok(main.locked);
   });
