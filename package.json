@@ -10,6 +10,8 @@
     "lint": "eslint lib/**/*.js test/**/*.js",
     "pretest": "npm run lint && npm run :clean:coverage",
     "test": "karma start",
+    "predebug": "npm run lint",
+    "debug": "karma start karma.conf-debug.js",
     "watch": "watch --interval=10 'npm run test && npm run doc' ./lib ./test",
     ":clean:coverage": "git clean -fdX ./coverage",
     "clean": "npm run :clean:coverage"
