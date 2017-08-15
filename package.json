@@ -33,6 +33,9 @@
   },
   "homepage": "https://github.com/mozilla-lockbox/lockbox-datastore#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chai": "^4.1.0",
     "eslint": "^4.3.0",
     "eslint-config-standard": "^10.2.1",
@@ -51,8 +54,11 @@
     "karma-webpack": "^2.0.4",
     "mocha": "^3.4.2",
     "nyc": "^11.0.3",
+    "password": "^0.1.1",
+    "promisified-fs": "^1.0.1",
     "watch": "^1.0.2",
-    "webpack": "^3.4.0"
+    "webpack": "^3.4.0",
+    "yargs": "^8.0.2"
   },
   "dependencies": {
     "node-jose": "^0.9.5",
