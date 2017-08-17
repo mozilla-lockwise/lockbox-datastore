@@ -29,18 +29,7 @@ module.exports = function(config, more) {
     reporters: ["mocha", "coverage-istanbul"],
 
     // webpack configuration
-    webpack: {
-      devtool: "inline-source-map",
-      module: {
-        rules: [
-          {
-            test: /\.js$/,
-            use: { loader: "istanbul-instrumenter-loader" },
-            include: PATH.resolve("lib")
-          }
-        ]
-      }
-    },
+    webpack: require("./webpack.config.js"),
     webpackMiddleware: {
       stats: "errors-only"
     },
