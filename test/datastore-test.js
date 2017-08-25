@@ -7,20 +7,26 @@
 const assert = require("chai").assert;
 
 const UUID = require("uuid"),
+      jose = require("node-jose"),
       DataStore = require("../lib/datastore");
 
-// Initializing item keys database (empty)
-// Created using the following:
-//   secret: resin peccadillo cartage circumnavigate arithmetic reverential
-//   iterations: 8192
-//   salt: "htkB9-4QzaY-JEsZyBx9PA"
-const PASSWORD = "resin peccadillo cartage circumnavigate arithmetic reverential";
-const KEYS = "eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMmMiOjgxOTIsInAycyI6Imh0a0I5LTRRemFZLUpFc1p5Qng5UEEiLCJraWQiOiJXa3hjLUUyY0h1SDdwS244cDFDdVdKUmd1SlFiMzhSZkZKdmk3Q3VJMVg4IiwiZW5jIjoiQTEyOENCQy1IUzI1NiJ9.sanv_pn0vvCVkchsoM_Y9lRfFjn-7d_UXdUootqFtYuSF9UIIgu0PQ.cGra2P2VLal-uBbw7n3Wvg.MKukEKr6UhabZtVYMBZ_SQ.-TgzzMo8GTDj7b1Hr0-C4w";
+function loadMasterPassword() {
+  // master-key is the master password, serialized as base64url
+  let master = require("./setup/master-key.json");
+  master = jose.util.base64url.decode(master.k);
+  master = master.toString("utf8");
+  return master;
+}
+
+function loadEncryptedKeys() {
+  // keys is encrypted (using master password) as a Compact JWE
+  let keys = require("./setup/encrypted-empty.json");
+  keys = keys.encrypted;
+  return keys;
+}
 
 describe("datastore", () => {
-  let unlockWin = async (request) => {
-    return PASSWORD;
-  };
+  let unlockWin = async (request) => loadMasterPassword();
 
   describe("ctor", () => {
     it("constructs an instance without any options", () => {
@@ -34,7 +40,7 @@ describe("datastore", () => {
         prompts: {
           unlock: unlockWin
         },
-        keys: KEYS
+        keys: loadEncryptedKeys()
       };
       let ds = new DataStore(cfg);
       assert.ok(ds.initialized);
@@ -54,7 +60,7 @@ describe("datastore", () => {
     });
     it("constructs an instance with configured keystore", () => {
       let cfg = {
-        keys: KEYS
+        keys: loadEncryptedKeys()
       };
       let ds = new DataStore(cfg);
       assert.ok(ds.initialized);
@@ -66,13 +72,22 @@ describe("datastore", () => {
   describe("CRUD", () => {
     let main;
 
+    function checkList(stored, cached) {
+      assert.equal(stored.size, cached.size);
+      for (let i of cached.keys()) {
+        let actual = stored.get(i),
+            expected = cached.get(i);
+        assert.deepEqual(actual, expected);
+      }
+    }
+
     before(async () => {
 
       main = new DataStore({
         prompts: {
           unlock: unlockWin
         },
-        keys: KEYS
+        keys: loadEncryptedKeys()
       });
     })
 
@@ -91,9 +106,10 @@ describe("datastore", () => {
     it("does basic CRUD ops", async () => {
       // start by unlocking
       await main.unlock();
-      let stored;
+      let cached = new Map(),
+          stored;
       stored = await main.list();
-      assert.equal(stored.size, 0);
+      checkList(stored, cached);
 
       let something = {
         title: "My Item",
@@ -105,25 +121,28 @@ describe("datastore", () => {
       };
       let result = await main.add(something);
       assert.deepNestedInclude(result, something);
+      cached.set(result.id, result);
       stored = await main.list();
-      assert.equal(stored.size, 1);
-      assert.deepEqual(stored.get(result.id), result);
+      checkList(stored, cached);
 
       something = JSON.parse(JSON.stringify(result));
       something.entry = Object.assign(something.entry, {
         password: "baz"
       });
       result = await main.update(something);
+      delete something.modified;  // NOTE: modified is updated -- skip for now
+
       assert.deepNestedInclude(result, something);
+      cached.set(result.id, result);
       stored = await main.list();
-      assert.equal(stored.size, 1);
-      assert.deepEqual(stored.get(result.id), result);
+      checkList(stored, cached);
 
       something = result;
       result = await main.remove(something.id);
       assert.deepEqual(result, something);
+      cached.delete(result.id);
       stored = await main.list();
-      assert.equal(stored.size, 0);
+      checkList(stored, cached);
     });
   });
 });
