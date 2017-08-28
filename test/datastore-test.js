@@ -66,6 +66,32 @@ describe("datastore", () => {
     });
   });
 
+  describe("initialization", () => {
+    function setupTest(password) {
+      return async () => {
+        let ds = new DataStore({
+          prompts: {
+            unlock: async (req) => password
+          }
+        });
+
+        let result = await ds.initialize({ password });
+        assert.strictEqual(result, ds);
+        assert(!ds.locked);
+        assert(ds.initialized);
+
+        password = password || "";
+        await ds.lock();
+        await ds.unlock();
+        assert(!ds.locked);
+      };
+    }
+
+    it("initializes with given (non-empty) password", setupTest("P0ppy$33D!"));
+    it("initializes with given (empty) password", setupTest(""));
+    it("initializes with a null password (treated as '')", setupTest(null));
+  });
+
   describe("CRUD", () => {
     let main;
 
