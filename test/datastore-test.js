@@ -11,10 +11,9 @@ const UUID = require("uuid"),
       DataStore = require("../lib/datastore");
 
 function loadMasterPassword() {
-  // master-key is the master password, serialized as base64url
+  // master key contains secret
   let master = require("./setup/master-key.json");
-  master = jose.util.base64url.decode(master.k);
-  master = master.toString("utf8");
+  master = master.secret;
   return master;
 }
 
@@ -82,7 +81,6 @@ describe("datastore", () => {
     }
 
     before(async () => {
-
       main = new DataStore({
         prompts: {
           unlock: unlockWin
@@ -143,6 +141,16 @@ describe("datastore", () => {
       cached.delete(result.id);
       stored = await main.list();
       checkList(stored, cached);
+    });
+  });
+
+  describe("defaults", () => {
+    it("initializes and unlocks with a default prompt handler", async () => {
+      let ds = new DataStore();
+
+      let result;
+      result = await ds.initialize();
+      assert.strictEqual(result, ds);
     });
   });
 });

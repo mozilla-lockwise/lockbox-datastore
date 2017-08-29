@@ -11,6 +11,8 @@ const jose = require("node-jose"),
       PASSWORD = require("password"),
       UUID = require("uuid");
 
+const PASSWORD_PREFIX = "-GV3ItzyNxfBGp3ZjtqVGswWWlT7tIMZjeXanHqhxm0";
+
 var argv = yargs.
           option("secret", {
             desc: "the secret passphrase to use",
@@ -18,7 +20,11 @@ var argv = yargs.
             requiresArg: true
           }).
           option("random", {
-            desc: "if a random passphrase should be generated (ignores --secret)",
+            desc: "if a random passphrase should be generated (ignores --secret and --empty)",
+            boolean: true
+          }).
+          option("empty", {
+            desc: "if an 'empty' passphrase should be used (ignores --secret)",
             boolean: true
           }).
           option("output", {
@@ -30,14 +36,18 @@ var argv = yargs.
           argv;
 
 async function main() {
-  let { random, secret, output } = argv;
+  let { empty, random, secret, output } = argv;
   if (random) {
     secret = PASSWORD(4);
+  } else if (empty) {
+    secret = "";
   }
 
+  let value = PASSWORD_PREFIX + secret;
   let master = await jose.JWK.asKey({
     kty: "oct",
-    k: jose.util.base64url.encode(secret, "utf8")
+    k: jose.util.base64url.encode(value, "utf8"),
+    secret: secret
   });
   master = master.toJSON(true);
   master = JSON.stringify(master, null, "  ") + "\n";
