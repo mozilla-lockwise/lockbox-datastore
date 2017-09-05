@@ -85,7 +85,7 @@ describe("ItemKeyStore", () => {
 
       let itemstore = new ItemKeyStore(context);
       try {
-        let result = await itemstore.load();
+        await itemstore.load();
         assert(false, "unexpected success");
       } catch (err) {
         assert.strictEqual(err.message, "invalid master key");
@@ -96,7 +96,7 @@ describe("ItemKeyStore", () => {
 
       let itemstore = new ItemKeyStore(context);
       try {
-        let result = await itemstore.load();
+        await itemstore.load();
         assert(false, "unexpected success");
       } catch (err) {
         assert.strictEqual(err.message, "not encrypted");
@@ -162,6 +162,7 @@ describe("ItemKeyStore", () => {
       assert.isUndefined(context.iterations);
 
       let result = await itemstore.save();
+      assert.strictEqual(result, itemstore);
       assert.isNotEmpty(itemstore.encrypted);
       assert.isDefined(context.salt);
       assert.strictEqual(context.iterations, 8192);
@@ -172,7 +173,7 @@ describe("ItemKeyStore", () => {
       assert.isUndefined(itemstore.masterKey);
 
       try {
-        let result = await itemstore.save();
+        await itemstore.save();
         assert.ok(false, "unexpected success");
       } catch (err) {
         assert.strictEqual(err.message, "invalid master key");
@@ -263,18 +264,18 @@ describe("ItemKeyStore", () => {
       cacheEntry(item.id, item, result);
     });
     it("encrypts an item with a known key", async () => {
-        let item = {
-          id: UUID(),
-          title: "another item"
-        };
-        let key = await itemstore.add(item.id);
-        assert.isUndefined(cache.get(item.id));
-        assert.isDefined(key);
+      let item = {
+        id: UUID(),
+        title: "another item"
+      };
+      let key = await itemstore.add(item.id);
+      assert.isUndefined(cache.get(item.id));
+      assert.isDefined(key);
 
-        let result = await itemstore.encrypt(item);
-        assert.isNotEmpty(result);
+      let result = await itemstore.encrypt(item);
+      assert.isNotEmpty(result);
 
-        cacheEntry(item.id, item, result);
+      cacheEntry(item.id, item, result);
     });
     it("decrypts items", async () => {
       assert.strictEqual(itemstore.size, cache.size);

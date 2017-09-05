@@ -2,5 +2,10 @@
   "env": {
     "mocha": true
   },
-  "extends": "../.eslintrc.json"
+  "extends": "../.eslintrc.json",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  }
 }
