@@ -6,11 +6,9 @@
 
 const assert = require("chai").assert;
 
-const UUID = require("uuid"),
-      jose = require("node-jose"),
-      DataStore = require("../lib/datastore");
+const DataStore = require("../lib/datastore");
 
-function loadMasterPassword() {
+async function loadMasterPassword() {
   // master key contains secret
   let master = require("./setup/master-key.json");
   master = master.secret;
@@ -25,14 +23,14 @@ function loadEncryptedKeys() {
 }
 
 describe("datastore", () => {
-  let unlockWin = async (request) => loadMasterPassword();
+  let unlockWin = loadMasterPassword;
 
   describe("ctor", () => {
     it("constructs an instance without any options", () => {
-        let ds = new DataStore();
-        assert.ok(!ds.initialized);
-        assert.ok(ds.locked);
-        assert.typeOf(ds.prompts.unlock, "function");
+      let ds = new DataStore();
+      assert.ok(!ds.initialized);
+      assert.ok(ds.locked);
+      assert.typeOf(ds.prompts.unlock, "function");
     });
     it("constructs with the specified configuration", () => {
       let cfg = {
@@ -87,7 +85,7 @@ describe("datastore", () => {
         },
         keys: loadEncryptedKeys()
       });
-    })
+    });
 
     it("locks and unlocks", async () => {
       let result;
