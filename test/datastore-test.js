@@ -6,7 +6,9 @@
 
 const assert = require("chai").assert;
 
-const DataStore = require("../lib/datastore");
+const DataStore = require("../lib/datastore"),
+      localdatabase = require("../lib/localdatabase"),
+      errors = require("../lib/util/errors");
 
 async function loadMasterPassword() {
   // master key contains secret
@@ -67,6 +69,8 @@ describe("datastore", () => {
   });
 
   describe("initialization", () => {
+    beforeEach(localdatabase.startup);
+    afterEach(localdatabase.teardown);
     function setupTest(password) {
       return async () => {
         let ds = new DataStore({
@@ -84,12 +88,24 @@ describe("datastore", () => {
         await ds.lock();
         await ds.unlock();
         assert(!ds.locked);
+
+        return ds;
       };
     }
 
     it("initializes with given (non-empty) password", setupTest("P0ppy$33D!"));
     it("initializes with given (empty) password", setupTest(""));
     it("initializes with a null password (treated as '')", setupTest(null));
+    it("fails on the second initialization", async () => {
+      let first = setupTest("");
+      let ds = await first();
+      try {
+        await ds.initialize({ password: "" });
+      } catch (err) {
+        assert.strictEqual(err.reason, errors.Reasons.GENERIC_ERROR);
+        assert.strictEqual(err.message, "already initialized");
+      }
+    });
   });
 
   describe("CRUD", () => {
@@ -105,12 +121,19 @@ describe("datastore", () => {
     }
 
     before(async () => {
+      localdatabase.startup();
+
       main = new DataStore({
         prompts: {
           unlock: unlockWin
         },
         keys: loadEncryptedKeys()
       });
+      main = await main.prepare();
+    });
+    after(async () => {
+      // cleanup databases
+      await localdatabase.teardown();
     });
 
     it("locks and unlocks", async () => {
@@ -147,6 +170,12 @@ describe("datastore", () => {
       stored = await main.list();
       checkList(stored, cached);
 
+      // result is the full item
+      let expected = result;
+      result = await main.get(expected.id);
+      assert(expected !== result);
+      assert.deepEqual(result, expected);
+
       something = JSON.parse(JSON.stringify(result));
       something.entry = Object.assign(something.entry, {
         password: "baz"
@@ -159,16 +188,31 @@ describe("datastore", () => {
       stored = await main.list();
       checkList(stored, cached);
 
+      expected = result;
+      result = await main.get(expected.id);
+      assert(expected !== result);
+      assert.deepEqual(result, expected);
+
       something = result;
       result = await main.remove(something.id);
       assert.deepEqual(result, something);
       cached.delete(result.id);
       stored = await main.list();
       checkList(stored, cached);
+
+      result = await main.get(result.id);
+      assert(!result);
     });
   });
 
   describe("defaults", () => {
+    before(async () => {
+      await localdatabase.startup();
+    });
+    after(async () => {
+      await localdatabase.teardown();
+    });
+
     it("initializes and unlocks with a default prompt handler", async () => {
       let ds = new DataStore();
 
