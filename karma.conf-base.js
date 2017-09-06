@@ -26,7 +26,13 @@ module.exports = function(config, more) {
     // test results reporter to use
     // possible values: "dots", "progress"
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage-istanbul"],
+    reporters: ["mocha", "coverage-istanbul", "coverage", "coveralls"],
+
+    //coverage configuration to upload to coveralls.io
+    coverageReporter: {
+      type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+      dir: 'coverage/'
+    },
 
     // webpack configuration
     webpack: require("./webpack.config.js"),
