@@ -71,7 +71,7 @@ describe("datastore", () => {
       return async () => {
         let ds = new DataStore({
           prompts: {
-            unlock: async (req) => password
+            unlock: async () => password
           }
         });
 
