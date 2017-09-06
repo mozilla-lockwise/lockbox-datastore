@@ -7,7 +7,7 @@
     ":clean:doc": "rimraf ./doc/api",
     "predoc": "npm run :clean:doc",
     "doc": "jsdoc -c ./jsdoc.conf.js",
-    "lint": "eslint lib/**/*.js test/**/*.js",
+    "lint": "eslint lib test",
     "pretest": "npm run lint && npm run :clean:coverage",
     "test": "karma start",
     "predebug": "npm run lint",
