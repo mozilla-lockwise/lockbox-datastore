@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master)](https://travis-ci.org/mozilla-lockbox/lockbox-datastore) [![Coverage Status](https://coveralls.io/repos/github/mozilla-lockbox/lockbox-datastore/badge.svg?branch=master)](https://coveralls.io/github/mozilla-lockbox/lockbox-datastore?branch=master)
+[![Build Status](https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master)](https://travis-ci.org/mozilla-lockbox/lockbox-datastore) [![Coverage Status](https://coveralls.io/repos/github/mozilla-lockbox/lockbox-datastore/badge.svg?branch=master)](https://coveralls.io/github/mozilla-lockbox/lockbox-datastore?branch=master) [![codecov](https://codecov.io/gh/mozilla-lockbox/lockbox-datastore/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla-lockbox/lockbox-datastore)
+
+
 
 # Lockbox DataStore #
 
