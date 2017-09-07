@@ -12,3 +12,5 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 # DEFAULTS: Travis runs `npm install` and `npm test`
+
+after_success: npm run codecov
