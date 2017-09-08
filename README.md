@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master)](https://travis-ci.org/mozilla-lockbox/lockbox-datastore) [![codecov](https://codecov.io/gh/mozilla-lockbox/lockbox-datastore/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla-lockbox/lockbox-datastore)
 
-
-
 # Lockbox DataStore #
 
 The data storage module for Lockbox. This module maintains the collection of entries, protected behind a preconfigured secret.
