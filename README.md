@@ -31,6 +31,7 @@ To run tests in a web browser:
 ```bash
 npm test
 ```
+
 ## Contributing ##
 
 See the [guidelines](./CONTRIBUTING.md) for contributing to this project.
