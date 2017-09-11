@@ -39,7 +39,7 @@ This project is governed by a [Code Of Conduct](./CODE_OF_CONDUCT.md).
 
 ## License
 
-This module is liicensed under the [Mozilla Public License,
+This module is licensed under the [Mozilla Public License,
 version 2.0](./LICENSE).
 
 [travis-image]: https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master
