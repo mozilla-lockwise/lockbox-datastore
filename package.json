@@ -3,13 +3,19 @@
   "version": "0.0.1",
   "description": "DataStore module for Lockbox",
   "main": "lib/index.js",
+  "browser": {
+    "fake-indexeddb": false,
+    "fake-indexeddb/lib/FDBKeyRange": false
+  },
   "scripts": {
     ":clean:doc": "rimraf ./doc/api",
     "predoc": "npm run :clean:doc",
     "doc": "jsdoc -c ./jsdoc.conf.js",
     "lint": "eslint lib test",
     "pretest": "npm run lint && npm run :clean:coverage",
-    "test": "karma start",
+    ":test:karma": "karma start",
+    ":test:node": "mocha test",
+    "test": "npm run :test:node && npm run :test:karma",
     "predebug": "npm run lint",
     "debug": "karma start karma.conf-debug.js",
     "watch": "watch --interval=10 'npm run test && npm run doc' ./lib ./test",
@@ -55,7 +61,7 @@
     "karma-mocha-reporter": "^2.2.3",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.4",
-    "mocha": "^3.4.2",
+    "mocha": "^3.5.0",
     "nyc": "^11.0.3",
     "password": "^0.1.1",
     "promisified-fs": "^1.0.1",
@@ -64,6 +70,8 @@
     "yargs": "^8.0.2"
   },
   "dependencies": {
+    "dexie": "^1.5.1",
+    "fake-indexeddb": "^2.0.3",
     "node-jose": "^0.9.5",
     "uuid": "^3.1.0"
   }
