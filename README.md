@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master)](https://travis-ci.org/mozilla-lockbox/lockbox-datastore) [![codecov](https://codecov.io/gh/mozilla-lockbox/lockbox-datastore/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla-lockbox/lockbox-datastore)
+[![Build Status][travis-image]][travis-link]
+[![Coverage Status][codecov-image]][codecov-link]
+
 
 # Lockbox DataStore #
 
@@ -29,6 +31,7 @@ To run tests in a web browser:
 ```bash
 npm test
 ```
+
 ## Contributing ##
 
 See the [guidelines](./CONTRIBUTING.md) for contributing to this project.
@@ -37,5 +40,10 @@ This project is governed by a [Code Of Conduct](./CODE_OF_CONDUCT.md).
 
 ## License
 
-This module is liicensed under the [Mozilla Public License,
+This module is licensed under the [Mozilla Public License,
 version 2.0](./LICENSE).
+
+[travis-image]: https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master
+[travis-link]: https://travis-ci.org/mozilla-lockbox/lockbox-datastore
+[codecov-image]: https://img.shields.io/codecov/c/github/mozilla-lockbox/lockbox-datastore.svg
+[codecov-link]: https://codecov.io/gh/mozilla-lockbox/lockbox-datastore
