@@ -243,13 +243,9 @@ describe("datastore", () => {
     });
 
     it("add a value to 1st datatore", async () => {
-      let main = new DataStore({
-        prompts: {
-          unlock: unlockWin
-        },
-        keys: loadEncryptedKeys()
-      });
+      let main = new DataStore();
       main = await main.prepare();
+      await main.initialize();
       await main.unlock;
 
       let result = await main.add(something);
@@ -268,12 +264,7 @@ describe("datastore", () => {
     });
 
     it("data persists into second datastore", async () => {
-      let secondDatastore = new DataStore({
-        prompts: {
-          unlock: unlockWin
-        },
-        keys: loadEncryptedKeys()
-      });
+      let secondDatastore = new DataStore();
       secondDatastore = await secondDatastore.prepare();
       await secondDatastore.unlock();
 
