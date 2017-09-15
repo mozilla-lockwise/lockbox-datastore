@@ -24,6 +24,15 @@ function loadEncryptedKeys() {
   return keys;
 }
 
+function checkList(stored, cached) {
+  assert.equal(stored.size, cached.size);
+  for (let i of cached.keys()) {
+    let actual = stored.get(i),
+        expected = cached.get(i);
+    assert.deepEqual(actual, expected);
+  }
+}
+
 describe("datastore", () => {
   let unlockWin = loadMasterPassword;
 
@@ -110,15 +119,6 @@ describe("datastore", () => {
 
   describe("CRUD", () => {
     let main;
-
-    function checkList(stored, cached) {
-      assert.equal(stored.size, cached.size);
-      for (let i of cached.keys()) {
-        let actual = stored.get(i),
-            expected = cached.get(i);
-        assert.deepEqual(actual, expected);
-      }
-    }
 
     before(async () => {
       localdatabase.startup();
@@ -219,6 +219,61 @@ describe("datastore", () => {
       let result;
       result = await ds.initialize();
       assert.strictEqual(result, ds);
+    });
+  });
+
+  describe("persistence", () => {
+    let cached = new Map();
+    let expectedID;
+    let something = {
+      title: "Sa Tuna2",
+      entry: {
+        kind: "login",
+        username: "foo",
+        password: "bar"
+      }
+    };
+
+    before(async () => {
+      localdatabase.startup();
+    });
+    after(async () => {
+      // cleanup databases
+      await localdatabase.teardown();
+    });
+
+    it("add a value to 1st datatore", async () => {
+      let main = new DataStore();
+      main = await main.prepare();
+      await main.initialize();
+      await main.unlock;
+
+      let result = await main.add(something);
+      assert.deepNestedInclude(result, something);
+      cached.set(result.id, result);
+      let stored = await main.list();
+      checkList(stored, cached);
+
+      // result is the full item
+      let expected = result;
+      result = await main.get(expected.id);
+      assert(expected !== result);
+      assert.deepEqual(result, expected);
+
+      expectedID = expected.id;
+    });
+
+    it("data persists into second datastore", async () => {
+      let secondDatastore = new DataStore();
+      secondDatastore = await secondDatastore.prepare();
+      await secondDatastore.unlock();
+
+      let stored = await secondDatastore.list();
+      checkList(stored, cached);
+
+      // result is the full item
+      let result = await secondDatastore.get(expectedID);
+      assert.deepNestedInclude(result, something);
     });
   });
 });
