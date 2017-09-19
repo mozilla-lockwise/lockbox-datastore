@@ -8,9 +8,9 @@
     "fake-indexeddb/lib/FDBKeyRange": false
   },
   "scripts": {
-    ":clean:doc": "rimraf ./doc/api",
-    "predoc": "npm run :clean:doc",
-    "doc": "jsdoc -c ./jsdoc.conf.js",
+    "predoc": "rm docs/api.md",
+    "doc": "documentation build lib/** -f md -o docs/api.md",
+    "postdoc": "echo -e '---\ntitle: API documentation\nlayout: default\n---\n$(cat docs/api.md)' > docs/api.md",
     "lint": "eslint lib test",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
