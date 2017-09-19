@@ -8,9 +8,9 @@ const assert = require("chai").assert;
 
 const DataStore = require("../lib/datastore"),
       localdatabase = require("../lib/localdatabase"),
-      errors = require("../lib/util/errors");
+      DataStoreError = require("../lib/util/errors");
 
-async function loadMasterPassword() {
+function loadMasterPassword() {
   // master key contains secret
   let master = require("./setup/master-key.json");
   master = master.secret;
@@ -34,46 +34,19 @@ function checkList(stored, cached) {
 }
 
 describe("datastore", () => {
-  let unlockWin = loadMasterPassword;
-
   describe("ctor", () => {
     it("constructs an instance without any options", () => {
       let ds = new DataStore();
       assert.ok(!ds.initialized);
       assert.ok(ds.locked);
-      assert.typeOf(ds.prompts.unlock, "function");
     });
     it("constructs with the specified configuration", () => {
       let cfg = {
-        prompts: {
-          unlock: unlockWin
-        },
         keys: loadEncryptedKeys()
       };
       let ds = new DataStore(cfg);
       assert.ok(ds.initialized);
       assert.ok(ds.locked);
-      assert.strictEqual(ds.prompts.unlock, unlockWin);
-    });
-    it("constructs an instance with configured prompts", () => {
-      let cfg = {
-        prompts: {
-          unlock: unlockWin
-        }
-      };
-      let ds = new DataStore(cfg);
-      assert.ok(!ds.initialized);
-      assert.ok(ds.locked);
-      assert.strictEqual(ds.prompts.unlock, unlockWin);
-    });
-    it("constructs an instance with configured keystore", () => {
-      let cfg = {
-        keys: loadEncryptedKeys()
-      };
-      let ds = new DataStore(cfg);
-      assert.ok(ds.initialized);
-      assert.ok(ds.locked);
-      assert.typeOf(ds.prompts.unlock, "function");
     });
   });
 
@@ -82,11 +55,7 @@ describe("datastore", () => {
     afterEach(localdatabase.teardown);
     function setupTest(password) {
       return async () => {
-        let ds = new DataStore({
-          prompts: {
-            unlock: async () => password
-          }
-        });
+        let ds = new DataStore();
 
         let result = await ds.initialize({ password });
         assert.strictEqual(result, ds);
@@ -95,7 +64,7 @@ describe("datastore", () => {
 
         password = password || "";
         await ds.lock();
-        await ds.unlock();
+        await ds.unlock(password);
         assert(!ds.locked);
 
         return ds;
@@ -111,25 +80,23 @@ describe("datastore", () => {
       try {
         await ds.initialize({ password: "" });
       } catch (err) {
-        assert.strictEqual(err.reason, errors.Reasons.GENERIC_ERROR);
+        assert.strictEqual(err.reason, DataStoreError.INITIALIZED);
         assert.strictEqual(err.message, "already initialized");
       }
     });
   });
 
   describe("CRUD", () => {
-    let main;
+    let main, masterPwd;
 
     before(async () => {
       localdatabase.startup();
 
       main = new DataStore({
-        prompts: {
-          unlock: unlockWin
-        },
         keys: loadEncryptedKeys()
       });
       main = await main.prepare();
+      masterPwd = loadMasterPassword();
     });
     after(async () => {
       // cleanup databases
@@ -140,7 +107,7 @@ describe("datastore", () => {
       let result;
 
       assert.ok(main.locked);
-      result = await main.unlock();
+      result = await main.unlock(masterPwd);
       assert.strictEqual(result, main);
       assert.ok(!main.locked);
       result = await main.lock();
@@ -150,7 +117,7 @@ describe("datastore", () => {
 
     it("does basic CRUD ops", async () => {
       // start by unlocking
-      await main.unlock();
+      await main.unlock(masterPwd);
       let cached = new Map(),
           stored;
       stored = await main.list();
