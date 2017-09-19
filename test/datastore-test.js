@@ -6,6 +6,8 @@
 
 const assert = require("chai").assert;
 
+const UUID = require("uuid");
+
 const DataStore = require("../lib/datastore"),
       localdatabase = require("../lib/localdatabase"),
       DataStoreError = require("../lib/util/errors");
@@ -169,6 +171,58 @@ describe("datastore", () => {
 
       result = await main.get(result.id);
       assert(!result);
+    });
+
+    describe("locked failures", () => {
+      const item = {
+        id: UUID(),
+        title: "foobar",
+        entry: {
+          kind: "login",
+          username: "blah",
+          password: "dublah"
+        }
+      };
+
+      beforeEach(async () => {
+        await main.lock();
+      });
+
+      it("fails list if locked", async () => {
+        try {
+          await main.list();
+        } catch (err) {
+          assert.strictEqual(err.reason, DataStoreError.LOCKED);
+        }
+      });
+      it("fails get if locked", async () => {
+        try {
+          await main.get(item.id);
+        } catch (err) {
+          assert.strictEqual(err.reason, DataStoreError.LOCKED);
+        }
+      });
+      it("fails add if locked", async () => {
+        try {
+          await main.add(item);
+        } catch (err) {
+          assert.strictEqual(err.reason, DataStoreError.LOCKED);
+        }
+      });
+      it("fails update if locked", async () => {
+        try {
+          await main.update(item);
+        } catch (err) {
+          assert.strictEqual(err.reason, DataStoreError.LOCKED);
+        }
+      });
+      it("fails remove if locked", async () => {
+        try {
+          await main.remove(item);
+        } catch (err) {
+          assert.strictEqual(err.reason, DataStoreError.LOCKED);
+        }
+      });
     });
   });
 
