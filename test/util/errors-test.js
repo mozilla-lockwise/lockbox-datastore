@@ -16,11 +16,9 @@ const DataStoreError = require("../../lib/util/errors");
 describe("util/errors", () => {
   describe("Reasons", () => {
     it("checks for expected reasons", () => {
-      assert.reasonMatches(DataStoreError.INITIALIZED, "INITIALIZED");
       assert.reasonMatches(DataStoreError.NOT_INITIALIZED, "NOT_INITIALIZED");
+      assert.reasonMatches(DataStoreError.INITIALIZED, "INITIALIZED");
       assert.reasonMatches(DataStoreError.LOCKED, "LOCKED");
-      assert.reasonMatches(DataStoreError.SYNC_ERROR, "SYNC_ERROR");
-      assert.reasonMatches(DataStoreError.UNLOCK_ERROR, "UNLOCK_ERROR");
       assert.reasonMatches(DataStoreError.GENERIC_ERROR, "GENERIC_ERROR");
     });
   });
