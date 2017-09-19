@@ -267,7 +267,7 @@ describe("datastore", () => {
       let main = new DataStore();
       main = await main.prepare();
       await main.initialize();
-      await main.unlock;
+      await main.unlock();
 
       let result = await main.add(something);
       assert.deepNestedInclude(result, something);
