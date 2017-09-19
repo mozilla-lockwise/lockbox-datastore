@@ -13,4 +13,10 @@ before_script:
 
 # DEFAULTS: Travis runs `npm install` and `npm test`
 
-after_success: npm run codecov
+after_success: npm run codecov && npm run doc
+
+deploy:
+  provider: script
+  script: ./travis-commit.sh
+  on:
+    branch: master
