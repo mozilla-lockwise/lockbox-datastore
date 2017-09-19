@@ -40,7 +40,7 @@ layout: page
 
 ## DataStore
 
-Represents item storage.
+Represents the item storage.
 
 **Parameters**
 
