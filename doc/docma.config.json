@@ -1,0 +1,21 @@
+{
+    "debug": 5,
+    "app": {
+      "title": "Lockbox DataStore",
+      "meta": null,
+      "entrance": "content:datastore",
+      "routing": "query",
+      "server": "github"
+    },
+    "template": {
+      "options": {
+        "sidebar": true,
+        "collapsed": false
+      }
+    },
+    "src": {
+      "datastore": "./lib/*",
+      "markdown": "./doc/*.md"
+    },
+    "dest": "./docs"
+}
