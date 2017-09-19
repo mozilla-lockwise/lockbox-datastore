@@ -1,0 +1,236 @@
+
+<html><head></head><body><h1 id="lockbox-data-storage">Lockbox Data Storage</h1>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>Lockbox manages sensitive user data; to start will be web logins, but eventually anything the user wants protected -- any credentials, credit card information, shipping and billing addresses, etc.  Such data requires a high degree of protection.  This document details an approach to protecting Lockbox data.</p>
+<p>This approach does not assume the user will -- or can -- use device-wide data protection methods (e.g., Bitlocker, FileVault2).  Such technology is not universally available, and where it is available is not automatically enabled.</p>
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Protect user data -- both locally on disk and in remote storage -- using commonly-available technologies</li>
+<li>Allow for future expansion while mitigating wholesale changes to how that data is stored</li>
+<li>Allow incremental updates to user's data, and eventually incremental user-driven exposure of data (e.g., sharing with a team/family)</li>
+</ul>
+<h2 id="item-data-format">Item Data Format</h2>
+<p> <img src="data-storage-item-data-format.png" alt=""></p>
+<p>The data format is JSON, and fits into the illustrated schema.</p>
+<p>An item is an Object, that is divided into three portions:</p>
+<ul>
+<li>Top-level metadata</li>
+<li>Content-submitted entry data</li>
+<li>Item history data</li>
+</ul>
+<h3 id="metadata">Metadata</h3>
+<p>The top-level metadata is everything about the item that does not typically need to be filled into a form.  It consists of the following:</p>
+<ul>
+<li><strong>"id" (string): </strong>This member is a UUID that uniquely identifies the item, and<strong> SHOULD</strong> be a type-4 (random) UUID.</li>
+<li><strong>"disabled" (boolean)</strong>: This member indicates whether or not the item is disabled.  Disabled items <strong>SHOULD NOT</strong> be used to fill forms.</li>
+<li><strong>"title" (string):</strong> This member is a user-entered title or name for the item.  It can default to the origin/domain the item's entry data was created for.</li>
+<li><strong>"tags" (string[]):</strong> This member is an array of user-defined tags.  This member may be empty or omitted entirely.</li>
+<li><strong>"origins" (string[]):</strong> This member is an array of URIs this item can be applied to.  Typically an item has at most one origin, but advanced users can add additional origins if they are confident each is logically for the same owner.</li>
+<li><strong>"created" (date/time):</strong> This member timestamps when the item was created.</li>
+<li><strong>"modified" (date/time): </strong>This member timestamps when the item was last changed.  This includes<strong> any</strong> change to the item, be it entry data or metadata; the only exception is if the "last_used" member is changed.</li>
+<li><strong>"last_used" (date/time):</strong> This member timestamps when the item was last accessed to fill a form.</li>
+</ul>
+<h3 id="entry-data">Entry Data</h3>
+<p>The entry data is an Object that contains a type specification and the values needed to populate forms. The specifics of this JSON object are determined by the "type" member.</p>
+<ul>
+<li><strong>"kind" (string):</strong> This member indicates the kind of entry data contained.  Currently the only value defined is "login".</li>
+<li><strong>"notes" (string):</strong> This member is a catch-all of information the user can set additional information about the item (e.g., security questions/answers).</li>
+</ul>
+<h4 id="-login-type">"Login" Type</h4>
+<p>The entry type "login" stores login credentials.  This entry type has the following additional members:</p>
+<ul>
+<li><strong>"username" (string):</strong> This member is the username value</li>
+<li><strong>"username_field" (string)</strong>: This member contains the field name or id where the username value is filled into</li>
+<li><strong>"password" (string):</strong> This member is the password or secret value</li>
+<li><strong>"password_field" (string):</strong> This member is the field name or id where the password value is filled into</li>
+<li><strong>"password_modified" (date/time):</strong> This member timestamps when the password value was last changed.</li>
+</ul>
+<h3 id="entry-history">Entry History</h3>
+<p>History tracks changes to the item's Entry data only.  This portion is an array of objects, ordered from newest to oldest change  Each history object consists of the following:</p>
+<ul>
+<li><strong>"create" (date/time):</strong> The date/time in UTC this history item was created, which marks when the succeeding change was made.</li>
+<li><strong>"patch" (object):</strong> The changes to apply to the Entry data. This specifics of this value are still to be determined, but the most viable options are:<ul>
+<li><strong>○○</strong> JSON Merge Patch [<a href="https://tools.ietf.org/html/rfc7396">RFC7396</a>]</li>
+<li><strong>○○</strong> Original JSON for the item Entry</li>
+</ul>
+</li>
+</ul>
+<p><strong>[OPEN ISSUE: What is the maximum number of history items to track? Allowing for "unlimited" risks resource exhaustion]</strong></p>
+<h3 id="regarding-date-time-values">Regarding Date/Time Values</h3>
+<p>All of the date/time values in this format are represented as JSON strings formatted according to [<a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>]'s internet date-time.  All date/time values are in UTC; the time-offset <strong>MUST</strong> be "Z".  In a JavaScript runtime, these values can be Date objects.</p>
+<h2 id="database-usage">Database Usage</h2>
+<p>The following diagram illustrates the tables used to store Lockbox items:</p>
+<p><img src="data-storage-database-usage.png" alt=""></p>
+<ul>
+<li><strong>Items table:</strong> This table stores the actual Lockbox items. Each row is keyed by the item's UUID and its value is the JSON serialization of the item, encrypted using its associated item key.</li>
+<li><strong>OriginHashes table:</strong> This table stores (hashes of) origins associated with their Lockbox items.  Each row is keyed by the (hashed) origin and its value is the set of associated Lockbox items' UUIDs.  Ideally there should only be one item per origin hash, but users may have multiple items associated to the same origin (e.g. "gmail.com" login for both personal and work).</li>
+<li><strong>TagHashes table:</strong> This table stores the (hashes of) tags associated with their Lockbox items.  Each row is keyed by the (hashed) tag and its value is the set of associated Lockbox items' UUIDs.</li>
+<li><strong>Keys table:</strong> This table stores the keys used to encrypt Lockbox items.  Each row is keyed by the associated item's UUID and its value is the key serialized as a JWK, encrypted using the master encryption key.</li>
+</ul>
+<h3 id="origin-and-tag-hashing">Origin and Tag Hashing</h3>
+<p>For a given item, each origin (and tag) is maintained in a separate table to take advantage of indexed searches without requiring each entry to be stored on disk decrypted.  In order to increase the cost of data harvesting if an attacker has access to the local device, these values are first hashed with a salt value unique to the user.  Such salting then requires an attacker to generate a table unique to the user rather than relying on a global precalculated table of hashes, turning a data harvesting attack from a relatively passive action into an active attack.</p>
+<h3 id="item-value-encryption">Item Value Encryption</h3>
+<p>Each item is encrypted using a randomly-generated key specific to it.  Using randomly generated per-item keys allows for the following benefits:</p>
+<ul>
+<li>Incremental updates that do not require application-wide tracking of nonces</li>
+<li>Future per-item features and behaviors (e.g., sharing items with others) that minimizes any required rekeying and re-encrypting.</li>
+</ul>
+<p>Items are encrypted according to JWE [<a href="https://tools.ietf.org/html/rfc7516">RFC7516</a>], utilizing the Compact Serialization, with the following parameters:</p>
+<ul>
+<li><strong>Key Distribution Algorithm ("alg"):</strong>"dir" (Direct key encryption)</li>
+<li><strong>Content encryption algorithm ("enc"):</strong> A256GCM</li>
+</ul>
+<h3 id="item-key-encryption">Item Key Encryption</h3>
+<p>To facilitate synchronization of keys across devices, each key is encrypted using a master encryption key.  The encryption follows JWE [<a href="https://tools.ietf.org/html/rfc7516">RFC7516</a>], utilizing the Compact Serialization, with the following parameters:</p>
+<ul>
+<li><strong>Key distribution algorithm ("alg"):</strong>"dir" (direct key encryption)</li>
+<li><strong>Content encryption algorithm ("enc"):</strong> A256GCM</li>
+</ul>
+<h2 id="key-management">Key Management</h2>
+<p>The following diagram illustrates the various keys used in Lockbox:</p>
+<p><img src="data-storage-key-management.png" alt=""></p>
+<ul>
+<li><strong>Master Encryption Key (master enc):</strong> This key is used to encrypt the item keys. This key is derived from the user's "master" or "database" password, which is separate from the Firefox Accounts (FxA) credentials. It <strong>MUST</strong> never be persisted to permanent storage unless it can be secured against access from other users and other applications running as that user.</li>
+<li><strong>Firefox Application-derived key (app prekey):</strong> This value is generated from a user's FxA credentials specifically for this application ("lockbox"), and is used as an input factor to generate other encryption keys and hashing salts. It <strong>MUST</strong> never be persisted to permanent storage. The other values generated from this prekey are:<ul>
+<li><strong>Encryption salt (enc salt)</strong>: This value is mixed with the user's master database password to generate the master encryption key. This key <strong>MAY</strong> be persisted to permanent storage if it can be secured against other users on that device (and ideally from other applications running as the same user).</li>
+<li><strong>Hashing salt (hash salt):</strong> This value is used as the salt when generating search hashes for user data.  This key can be persisted to permanent storage, preferably secured from other users (and other applications running as the same user), but is not as critical as the encryption prekey.</li>
+</ul>
+</li>
+<li><strong>Item Key:</strong> The item key is used to encrypt a specific Lockbox data item.  Item keys are encrypted using the master encryption key then stored in Kinto, keyed by the associated Lockbox item's UUID.</li>
+</ul>
+<h3 id="fxa-based-salt-derivations">FxA-based Salt Derivations</h3>
+<p>From the FxA application prekey two values are derived: the encryption prekey and the master hashing salt.  Both are derived using <a href="https://tools.ietf.org/html/rfc5869">HKDF</a> using HMAC-SHA-256.</p>
+<p>Deriving the encryption salt uses the following input factors:</p>
+<ul>
+<li><strong>Input Keying Material (IKM):</strong> FxA "lockbox" application prekey</li>
+<li><strong>Salt:</strong><em>To Be Determined</em></li>
+<li><strong>Info:</strong>"lockbox encrypt"</li>
+<li><strong>Output Length (L):</strong> 32 (the length of a AES-256-GCM symmetric key)</li>
+</ul>
+<p>Deriving the hashing salt uses the following input factors:</p>
+<ul>
+<li><strong>Input Keying Material (IKM):</strong> FxA "lockbox" application prekey</li>
+<li><strong>Salt:</strong><em>To Be Determined</em></li>
+<li><strong>Info:</strong>"lockbox hash"</li>
+<li><strong>Output Length (L):</strong> 32 (the length of a SHA-256 hash value)</li>
+</ul>
+<p><strong>NOTE:</strong> While RFC 5869 salt value is strongly recommended, this usage does not provide for a reliable manner to convey a pseudo-random salt across devices before it's use is necessary.  This value may be a 32-octet string of "0", or a precomputed value hardcoded into the implementations, or a HMAC of a well-known value and the application prekey.</p>
+<h3 id="master-encryption-key-derivation">Master Encryption Key Derivation</h3>
+<p>The master encryption key is derived from the user's master database password and (optionally) the user's FxA "lockbox" application prekey using <a href="https://tools.ietf.org/html/rfc2898">PBKDF2</a> using HMAC-SHA-256 with the following input factors:</p>
+<ul>
+<li><strong>Input Password (P):</strong> User-entered master database password</li>
+<li><strong>Salt (S):</strong> FxA-derived encryption salt</li>
+<li><strong>Iteration count (c):</strong><em>To Be Determined</em> (possibly 102400)</li>
+<li><strong>Output Length (dkLen):</strong> 32 octets (the length of a AES-256-GCM symmetric key)</li>
+</ul>
+<h3 id="item-key-generation">Item Key Generation</h3>
+<p>Each item key is generated using a cryptographically  strong source of entropy, such as from <code>window.crypto.getRandomValues() or crypto.subtle.generateKey()</code>.</p>
+<h2 id="import-and-migration">Import and Migration</h2>
+<p>From Firefox Logins</p>
+<p>The following table assumes migration from the JSON format stored on disk:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Firefox →</strong></th>
+<th><strong>→ Lockbox</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td></td>
+<td>- Skipped</td>
+</tr>
+<tr>
+<td>hostname</td>
+<td>origins[0]</td>
+<td></td>
+</tr>
+<tr>
+<td>httpRealm</td>
+<td></td>
+<td>- Skipped (?)</td>
+</tr>
+<tr>
+<td>formSubmitURL</td>
+<td>origins[1]</td>
+<td>- Only if not a duplicate of "hostname"</td>
+</tr>
+<tr>
+<td>usernameField</td>
+<td>entry.username_field</td>
+<td></td>
+</tr>
+<tr>
+<td>passwordField</td>
+<td>entry.password_field</td>
+<td></td>
+</tr>
+<tr>
+<td>encryptedUsername</td>
+<td>entry.username</td>
+<td>- entry.type = "login" &lt;br/&gt;- Decrypted during migration</td>
+</tr>
+<tr>
+<td>encryptedPassword</td>
+<td>entry.password</td>
+<td>- entry.type = "login"&lt;br/&gt;- Decrypted during migration</td>
+</tr>
+<tr>
+<td>guid</td>
+<td>id</td>
+<td>- Brackets removed &lt;br/&gt;- Generate if missing</td>
+</tr>
+<tr>
+<td>timeCreated</td>
+<td>created</td>
+<td>- UNIX timestamp →  RC 3339</td>
+</tr>
+<tr>
+<td>timeLastUsed</td>
+<td>last_used</td>
+<td>- UNIX timestamp →  RC 3339</td>
+</tr>
+<tr>
+<td>timePasswordChanged</td>
+<td>modifiedentry.password_modified</td>
+<td>- entry.type = "login"&lt;br/&gt;- UNIX timestamp →  RC 3339</td>
+</tr>
+<tr>
+<td>timesUsed</td>
+<td></td>
+<td>- Skipped (?)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="item-origins">Item Origins</h3>
+<p>Each Lockbox item permits multiple origins to be associated with it.  However, having more than one origin should be rare, and the user should be warned that providing multiple origins increases the risk of compromise.  Lockbox should never automatically add more than one origin to a given item, it <strong>MUST</strong> be left to the user to do this.</p>
+<p>It is also possible for multiple items to have the same origin.  This is a much more common occurrence, for instance a user that has both personal and business/work accounts to a cloud-based service (e.g., Gmail).</p>
+<p>Finally, the precise value of "origins" elements is still to be determined. An initial (possibly naive) approach is to use just the hostname.  However, it is likely desirable to match on a subdomain (e.g, matching "m.facebook.com" if there is an item with "facebook.com") but requires careful forethought (e.g., "myfacebook.com" must not match "facebook.com:) since the searches occur against cryptographic hashes.  Further research and experimentation is needed to determine the correct approach.</p>
+<h3 id="storing-salts">Storing Salts</h3>
+<p>The two salts ("enc salt" and "hash salt"), while not used directly to encrypt data, do increase the success chances of attacks if stored on the user's devices in the clear.  The document " <a href="https://docs.google.com/a/mozilla.com/document/d/1e44bUKgHFsmznUkl1v9vgTFjRt1GQH7QSwqZECbpqQg/edit?usp=sharing">Lockbox Secure Device Storage</a>" provides a more complete discussion of options and approaches.</p>
+<p>For the "enc salt", an attacker that has access can more easily guess the master encryption key, which then allows the attacker to decrypt all item keys and thereby decrypt all items.  This compromise can be mitigated with stronger password-based derivation parameters (e.g., higher iteration counts) or algorithms (e.g., scrypt).  The best mitigation is restricting access -- ideally to only the specific application instance for the target user:</p>
+<ul>
+<li>Device-wide encryption helps limit access to anyone that can login to the device as a trusted user</li>
+<li>Data protection solutions offered by the operating system help limit access to the user (and any application running as that user)</li>
+<li>Secure enclaves on mobile devices help limit access to the specific application running for the user</li>
+</ul>
+<p>For the "hash salt", an attacker that has access can more easily generate the dictionary tables needed to match the hash input to the result, allowing an attacker to determine what origins and tags a user has associated items for.  However, the current hashing scheme means an attacker must generate a unique dictionary for each targeted user, changing a passive data collection effort into an active data collection effort.</p>
+<h3 id="nonce-generation">Nonce Generation</h3>
+<p>AES-GCM is particularly sensitive to nonce re-use.  This means some care may need to be taken to ensure the same key/nonce (i.e., initialization vector or "iv") combination is not used more than once for different plaintexts.  A randomly-generated nonce using a cryptographically strong generator is unlikely to result in duplication.  However, if this is deemed to be inadequate, a strategy for deterministic nonce generation may be developed.</p>
+<h3 id="master-key-generation-derivation">Master Key Generation/Derivation</h3>
+<p>The current design calls for a master key derived from user input.  However, it may be worth considering a separate master key, and using the derived key to encrypt that for synchronization.</p>
+<h3 id="key-rotation">Key Rotation</h3>
+<p>This document has not discussed key rotation at all.  For individual items, this can be accomplished in a straightforward manner:</p>
+<ol>
+<li>Duplicate the item, changing it's UUID</li>
+<li>Generate a new key, associated to the duplicate item's UUID</li>
+<li>Encrypt duplicate item with the new key</li>
+<li>Discard previous item</li>
+</ol>
+<p>Duplication is necessary to mitigate any possible confusion over which key a given item is encrypted with -- it is always with the key mapped to the item's UUID.</p>
+<p>Rotating the master key is more difficult.  The easiest is for the user to change their master database password.  However, there may be cases where this is undesirable.  Another possibilities are to mix in a version number into the encryption salt, although this requires coordination of version numbers across all of a user's devices in some manner that does not itself require encryption.</p>
+</body></html>
