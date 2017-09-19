@@ -1,3 +1,8 @@
+---
+title: Data Storage Design
+layout: default
+---
+
 # Lockbox Data Storage
 
 ## Overview

@@ -8,9 +8,9 @@
     "fake-indexeddb/lib/FDBKeyRange": false
   },
   "scripts": {
-    ":clean:doc": "rimraf ./doc/api",
-    "predoc": "npm run :clean:doc",
-    "doc": "jsdoc -c ./jsdoc.conf.js",
+    "predoc": "rm docs/api.md",
+    "doc": "documentation build lib/** -f md -o docs/api.md",
+    "postdoc": "echo -e '---\ntitle: API documentation\nlayout: page\n---\n$(cat docs/api.md)' > docs/api.md",
     "lint": "eslint lib test",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
@@ -45,6 +45,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chai": "^4.1.0",
     "codecov": "^2.3.0",
+    "documentation": "^5.3.2",
     "eslint": "^4.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
