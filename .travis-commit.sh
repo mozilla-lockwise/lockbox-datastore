@@ -6,7 +6,6 @@ setup_git() {
 }
 
 commit_website_files() {
-  #git checkout master
   git add docs/*.md
   git commit --message "docs updated from Travis build: $TRAVIS_BUILD_NUMBER"
 }
