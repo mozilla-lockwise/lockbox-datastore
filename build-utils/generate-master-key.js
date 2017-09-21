@@ -5,35 +5,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const jose = require("node-jose"),
-      fs = require("promisified-fs"),
-      yargs = require("yargs"),
-      PASSWORD = require("password"),
-      UUID = require("uuid");
+const jose = require("node-jose");
+const fs = require("promisified-fs");
+const yargs = require("yargs");
+const PASSWORD = require("password");
 
 const PASSWORD_PREFIX = "-GV3ItzyNxfBGp3ZjtqVGswWWlT7tIMZjeXanHqhxm0";
 
 var argv = yargs.
-          option("secret", {
-            desc: "the secret passphrase to use",
-            default: "resin peccadillo cartage circumnavigate arithmetic reverential",
-            requiresArg: true
-          }).
-          option("random", {
-            desc: "if a random passphrase should be generated (ignores --secret and --empty)",
-            boolean: true
-          }).
-          option("empty", {
-            desc: "if an 'empty' passphrase should be used (ignores --secret)",
-            boolean: true
-          }).
-          option("output", {
-            desc: "the file to write the results to",
-            required: true,
-            requiresArg: true
-          }).
-          help().
-          argv;
+  option("secret", {
+    desc: "the secret passphrase to use",
+    default: "resin peccadillo cartage circumnavigate arithmetic reverential",
+    requiresArg: true
+  }).
+  option("random", {
+    desc: "if a random passphrase should be generated (ignores --secret and --empty)",
+    boolean: true
+  }).
+  option("empty", {
+    desc: "if an 'empty' passphrase should be used (ignores --secret)",
+    boolean: true
+  }).
+  option("output", {
+    desc: "the file to write the results to",
+    required: true,
+    requiresArg: true
+  }).
+  help().
+  argv;
 
 async function main() {
   let { empty, random, secret, output } = argv;
@@ -53,4 +52,5 @@ async function main() {
   master = JSON.stringify(master, null, "  ") + "\n";
   await fs.writeFile(output, master);
 }
+
 main();
