@@ -9,7 +9,6 @@
   },
   "scripts": {
     "doc": "documentation build lib/** -f md -o docs/api.md",
-    "postdoc": "echo \"---\ntitle: API documentation\nlayout: page\n---\n$(cat docs/api.md)\" > docs/api.md",
     "lint": "eslint lib test",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
