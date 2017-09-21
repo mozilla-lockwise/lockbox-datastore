@@ -21,7 +21,7 @@ This project is governed by a [Code Of Conduct](coc-link).
 
 ## [License](license-link)
 
-This extension is licensed under the [Mozilla Public License,
+This module is licensed under the [Mozilla Public License,
 version 2.0][license-link].
 
 [travis-image]: https://travis-ci.org/mozilla-lockbox/lockbox-datastore.svg?branch=master
