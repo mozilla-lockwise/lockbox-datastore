@@ -1,5 +1,4 @@
-Contributing
-============
+# Contributing
 
 Thank you for considering and taking the time to contribute!
 
@@ -11,7 +10,7 @@ This repository is governed by Mozilla's code of conduct and etiquette guideline
 
 ## How to Get Started
 
-Please refer to installation and build instructions in the [README](README.md).
+Please refer to installation and build instructions in the [documentation](install.md).
 
 ## How to Report Bugs
 
@@ -21,9 +20,9 @@ Be sure to include as much information including screenshots, text output, and b
 
 ## How to Request Enhancements
 
-First, please refer to the applicable [GitHub project](https://github.com/orgs/mozilla-lockbox/projects) and search [the repository's GitHub issues](https://github.com/mozilla-lockbox/lockbox-extension/issues) to make sure your idea has not been (or is not still) considered.
+First, please refer to the applicable [GitHub project](https://github.com/orgs/mozilla-lockbox/projects) and search [the repository's GitHub issues](https://github.com/mozilla-lockbox/lockbox-datastore/issues) to make sure your idea has not been (or is not still) considered.
 
-Then, please [create a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-extension/issues/new) describing your enhancement.
+Then, please [create a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-datastore/issues/new) describing your enhancement.
 
 Be sure to include as much detail as possible including step-by-step descriptions, specific examples, screenshots or mockups, and reasoning for why the enhancement might be worthwhile.
 
