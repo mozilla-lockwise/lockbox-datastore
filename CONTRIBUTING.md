@@ -15,15 +15,15 @@ Please refer to installation and build instructions in the [README](README.md).
 
 ## How to Report Bugs
 
-Please open [a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-extension/issues/new) with steps to reproduce the problem you're experiencing.
+Please open [a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-datastore/issues/new) with steps to reproduce the problem you're experiencing.
 
 Be sure to include as much information including screenshots, text output, and both your expected and actual results.
 
 ## How to Request Enhancements
 
-First, please refer to the applicable [GitHub project](https://github.com/orgs/mozilla-lockbox/projects) and search [the repository's GitHub issues](https://github.com/mozilla-lockbox/lockbox-extension/issues) to make sure your idea has not been (or is not still) considered.
+First, please refer to the applicable [GitHub project](https://github.com/orgs/mozilla-lockbox/projects) and search [the repository's GitHub issues](https://github.com/mozilla-lockbox/lockbox-datastore/issues) to make sure your idea has not been (or is not still) considered.
 
-Then, please [create a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-extension/issues/new) describing your enhancement.
+Then, please [create a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-datastore/issues/new) describing your enhancement.
 
 Be sure to include as much detail as possible including step-by-step descriptions, specific examples, screenshots or mockups, and reasoning for why the enhancement might be worthwhile.
 
