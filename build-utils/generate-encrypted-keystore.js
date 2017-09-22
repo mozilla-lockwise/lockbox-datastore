@@ -5,28 +5,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const jose = require("node-jose"),
-      fs = require("promisified-fs"),
-      yargs = require("yargs"),
-      UUID = require("uuid");
+const jose = require("node-jose");
+const fs = require("promisified-fs");
+const yargs = require("yargs");
+const UUID = require("uuid");
 
 var argv = yargs.
-          option("master", {
-            desc: "the master key to use for encryption",
-            required: true,
-            requiresArg: true
-          }).option("output", {
-            desc: "the file to write the results to",
-            required: true,
-            requiresArg: true
-          }).
-          option("count", {
-            desc: "the number of test item keys to generate",
-            number: true,
-            default: 4
-          }).
-          help().
-          argv;
+  option("master", {
+    desc: "the master key to use for encryption",
+    required: true,
+    requiresArg: true
+  }).
+  option("output", {
+    desc: "the file to write the results to",
+    required: true,
+    requiresArg: true
+  }).
+  option("count", {
+    desc: "the number of test item keys to generate",
+    number: true,
+    default: 4
+  }).
+  help().
+  argv;
 
 var keystore = jose.JWK.createKeyStore();
 
@@ -66,6 +67,8 @@ async function main() {
   encrypted = JSON.stringify({ encrypted }, null, "  ") + "\n";
 
   await fs.writeFile(output, encrypted);
+  // eslint-disable-next-line no-console
   console.log(`generated encrypted keysstore of ${count} keys: [${Object.keys(itemKeys).join(", ")}]`);
 }
+
 main();

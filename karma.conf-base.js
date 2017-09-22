@@ -30,8 +30,8 @@ module.exports = function(config, more) {
 
     //coverage configuration to upload to codecov
     coverageReporter: {
-      type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
-      dir: 'coverage/'
+      type: "lcov", // lcov or lcovonly are required for generating lcov.info files
+      dir: "coverage/"
     },
 
     // webpack configuration
@@ -64,4 +64,4 @@ module.exports = function(config, more) {
   Object.assign(opts, more);
 
   config.set(opts);
-}
+};

@@ -7,4 +7,4 @@ module.exports = function(config) {
     // disable single run
     singleRun: false
   });
-}
+};

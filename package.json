@@ -11,7 +11,7 @@
     ":clean:doc": "rimraf ./doc/api",
     "predoc": "npm run :clean:doc",
     "doc": "jsdoc -c ./jsdoc.conf.js",
-    "lint": "eslint lib test",
+    "lint": "eslint .",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
     ":test:node": "mocha test",
