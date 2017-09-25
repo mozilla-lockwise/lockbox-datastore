@@ -28,6 +28,7 @@ version 2.0][license-link].
 [travis-link]: https://travis-ci.org/mozilla-lockbox/lockbox-datastore
 [codecov-image]: https://img.shields.io/codecov/c/github/mozilla-lockbox/lockbox-datastore.svg
 [codecov-link]: https://codecov.io/gh/mozilla-lockbox/lockbox-datastore
+[docs-link]: docs/
 [contributing-link]: docs/contributing.md
 [coc-link]: docs/code_of_conduct.md
 [license-link]: /LICENSE
