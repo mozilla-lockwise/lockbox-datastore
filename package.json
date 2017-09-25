@@ -9,7 +9,7 @@
   },
   "scripts": {
     "doc": "documentation build lib/** -f md -o docs/api.md",
-    "lint": "eslint lib test",
+    "lint": "eslint .",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
     ":test:node": "mocha test",

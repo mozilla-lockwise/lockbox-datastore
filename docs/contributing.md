@@ -14,7 +14,7 @@ Please refer to installation and build instructions in the [documentation](insta
 
 ## How to Report Bugs
 
-Please open [a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-extension/issues/new) with steps to reproduce the problem you're experiencing.
+Please open [a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-datastore/issues/new) with steps to reproduce the problem you're experiencing.
 
 Be sure to include as much information including screenshots, text output, and both your expected and actual results.
 
