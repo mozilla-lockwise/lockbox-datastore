@@ -11,39 +11,37 @@ const assert = Object.assign({}, require("chai").assert, {
   }
 });
 
-const errors = require("../../lib/util/errors");
+const DataStoreError = require("../../lib/util/errors");
 
 describe("util/errors", () => {
   describe("Reasons", () => {
     it("checks for expected reasons", () => {
-      let { Reasons } = errors;
-      assert.reasonMatches(Reasons.ABORTED, "ABORTED");
-      assert.reasonMatches(Reasons.SYNC_ERROR, "SYNC_ERROR");
-      assert.reasonMatches(Reasons.UNLOCK_ERROR, "UNLOCK_ERROR");
-      assert.reasonMatches(Reasons.GENERIC_ERROR, "GENERIC_ERROR");
+      assert.reasonMatches(DataStoreError.NOT_INITIALIZED, "NOT_INITIALIZED");
+      assert.reasonMatches(DataStoreError.INITIALIZED, "INITIALIZED");
+      assert.reasonMatches(DataStoreError.LOCKED, "LOCKED");
+      assert.reasonMatches(DataStoreError.GENERIC_ERROR, "GENERIC_ERROR");
     });
   });
   describe("DataStoreError", () => {
-    let { Reasons, DataStoreError } = errors;
     it("creates with all arguments", () => {
       let err;
-      err = new DataStoreError("some generic error", Reasons.GENERIC_ERROR);
+      err = new DataStoreError("some generic error", DataStoreError.GENERIC_ERROR);
       assert.strictEqual(err.message, "some generic error");
-      assert.strictEqual(err.reason, Reasons.GENERIC_ERROR);
+      assert.strictEqual(err.reason, DataStoreError.GENERIC_ERROR);
       assert.notEmpty(err.stack);
     });
     it("creates with missing reason", () => {
       let err;
       err = new DataStoreError("some other error");
       assert.strictEqual(err.message, "some other error");
-      assert.strictEqual(err.reason, Reasons.GENERIC_ERROR);
+      assert.strictEqual(err.reason, DataStoreError.GENERIC_ERROR);
       assert.notEmpty(err.stack);
     });
     it("creates with missing message", () => {
       let err;
-      err = new DataStoreError(Reasons.GENERIC_ERROR);
+      err = new DataStoreError(DataStoreError.GENERIC_ERROR);
       assert.strictEqual(err.message, "GENERIC_ERROR");
-      assert.strictEqual(err.reason, Reasons.GENERIC_ERROR);
+      assert.strictEqual(err.reason, DataStoreError.GENERIC_ERROR);
       assert.notEmpty(err.stack);
     });
   });

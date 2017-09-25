@@ -7,9 +7,14 @@
 const assert = require("chai").assert;
 
 const index = require("../lib"),
-      DataStore = require("../lib/datastore");
+      DataStore = require("../lib/datastore"),
+      DataStoreError = require("../lib/util/errors");
 
 describe("index", () => {
+  it("has expected symbols", () => {
+    assert.strictEqual(index.DataStoreError, DataStoreError);
+    assert.typeOf(index.open, "function");
+  });
   it("opens a DataStore instance", async () => {
     let data = index.open();
     // make sure it quacks enough like a duck
