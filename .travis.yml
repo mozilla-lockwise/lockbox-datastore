@@ -15,8 +15,7 @@ before_script:
 
 after_success:
   - npm run codecov
-  - sudo apt-get -qq update
-  - sudo apt-get install -y mkdocs
+  - pip install --user mkdocs
   - npm run doc
 
 deploy:
