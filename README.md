@@ -8,18 +8,18 @@ entries, protected behind a preconfigured secret.
 
 Items persisted to storage are encrypted.
 
-## [Documentation](docs-link)
+## [Documentation][docs-link]
 
 For detailed documentation and installation instructions, please see the
-[`docs` directory](docs-link).
+[`docs` directory][docs-link].
 
 ## Contributing ##
 
-See the [guidelines](contributing-link) for contributing to this project.
+See the [guidelines][contributing-link] for contributing to this project.
 
-This project is governed by a [Code Of Conduct](coc-link).
+This project is governed by a [Code Of Conduct][coc-link].
 
-## [License](license-link)
+## [License][license-link]
 
 This module is licensed under the [Mozilla Public License,
 version 2.0][license-link].
