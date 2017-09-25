@@ -16,7 +16,8 @@ before_script:
 after_success: npm run codecov && npm run doc
 
 deploy:
-  provider: script
-  script: ./travis-commit.sh
+  provider: pages
+  skip_cleanup: true
+  local_dir: site
   on:
     branch: master
