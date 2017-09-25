@@ -13,11 +13,16 @@ before_script:
 
 # DEFAULTS: Travis runs `npm install` and `npm test`
 
-after_success: npm run codecov && npm run doc
+after_success:
+  - npm run codecov
+  - sudo apt-get -qq update
+  - sudo apt-get install -y mkdocs
+  - npm run doc
 
 deploy:
   provider: pages
   skip_cleanup: true
   local_dir: site
+  github_token: $GITHUB_TOKEN
   on:
     branch: master
