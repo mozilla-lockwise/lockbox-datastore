@@ -1,3 +1,4 @@
 /coverage
-/doc/api
+/docs/api.md
 /node_modules
+/site

@@ -1,0 +1,12 @@
+site_name: Lockbox DataStore
+site_description: Documentation for Lockbox's data storage module
+theme: readthedocs
+repo_name: GitHub
+repo_url: https://github.com/mozilla-lockbox/lockbox-datastore
+
+pages:
+- 'Introduction': 'index.md'
+- 'Installing': 'install.md'
+- 'Contributing': 'contributing.md'
+- 'Code of Conduct': 'code_of_conduct.md'
+- 'API Guide': 'api.md'
