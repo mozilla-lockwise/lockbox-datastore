@@ -10,6 +10,7 @@
   "scripts": {
     "doc": "documentation build lib/** -f md -o docs/api.md",
     "postdoc": "mkdocs build",
+    ":clean:doc": "git clean -fdX ./site ./docs",
     "lint": "eslint .",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
@@ -20,7 +21,7 @@
     "watch": "watch --interval=10 'npm run test && npm run doc' ./lib ./test",
     ":clean:coverage": "git clean -fdX ./coverage",
     "codecov": "codecov",
-    "clean": "npm run :clean:coverage"
+    "clean": "npm run :clean:coverage && npm run :clean:doc"
   },
   "repository": {
     "type": "git",
@@ -60,7 +61,6 @@
     "karma-mocha-reporter": "^2.2.3",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.4",
-    "mkdocs": "0.0.1",
     "mocha": "^3.5.0",
     "nyc": "^11.0.3",
     "password": "^0.1.1",
