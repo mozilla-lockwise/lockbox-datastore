@@ -6,6 +6,7 @@ repo_url: https://github.com/mozilla-lockbox/lockbox-datastore
 
 pages:
 - 'Introduction': 'index.md'
+- 'Data Storage Design': 'data-storage.md'
 - 'Installing': 'install.md'
 - 'Contributing': 'contributing.md'
 - 'Code of Conduct': 'code_of_conduct.md'
