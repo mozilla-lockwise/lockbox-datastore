@@ -204,8 +204,9 @@ describe("ItemKeyStore", () => {
     });
   });
   describe("clearing", () => {
-    it ("clears a populated ItemKeyStore", async () => {
-      let context = await setupContext(require("./setup/encrypted-4items.json"));
+    it("clears a populated ItemKeyStore", async () => {
+      let { encrypted } = require("./setup/encrypted-4items.json");
+      let context = await setupContext({ encrypted });
       let iks = new ItemKeyStore(context);
 
       await iks.load();
@@ -215,6 +216,21 @@ describe("ItemKeyStore", () => {
       assert.strictEqual(result, iks);
       assert.strictEqual(iks.size, 0);
       assert.isUndefined(iks.masterKey);
+      assert.strictEqual(iks.encrypted, encrypted);
+    });
+    it ("clears a populated ItemKeyStore of *everything*", async () => {
+      let { encrypted } = require("./setup/encrypted-4items.json");
+      let context = await setupContext({ encrypted });
+      let iks = new ItemKeyStore(context);
+
+      await iks.load();
+      assert.strictEqual(iks.size, 4);
+
+      let result = await iks.clear(true);
+      assert.strictEqual(result, iks);
+      assert.strictEqual(iks.size, 0);
+      assert.isUndefined(iks.masterKey);
+      assert.isUndefined(iks.encrypted);
     });
   });
 

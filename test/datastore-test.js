@@ -52,7 +52,7 @@ describe("datastore", () => {
     });
   });
 
-  describe("initialization", () => {
+  describe("initialization & reset", () => {
     beforeEach(localdatabase.startup);
     afterEach(localdatabase.teardown);
     function setupTest(password) {
@@ -85,6 +85,42 @@ describe("datastore", () => {
         assert.strictEqual(err.reason, DataStoreError.INITIALIZED);
         assert.strictEqual(err.message, "already initialized");
       }
+    });
+    it("resets an initialized datatore", async () => {
+      let ds = await setupTest("")();
+
+      assert(ds.initialized);
+
+      let result;
+      result = await ds.reset();
+      assert(!ds.initialized);
+      assert.strictEqual(result, ds);
+    });
+    it("resets an uninitialized datatore", async () => {
+      let ds = new DataStore();
+
+      assert(!ds.initialized);
+
+      let result;
+      result = await ds.reset();
+      assert(!ds.initialized);
+      assert.strictEqual(result, ds);
+    });
+    it("resets and reinitializes a datastore", async () => {
+      let ds = await setupTest("")();
+
+      assert(ds.initialized);
+
+      let result;
+      result = await ds.reset();
+      assert(!ds.initialized);
+      assert.strictEqual(result, ds);
+
+      result = await ds.initialize({
+        password: ""
+      });
+      assert(ds.initialized);
+      assert.strictEqual(result, ds);
     });
   });
 
