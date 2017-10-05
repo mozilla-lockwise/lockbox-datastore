@@ -1,0 +1,21 @@
+{
+  "encryptKey": {
+    "kty": "oct",
+    "kid": "0XdhMZJUMYzhgto7j2zvB3yiP8Ylg2tYTD4NTIckh8A",
+    "alg": "A256GCM",
+    "k": "U5LQR26bL-urMMxa-QwBtu5fzF-p4rKtqfs8s017srs"
+  },
+  "hashingKey": {
+    "kty": "oct",
+    "kid": "m0x12RikuhIhdUrfWON2lt6hjYWnccXOnatxGdYgHXg",
+    "alg": "HS256",
+    "k": "oP_hffrL1R1w2wCDzItvwApBBRH96-9Vj94n_8ND-_k"
+  },
+  "salt": "DQjf4VJpdQeZo7j_ADB28w",
+  "appKey": {
+    "kty": "oct",
+    "kid": "PTJL-1_VyQr5ZtVImIbuj99aZatfGhzgxHKSoF2kLO0",
+    "alg": "A256GCM",
+    "k": "Fl4cwtOXEVvQo7waN6PdqGkjaQibB3tZnQb-cMbgUU4"
+  }
+}

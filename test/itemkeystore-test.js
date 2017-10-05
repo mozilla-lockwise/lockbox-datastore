@@ -11,15 +11,13 @@ const assert = require("chai").assert,
 const ItemKeyStore = require("../lib/itemkeystore");
 
 async function loadMasterKey() {
-  let masterKey = require("./setup/master-key.json");
-  masterKey = await jose.JWK.asKey(masterKey);
-  return masterKey;
+  let bundle = require("./setup/key-bundle.json");
+  let encryptKey = await jose.JWK.asKey(bundle.encryptKey);
+  return encryptKey;
 }
 async function setupContext(context) {
   context = {
-    salt: jose.util.base64url.encode(jose.util.randomBytes(32)),
-    iterations: 8192,
-    masterKey: await loadMasterKey(),
+    encryptKey: await loadMasterKey(),
     ...context
   };
 
@@ -31,14 +29,10 @@ describe("ItemKeyStore", () => {
     it("creates an ItemKeyStore", () => {
       let iks = new ItemKeyStore();
       assert.isEmpty(iks.group);
-      assert.strictEqual(iks.iterations, 8192);
-      assert.isDefined(iks.salt);
       assert.isUndefined(iks.encrypted);
 
       assert.deepEqual(iks.toJSON(), {
         group: "",
-        iterations: iks.iterations,
-        salt: iks.salt,
         encrypted: undefined
       });
     });
@@ -46,31 +40,39 @@ describe("ItemKeyStore", () => {
       let context = {};
       let iks = new ItemKeyStore(context);
       assert.isEmpty(iks.group);
-      assert.strictEqual(iks.iterations, 8192);
-      assert.isDefined(iks.salt);
       assert.isUndefined(iks.encrypted);
       assert.deepEqual(iks.toJSON(), {
         group: "",
-        iterations: iks.iterations,
-        salt: iks.salt,
         encrypted: undefined
       });
     });
     it("creates an ItemKeyStore with the given configuration", () => {
       let context = {
         group: "my-group",
-        encrypted: "not-real-data",
-        salt: jose.util.base64url.encode(jose.util.randomBytes(32)),
-        iterations: 8192
+        encrypted: "not-real-data"
       };
       let expected = { ...context };
 
       let iks = new ItemKeyStore(context);
       assert.strictEqual(iks.group, expected.group);
-      assert.strictEqual(iks.iterations, expected.iterations);
-      assert.strictEqual(iks.salt, expected.salt);
       assert.strictEqual(iks.encrypted, expected.encrypted);
       assert.deepEqual(iks.toJSON(), expected);
+    });
+    it("creates an ItemKeyStore with prepopulated keys", async () => {
+      let cache = new Map();
+      for (let idx = 0; idx < 4; idx++) {
+        let kid = UUID();
+        let key = await jose.JWK.createKeyStore().generate("oct", 256, {kid});
+        cache.set(kid, key);
+      }
+
+      let iks = new ItemKeyStore({
+        listing: new Map(cache)
+      });
+      let all = await iks.all();
+      assert(all !== cache);
+      assert.deepEqual(all, cache);
+      assert.strictEqual(iks.size, cache.size);
     });
   });
 
@@ -91,20 +93,20 @@ describe("ItemKeyStore", () => {
     });
     it("loads with the given master key", async () => {
       let context = await setupContext(require("./setup/encrypted-4items.json"));
-      let realKey = context.masterKey;
-      delete context.masterKey;
+      let realKey = context.encryptKey;
+      delete context.encryptKey;
 
       let iks = new ItemKeyStore(context);
-      assert.isUndefined(iks.masterKey);
+      assert.isUndefined(iks.encryptKey);
 
       let result = await iks.load(realKey);
       assert.strictEqual(result, iks);
-      assert.strictEqual(iks.masterKey, realKey);
+      assert.strictEqual(iks.encryptKey, realKey);
       assert.strictEqual(iks.size, 4);
     });
-    it("fails with no masterKey key", async () => {
+    it("fails with no encryptKey key", async () => {
       let context = await setupContext(require("./setup/encrypted-empty.json"));
-      delete context.masterKey;
+      delete context.encryptKey;
 
       let iks = new ItemKeyStore(context);
       try {
@@ -128,7 +130,7 @@ describe("ItemKeyStore", () => {
   });
   describe("get/add/delete", () => {
     let iks,
-        cache = [];
+        cache = new Map();
 
     before(async () => {
       iks = new ItemKeyStore();
@@ -144,13 +146,15 @@ describe("ItemKeyStore", () => {
         assert.strictEqual(key.kty, "oct");
         assert.strictEqual(key.kid, id);
         assert.strictEqual(key.alg, "A256GCM");
-        cache.push({ id, key });
+        cache.set(id, key);
       }
       assert.strictEqual(iks.size, 4);
+      let all = await iks.all();
+      assert.deepEqual(all, cache);
     });
     it("gets the same key", async () => {
-      for (let c of cache) {
-        let { id, key: expected } = c;
+      for (let c of cache.entries()) {
+        let [ id, expected ] = c;
         let actual;
 
         actual = await iks.get(id);
@@ -159,10 +163,12 @@ describe("ItemKeyStore", () => {
         actual = await iks.add(id);
         assert.strictEqual(actual, expected);
       }
+      let all = await iks.all();
+      assert.deepEqual(all, cache);
     });
     it("removes a key", async () => {
-      for (let c of cache) {
-        let { id, key: expected } = c;
+      for (let c of cache.entries()) {
+        let [ id, expected ] = c;
         let actual;
 
         actual = await iks.get(id);
@@ -172,28 +178,27 @@ describe("ItemKeyStore", () => {
         assert.isUndefined(actual);
       }
       assert.strictEqual(iks.size, 0);
+
+      let all = await iks.all();
+      assert.strictEqual(all.size, 0);
     });
   });
   describe("saving", () => {
     it("saves an empty ItemKeyStore", async () => {
       let context = {
-        masterKey: await loadMasterKey()
+        encryptKey: await loadMasterKey()
       };
       let iks = new ItemKeyStore(context);
       assert.isUndefined(iks.encrypted);
-      assert.isDefined(iks.salt);
-      assert.isDefined(iks.iterations);
 
       let result = await iks.save();
       assert.strictEqual(result, iks);
       assert.isNotEmpty(iks.encrypted);
-      assert.isDefined(iks.salt);
-      assert.strictEqual(iks.iterations, 8192);
     });
     it("fails if there is no master key", async () => {
       let iks = new ItemKeyStore();
       assert.isUndefined(iks.encrypted);
-      assert.isUndefined(iks.masterKey);
+      assert.isUndefined(iks.encryptKey);
 
       try {
         await iks.save();
@@ -215,7 +220,7 @@ describe("ItemKeyStore", () => {
       let result = await iks.clear();
       assert.strictEqual(result, iks);
       assert.strictEqual(iks.size, 0);
-      assert.isUndefined(iks.masterKey);
+      assert.isUndefined(iks.encryptKey);
       assert.strictEqual(iks.encrypted, encrypted);
     });
     it ("clears a populated ItemKeyStore of *everything*", async () => {
@@ -229,7 +234,7 @@ describe("ItemKeyStore", () => {
       let result = await iks.clear(true);
       assert.strictEqual(result, iks);
       assert.strictEqual(iks.size, 0);
-      assert.isUndefined(iks.masterKey);
+      assert.isUndefined(iks.encryptKey);
       assert.isUndefined(iks.encrypted);
     });
   });
@@ -297,7 +302,7 @@ describe("ItemKeyStore", () => {
       };
 
       assert.strictEqual(iks.size, 0);
-      let result = await iks.encrypt(item);
+      let result = await iks.protect(item);
       assert.isNotEmpty(result);
 
       cacheEntry(item.id, item, result);
@@ -311,7 +316,7 @@ describe("ItemKeyStore", () => {
       assert.isUndefined(cache.get(item.id));
       assert.isDefined(key);
 
-      let result = await iks.encrypt(item);
+      let result = await iks.protect(item);
       assert.isNotEmpty(result);
 
       cacheEntry(item.id, item, result);
@@ -322,7 +327,7 @@ describe("ItemKeyStore", () => {
         let [ id, entry ] = c;
         let { item, encrypted } = entry;
 
-        let result = await iks.decrypt(id, encrypted);
+        let result = await iks.unprotect(id, encrypted);
         assert.deepEqual(result, item);
       }
     });
