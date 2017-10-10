@@ -226,6 +226,59 @@ describe("datastore", () => {
       assert(expected !== result);
       assert.deepEqual(result, expected);
 
+      something = JSON.parse(JSON.stringify(result));
+      something = Object.assign(something, {
+        title: "MY Item"
+      });
+      something.entry = Object.assign(something.entry, {
+        username: "another-user",
+        password: "zab"
+      });
+      result = await main.update(something);
+      delete something.modified;  // NOTE: modified is updated -- skip for now
+
+      assert.deepNestedInclude(result, something);
+      cached.set(result.id, result);
+      stored = await main.list();
+      checkList(stored, cached);
+      checkMetrics([
+        {
+          method: "updated",
+          id: result.id,
+          fields: "title,entry.username,entry.password"
+        }
+      ]);
+
+      expected = result;
+      result = await main.get(expected.id);
+      assert(expected !== result);
+      assert.deepEqual(result, expected);
+
+      something = JSON.parse(JSON.stringify(result));
+      something = Object.assign(something, {
+        title: "My Someplace Item",
+        origins: ["someplace.example"]
+      });
+      result = await main.update(something);
+      delete something.modified;  // NOTE: modified is updated -- skip for now
+
+      assert.deepNestedInclude(result, something);
+      cached.set(result.id, result);
+      stored = await main.list();
+      checkList(stored, cached);
+      checkMetrics([
+        {
+          method: "updated",
+          id: result.id,
+          fields: "title,origins"
+        }
+      ]);
+
+      expected = result;
+      result = await main.get(expected.id);
+      assert(expected !== result);
+      assert.deepEqual(result, expected);
+
       something = result;
       result = await main.remove(something.id);
       assert.deepEqual(result, something);
