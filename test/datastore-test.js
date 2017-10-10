@@ -125,13 +125,27 @@ describe("datastore", () => {
   });
 
   describe("CRUD", () => {
-    let main, masterPwd;
+    let main, masterPwd, metrics;
+
+    function checkMetrics(expected) {
+      let actual = metrics;
+      metrics = [];
+
+      assert.equal(actual.length, expected.length);
+      for (let idx = 0; idx < expected.length; idx++) {
+        assert.deepEqual(actual[idx], expected[idx]);
+      }
+    }
 
     before(async () => {
-      localdatabase.startup();
+      await localdatabase.startup();
 
+      metrics = [];
       main = new DataStore({
-        keys: loadEncryptedKeys()
+        keys: loadEncryptedKeys(),
+        recordMetric: async (method, id, fields) => {
+          metrics.push({method, id, fields});
+        }
       });
       main = await main.prepare();
       masterPwd = loadMasterPassword();
@@ -174,6 +188,13 @@ describe("datastore", () => {
       cached.set(result.id, result);
       stored = await main.list();
       checkList(stored, cached);
+      checkMetrics([
+        {
+          method: "added",
+          id: result.id,
+          fields: undefined
+        }
+      ]);
 
       // result is the full item
       let expected = result;
@@ -192,6 +213,13 @@ describe("datastore", () => {
       cached.set(result.id, result);
       stored = await main.list();
       checkList(stored, cached);
+      checkMetrics([
+        {
+          method: "updated",
+          id: result.id,
+          fields: ["entry.password"]
+        }
+      ]);
 
       expected = result;
       result = await main.get(expected.id);
@@ -204,6 +232,13 @@ describe("datastore", () => {
       cached.delete(result.id);
       stored = await main.list();
       checkList(stored, cached);
+      checkMetrics([
+        {
+          method: "deleted",
+          id: result.id,
+          fields: undefined
+        }
+      ]);
 
       result = await main.get(result.id);
       assert(!result);
