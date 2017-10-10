@@ -217,7 +217,7 @@ describe("datastore", () => {
         {
           method: "updated",
           id: result.id,
-          fields: ["entry.password"]
+          fields: "entry.password"
         }
       ]);
 
