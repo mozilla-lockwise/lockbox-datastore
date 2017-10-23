@@ -26,15 +26,15 @@ function itemMatches(actual, expected, message, parent) {
 
   assert(actual, prefix + `${message || "actual item does not exist"}`);
   Object.keys(expected).forEach((m) => {
-    let mPrefix = `${parent ? parent + "." : ""}.${m}: `;
+    let mPrefix = `${parent ? parent + "." : ""}${m}: `;
     let actVal = actual[m],
         expVal = expected[m];
     
     if (DATE_MEMBERS.indexOf(m) !== -1) {
-      dateInRange(actVal, expVal, prefix + `${m} out of range`);
+      dateInRange(actVal, expVal, mPrefix + `${m} out of range`);
     } else if (Array.isArray(expVal)) {
-      assert(Array.isArray(actVal));
-      assert.strictEqual(actVal.length, expVal.length, prefix + `${message || "array length mismatch"}`);
+      assert(Array.isArray(actVal), mPrefix + `${message || "expected actual to be an array"}`);
+      assert.strictEqual(actVal.length, expVal.length, mPrefix + `${message || "array length mismatch"}`);
       for (let idx = 0; idx < expVal.length; idx++) {
         itemMatches(actVal[idx], expVal[idx], message, `${m}[${idx}]`);
       }
