@@ -6,7 +6,7 @@
 
 const assert = require("chai").assert;
 
-const ACCEPTED_DELTA_MS = 100;
+const ACCEPTED_DELTA_MS = 250;
 
 function dateInRange(actual, expected, message) {
   actual = new Date(actual);
