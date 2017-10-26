@@ -4,9 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("chai").assert;
+const assert = require("./setup/assert");
 
-const UUID = require("uuid");
+const UUID = require("uuid"),
+      jsonmergepatch = require("json-merge-patch");
 
 const DataStore = require("../lib/datastore"),
       localdatabase = require("../lib/localdatabase"),
@@ -183,8 +184,12 @@ describe("datastore", () => {
           password: "bar"
         }
       };
-      let result = await main.add(something);
-      assert.deepNestedInclude(result, something);
+      let result, expected, history = [];
+      result = await main.add(something);
+      assert.itemMatches(result, Object.assign({}, something, {
+        modified: new Date().toISOString(),
+        history
+      }));
       cached.set(result.id, result);
       stored = await main.list();
       checkList(stored, cached);
@@ -197,7 +202,7 @@ describe("datastore", () => {
       ]);
 
       // result is the full item
-      let expected = result;
+      expected = result;
       result = await main.get(expected.id);
       assert(expected !== result);
       assert.deepEqual(result, expected);
@@ -206,10 +211,16 @@ describe("datastore", () => {
       something.entry = Object.assign(something.entry, {
         password: "baz"
       });
+      history.unshift({
+        created: new Date().toISOString(),
+        patch: jsonmergepatch.generate(something.entry, expected.entry)
+      });
       result = await main.update(something);
-      delete something.modified;  // NOTE: modified is updated -- skip for now
 
-      assert.deepNestedInclude(result, something);
+      assert.itemMatches(result, Object.assign({}, something, {
+        modified: new Date().toISOString(),
+        history
+      }));
       cached.set(result.id, result);
       stored = await main.list();
       checkList(stored, cached);
@@ -234,10 +245,16 @@ describe("datastore", () => {
         username: "another-user",
         password: "zab"
       });
+      history.unshift({
+        created: new Date().toISOString(),
+        patch: jsonmergepatch.generate(something.entry, expected.entry)
+      });
       result = await main.update(something);
-      delete something.modified;  // NOTE: modified is updated -- skip for now
 
-      assert.deepNestedInclude(result, something);
+      assert.itemMatches(result, Object.assign({}, something, {
+        modified: new Date().toISOString(),
+        history
+      }));
       cached.set(result.id, result);
       stored = await main.list();
       checkList(stored, cached);
@@ -260,9 +277,11 @@ describe("datastore", () => {
         origins: ["someplace.example"]
       });
       result = await main.update(something);
-      delete something.modified;  // NOTE: modified is updated -- skip for now
 
-      assert.deepNestedInclude(result, something);
+      assert.itemMatches(result, Object.assign({}, something, {
+        modified: new Date().toISOString(),
+        history
+      }));
       cached.set(result.id, result);
       stored = await main.list();
       checkList(stored, cached);
@@ -394,7 +413,7 @@ describe("datastore", () => {
       await main.unlock();
 
       let result = await main.add(something);
-      assert.deepNestedInclude(result, something);
+      assert.itemMatches(result, something);
       cached.set(result.id, result);
       let stored = await main.list();
       checkList(stored, cached);
@@ -418,7 +437,7 @@ describe("datastore", () => {
 
       // result is the full item
       let result = await secondDatastore.get(expectedID);
-      assert.deepNestedInclude(result, something);
+      assert.itemMatches(result, something);
     });
   });
 });

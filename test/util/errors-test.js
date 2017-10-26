@@ -19,6 +19,7 @@ describe("util/errors", () => {
       assert.reasonMatches(DataStoreError.NOT_INITIALIZED, "NOT_INITIALIZED");
       assert.reasonMatches(DataStoreError.INITIALIZED, "INITIALIZED");
       assert.reasonMatches(DataStoreError.LOCKED, "LOCKED");
+      assert.reasonMatches(DataStoreError.INVALID_ITEM, "INVALID_ITEM");
       assert.reasonMatches(DataStoreError.GENERIC_ERROR, "GENERIC_ERROR");
     });
   });
