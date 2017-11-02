@@ -1,11 +1,6 @@
 # lockbox-datastore code owners
 # https://help.github.com/articles/about-codeowners/
 
-# tests should also be reviewed by @m8ttyB
-/test/    @linuxwolf @m8ttyB
-
-# docs are shepherded by @devinreams
-/docs/    @linuxwolf @devinreams
-
-# otherwise, everything is to be reviewed by @linuxwolf
-*         @linuxwolf
+# everything is to be reviewed by @linuxwolf
+# also, default to always include PI
+*         @linuxwolf @mozilla-lockbox/product-integrity
