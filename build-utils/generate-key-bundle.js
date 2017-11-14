@@ -12,11 +12,13 @@ const yargs = require("yargs");
 const DEFAULT_APP_KEY = {
   "kty": "oct",
   "kid": "L9-eBkDrYHdPdXV_ymuzy_u9n3drkQcSw5pskrNl4pg",
-  "alg": "A256GCM",
   "k": "WsTdZ2tjji2W36JN9vk9s2AYsvp8eYy1pBbKPgcSLL4"
 };
-const HKDF_INFO_ENCRYPT = "lockbox encrypt",
-      HKDF_INFO_HASHING = "lockbox hashing";
+
+// SHA-256("lockbox encrypt")
+const HKDF_INFO_ENCRYPT = "9UUucG8PDHPGXwM-pGoT0-aFGu74M54k55AykEgOx98";
+// SHA-256("lockbox hashing")
+const HKDF_INFO_HASHING = "pz8gGLGYNLV6haKwjJ1dR-YKX5zDMhPHw2DuXGNu6cw";
 
 async function deriveKeys(appKey, salt) {
   if (!appKey) {
@@ -24,14 +26,12 @@ async function deriveKeys(appKey, salt) {
   }
   appKey = await jose.JWK.asKey(appKey);
 
-  if (!salt) {
-    salt = jose.util.base64url.encode(jose.util.randomBytes(16));
-  }
+  salt = Buffer.from(salt || "", "utf8");
 
   let keyval = appKey.get("k", true);
   let encryptKey = await jose.JWA.derive("HKDF-SHA-256", keyval, {
     salt: Buffer.from(salt),
-    info: Buffer.from(HKDF_INFO_ENCRYPT)
+    info: jose.util.base64url.decode(HKDF_INFO_ENCRYPT)
   });
   encryptKey = await jose.JWK.asKey({
     kty: "oct",
@@ -41,7 +41,7 @@ async function deriveKeys(appKey, salt) {
 
   let hashingKey = await jose.JWA.derive("HKDF-SHA-256", keyval, {
     salt: Buffer.from(salt),
-    info: Buffer.from(HKDF_INFO_HASHING)
+    info: jose.util.base64url.decode(HKDF_INFO_HASHING)
   });
   hashingKey = await jose.JWK.asKey({
     kty: "oct",
@@ -52,7 +52,7 @@ async function deriveKeys(appKey, salt) {
   return {
     encryptKey,
     hashingKey,
-    salt
+    salt: salt.toString("utf8")
   };
 }
 
@@ -68,11 +68,11 @@ var argv = yargs.
 async function main() {
   let { output } = argv;
 
-  let ks = jose.JWK.createKeyStore();
-  let appKey = await ks.generate("oct", 256, {
-    alg: "A256GCM"
-  });
-  let bundle = await deriveKeys(appKey);
+  let appKey = DEFAULT_APP_KEY;
+  let bundle = {
+    appKey
+  };
+  Object.assign(bundle, await deriveKeys(appKey));
   bundle.appKey = appKey;
   Object.keys(bundle).forEach((k) => {
     if (!jose.JWK.isKey(bundle[k])) { return; }

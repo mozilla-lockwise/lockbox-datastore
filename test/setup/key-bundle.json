@@ -1,21 +1,20 @@
 {
+  "appKey": {
+    "kty": "oct",
+    "kid": "L9-eBkDrYHdPdXV_ymuzy_u9n3drkQcSw5pskrNl4pg",
+    "k": "WsTdZ2tjji2W36JN9vk9s2AYsvp8eYy1pBbKPgcSLL4"
+  },
   "encryptKey": {
     "kty": "oct",
-    "kid": "0XdhMZJUMYzhgto7j2zvB3yiP8Ylg2tYTD4NTIckh8A",
+    "kid": "5dB6w-itgb6cJoSzxAdjeVXwwNS4MBVUAyuQAfSc3yA",
     "alg": "A256GCM",
-    "k": "U5LQR26bL-urMMxa-QwBtu5fzF-p4rKtqfs8s017srs"
+    "k": "BFTwbrKks4kZHzzJZ6ZnHBewRhYhCEM1IGEKDySPtm0"
   },
   "hashingKey": {
     "kty": "oct",
-    "kid": "m0x12RikuhIhdUrfWON2lt6hjYWnccXOnatxGdYgHXg",
+    "kid": "rlzSaeiZm-tbsSbu63LUVCkdoBC7396MSg3vze49ttY",
     "alg": "HS256",
-    "k": "oP_hffrL1R1w2wCDzItvwApBBRH96-9Vj94n_8ND-_k"
+    "k": "sl6MbNGboQ9Te4isxcSRzxAYzWjO6w9jqBGqpm5uQcA"
   },
-  "salt": "DQjf4VJpdQeZo7j_ADB28w",
-  "appKey": {
-    "kty": "oct",
-    "kid": "PTJL-1_VyQr5ZtVImIbuj99aZatfGhzgxHKSoF2kLO0",
-    "alg": "A256GCM",
-    "k": "Fl4cwtOXEVvQo7waN6PdqGkjaQibB3tZnQb-cMbgUU4"
-  }
+  "salt": ""
 }
