@@ -1,3 +1,6 @@
-Welcome to Lockbox's DataStore documentation!
+Welcome to Lockbox's DataStore documentation
 
-*(INSERT TOC HERE?)*
+*This is just one component of the Lockbox product. Please see the
+[Lockbox website][org-website] for more documentation and context.*
+
+[org-website]: https://mozilla-lockbox.github.io/
