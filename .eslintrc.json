@@ -1,20 +1,36 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 2017
-  },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:security/recommended"
   ],
   "env": {
     "browser": true,
     "commonjs": true,
     "es6": true
   },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "plugins": [
+    "jsdoc",
+    "json",
+    "security"
+  ],
   "root": true,
   "rules": {
+    "jsdoc/check-types": "error",
+    "security/detect-non-literal-fs-filename": "off",
+    "security/detect-object-injection": "off",
+
+    "eqeqeq": "error",
     "indent": ["error", 2, {"SwitchCase": 1, "VariableDeclarator": {"var": 2, "let": 2, "const": 3}}],
     "linebreak-style": ["error", "unix"],
+    "no-var": "off",
+    "no-warning-comments": "warn",
+    "prefer-const": "off",
     "quotes": ["error", "double"],
-    "semi": ["error", "always"]
+    "require-jsdoc": "off",
+    "semi": ["error", "always"],
+    "valid-jsdoc": "error"
   }
 }
