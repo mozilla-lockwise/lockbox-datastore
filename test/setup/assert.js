@@ -20,7 +20,7 @@ const DATE_MEMBERS = ["created", "modified", "last_used"];
 function itemMatches(actual, expected, message, parent) {
   let prefix = parent ? `${parent}: ` : "";
   if (!expected) {
-    assert(actual == expected, prefix + `${message || "actual item exists"}`);
+    assert(actual === expected, prefix + `${message || "actual item exists"}`);
     return;
   }
 
