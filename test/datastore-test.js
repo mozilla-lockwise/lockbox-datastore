@@ -7,17 +7,20 @@
 const assert = require("./setup/assert");
 
 const UUID = require("uuid"),
+      jose = require("node-jose"),
       jsonmergepatch = require("json-merge-patch");
 
 const DataStore = require("../lib/datastore"),
       localdatabase = require("../lib/localdatabase"),
       DataStoreError = require("../lib/util/errors");
 
-function loadMasterPassword() {
+function loadAppKey(bundle) {
   // master key contains secret
-  let master = require("./setup/master-key.json");
-  master = master.secret;
-  return master;
+  if (!bundle) {
+    bundle = require("./setup/key-bundle.json");
+  }
+  let appKey = bundle.appKey;
+  return appKey;
 }
 
 function loadEncryptedKeys() {
@@ -56,39 +59,61 @@ describe("datastore", () => {
   describe("initialization & reset", () => {
     beforeEach(localdatabase.startup);
     afterEach(localdatabase.teardown);
-    function setupTest(password) {
+    function setupTest(appKey) {
       return async () => {
+        if (appKey) {
+          appKey = await jose.JWK.asKey({
+            kty: "oct",
+            k: appKey
+          });
+        }
         let ds = new DataStore();
 
-        let result = await ds.initialize({ password });
+        let result = await ds.initialize({ appKey });
         assert.strictEqual(result, ds);
         assert(!ds.locked);
         assert(ds.initialized);
 
-        password = password || "";
         await ds.lock();
-        await ds.unlock(password);
+        await ds.unlock(appKey);
         assert(!ds.locked);
 
         return ds;
       };
     }
+    async function populateDataStore(ds) {
+      let cache = new Map();
 
-    it("initializes with given (non-empty) password", setupTest("P0ppy$33D!"));
-    it("initializes with given (empty) password", setupTest(""));
-    it("initializes with a null password (treated as '')", setupTest(null));
+      for (let idx = 0; idx < 4; idx++) {
+        let item = await ds.add({
+          title: `entry #${idx + 1}`,
+          entry: {
+            kind: "login",
+            username: "the user",
+            password: "the password"
+          }
+        });
+        cache.set(item.id, item);
+      }
+
+      return cache;
+    }
+
+    it("initializes with given app key", setupTest("r_w9dG02dPnF-c7N3et7Rg1Fa5yiNB06hwvhMOpgSRo"));
+    it("initializes without app key", setupTest());
     it("fails on the second initialization", async () => {
-      let first = setupTest("");
+      let first = setupTest();
       let ds = await first();
       try {
-        await ds.initialize({ password: "" });
+        let appKey = await jose.JWK.createKeyStore().generate("oct", 256);
+        await ds.initialize({ appKey  });
       } catch (err) {
         assert.strictEqual(err.reason, DataStoreError.INITIALIZED);
         assert.strictEqual(err.message, "already initialized");
       }
     });
     it("resets an initialized datatore", async () => {
-      let ds = await setupTest("")();
+      let ds = await setupTest()();
 
       assert(ds.initialized);
 
@@ -108,7 +133,7 @@ describe("datastore", () => {
       assert.strictEqual(result, ds);
     });
     it("resets and reinitializes a datastore", async () => {
-      let ds = await setupTest("")();
+      let ds = await setupTest()();
 
       assert(ds.initialized);
 
@@ -117,16 +142,46 @@ describe("datastore", () => {
       assert(!ds.initialized);
       assert.strictEqual(result, ds);
 
+      let appKey = null;
       result = await ds.initialize({
-        password: ""
+        appKey
       });
       assert(ds.initialized);
       assert.strictEqual(result, ds);
     });
+    it("rebases a datastore to a new password", async () => {
+      let ds = await setupTest("XU-4a5FQIXLKCBo8uWZbODbL7t2jeOwxHodsoHIJQ7w")();
+      let cache = await populateDataStore(ds);
+
+      assert(ds.initialized);
+      assert(!ds.locked);
+
+      let result, appKey;
+      appKey = await jose.JWK.asKey({
+        kty: "oct",
+        k: "XU-4a5FQIXLKCBo8uWZbODbL7t2jeOwxHodsoHIJQ7w"
+      });
+      result = await ds.initialize({
+        appKey,
+        rebase: true
+      });
+      assert(ds.initialized);
+      assert(!ds.locked);
+      assert.strictEqual(result, ds);
+
+      await ds.lock();
+      assert(ds.locked);
+      result = await ds.unlock(appKey);
+      assert(!ds.locked);
+      assert.strictEqual(result, ds);
+
+      let all = await ds.list();
+      assert.deepEqual(all, cache);
+    });
   });
 
   describe("CRUD", () => {
-    let main, masterPwd, metrics;
+    let main, appKey, salt, metrics;
 
     function checkMetrics(expected) {
       let actual = metrics;
@@ -141,15 +196,18 @@ describe("datastore", () => {
     before(async () => {
       await localdatabase.startup();
 
+      let bundle = require("./setup/key-bundle.json");
+      appKey = loadAppKey(bundle);
+      salt = bundle.salt;
       metrics = [];
       main = new DataStore({
+        salt,
         keys: loadEncryptedKeys(),
         recordMetric: async (method, id, fields) => {
           metrics.push({method, id, fields});
         }
       });
       main = await main.prepare();
-      masterPwd = loadMasterPassword();
     });
     after(async () => {
       // cleanup databases
@@ -160,7 +218,7 @@ describe("datastore", () => {
       let result;
 
       assert.ok(main.locked);
-      result = await main.unlock(masterPwd);
+      result = await main.unlock(appKey);
       assert.strictEqual(result, main);
       assert.ok(!main.locked);
       result = await main.lock();
@@ -170,7 +228,7 @@ describe("datastore", () => {
 
     it("does basic CRUD ops", async () => {
       // start by unlocking
-      await main.unlock(masterPwd);
+      await main.unlock(appKey);
       let cached = new Map(),
           stored;
       stored = await main.list();

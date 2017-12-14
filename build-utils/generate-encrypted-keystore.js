@@ -5,14 +5,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const jose = require("node-jose");
-const fs = require("promisified-fs");
-const yargs = require("yargs");
-const UUID = require("uuid");
+const jose = require("node-jose"),
+      fs = require("promisified-fs"),
+      yargs = require("yargs"),
+      UUID = require("uuid");
+
 
 var argv = yargs.
-  option("master", {
-    desc: "the master key to use for encryption",
+  option("bundle", {
+    desc: "the key bundle to use for encryption",
     required: true,
     requiresArg: true
   }).
@@ -40,11 +41,11 @@ async function createItemKey() {
 }
 
 async function main() {
-  let { count, master, output } = argv;
+  let { count, bundle, output } = argv;
 
-  master = await fs.readFile(master, "utf8");
-  master = JSON.parse(master);
-  master = await jose.JWK.asKey(master);
+  bundle = await fs.readFile(bundle, "utf8");
+  bundle = JSON.parse(bundle);
+  bundle.encryptKey = await jose.JWK.asKey(bundle.encryptKey);
 
   let itemKeys = {};
   for (let idx = 0; count > idx; idx++) {
@@ -56,17 +57,22 @@ async function main() {
     format: "compact",
     contentAlg: "A256GCM",
     fields: {
-      p2c: 8192,
-      p2s: jose.util.base64url.encode(jose.util.randomBytes(32))
+      alg: "dir"
     }
   };
 
+  let { encryptKey, salt } = bundle;
   let encrypted;
   encrypted = JSON.stringify(itemKeys);
-  encrypted = await jose.JWE.createEncrypt(params, master).final(encrypted, "utf8");
-  encrypted = JSON.stringify({ encrypted }, null, "  ") + "\n";
+  encrypted = await jose.JWE.createEncrypt(params, encryptKey).final(encrypted, "utf8");
 
-  await fs.writeFile(output, encrypted);
+  let results = {
+    encrypted,
+    salt
+  };
+  results = JSON.stringify(results, null, "  ") + "\n";
+
+  await fs.writeFile(output, results);
   // eslint-disable-next-line no-console
   console.log(`generated encrypted keysstore of ${count} keys: [${Object.keys(itemKeys).join(", ")}]`);
 }
