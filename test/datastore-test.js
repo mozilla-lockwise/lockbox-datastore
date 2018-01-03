@@ -169,9 +169,14 @@ describe("datastore", () => {
       assert(ds.initialized);
       assert(!ds.locked);
 
+<<<<<<< HEAD
       let result, appKey, salt;
       appKey = await setupAppKey();
       salt = UUID();
+=======
+      let result, appKey;
+      appKey = await setupAppKey();
+>>>>>>> remove default key (#69)
       result = await ds.initialize({
         appKey,
         salt,
@@ -654,7 +659,11 @@ describe("datastore", () => {
       await localdatabase.teardown();
     });
 
+<<<<<<< HEAD
     it("add a value to first datastore", async () => {
+=======
+    it("add a value to 1st datatore", async () => {
+>>>>>>> remove default key (#69)
       const appKey = await setupAppKey();
       let main = new DataStore();
       main = await main.prepare();
