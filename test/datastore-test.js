@@ -23,6 +23,16 @@ function loadAppKey(bundle) {
   return appKey;
 }
 
+async function setupAppKey(appKey = "r_w9dG02dPnF-c7N3et7Rg1Fa5yiNB06hwvhMOpgSRo") {
+  if (appKey) {
+    return jose.JWK.asKey({
+      kty: "oct",
+      k: appKey
+    });
+  }
+  return null;
+}
+
 function loadEncryptedKeys() {
   // keys is encrypted (using master password) as a Compact JWE
   let keys = require("./setup/encrypted-empty.json");
@@ -61,12 +71,7 @@ describe("datastore", () => {
     afterEach(localdatabase.teardown);
     function setupTest(appKey) {
       return async () => {
-        if (appKey) {
-          appKey = await jose.JWK.asKey({
-            kty: "oct",
-            k: appKey
-          });
-        }
+        appKey = await setupAppKey(appKey);
         let ds = new DataStore();
 
         let result = await ds.initialize({ appKey });
@@ -99,8 +104,15 @@ describe("datastore", () => {
       return cache;
     }
 
-    it("initializes with given app key", setupTest("r_w9dG02dPnF-c7N3et7Rg1Fa5yiNB06hwvhMOpgSRo"));
-    it("initializes without app key", setupTest());
+    it("initializes with given app key", setupTest());
+    it("fails to initialize without app key", async () => {
+      const init = setupTest("");
+      return init().then(() => {
+        assert.ok(false, "unexpected success");
+      }).catch((err) => {
+        assert.strictEqual(err.message, "invalid app key");
+      });
+    });
     it("fails on the second initialization", async () => {
       let first = setupTest();
       let ds = await first();
@@ -142,7 +154,7 @@ describe("datastore", () => {
       assert(!ds.initialized);
       assert.strictEqual(result, ds);
 
-      let appKey = null;
+      let appKey = await setupAppKey();
       result = await ds.initialize({
         appKey
       });
@@ -150,17 +162,14 @@ describe("datastore", () => {
       assert.strictEqual(result, ds);
     });
     it("rebases a datastore to a new password", async () => {
-      let ds = await setupTest("XU-4a5FQIXLKCBo8uWZbODbL7t2jeOwxHodsoHIJQ7w")();
+      let ds = await setupTest()();
       let cache = await populateDataStore(ds);
 
       assert(ds.initialized);
       assert(!ds.locked);
 
       let result, appKey;
-      appKey = await jose.JWK.asKey({
-        kty: "oct",
-        k: "XU-4a5FQIXLKCBo8uWZbODbL7t2jeOwxHodsoHIJQ7w"
-      });
+      appKey = await setupAppKey();
       result = await ds.initialize({
         appKey,
         rebase: true
@@ -434,14 +443,6 @@ describe("datastore", () => {
     after(async () => {
       await localdatabase.teardown();
     });
-
-    it("initializes and unlocks with a default prompt handler", async () => {
-      let ds = new DataStore();
-
-      let result;
-      result = await ds.initialize();
-      assert.strictEqual(result, ds);
-    });
   });
 
   describe("persistence", () => {
@@ -465,10 +466,12 @@ describe("datastore", () => {
     });
 
     it("add a value to 1st datatore", async () => {
+      const appKey = await setupAppKey();
       let main = new DataStore();
       main = await main.prepare();
-      await main.initialize();
-      await main.unlock();
+      await main.initialize({
+        appKey
+      });
 
       let result = await main.add(something);
       assert.itemMatches(result, something);
@@ -486,9 +489,10 @@ describe("datastore", () => {
     });
 
     it("data persists into second datastore", async () => {
+      const appKey = await setupAppKey();
       let secondDatastore = new DataStore();
       secondDatastore = await secondDatastore.prepare();
-      await secondDatastore.unlock();
+      await secondDatastore.unlock(appKey);
 
       let stored = await secondDatastore.list();
       checkList(stored, cached);
