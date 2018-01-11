@@ -13,6 +13,7 @@ const index = require("../lib"),
 describe("index", () => {
   it("has expected symbols", () => {
     assert.strictEqual(index.DataStoreError, DataStoreError);
+    assert.strictEqual(index.DataStore, DataStore);
     assert.typeOf(index.open, "function");
   });
   it("opens a DataStore instance", async () => {
