@@ -27,3 +27,13 @@ Then, please [create a new issue in the GitHub repository](https://github.com/mo
 Be sure to include as much detail as possible including step-by-step descriptions, specific examples, screenshots or mockups, and reasoning for why the enhancement might be worthwhile.
 
 Please keep in mind, by opening an issue we provide no guarantee the enhancement will be implemented.
+
+## How to Submit Patches
+
+First, please refer to the applicable [GitHub repository](https://github.com/orgs/mozilla-lockbox/) and ensure that [the repository's GitHub issues](https://github.com/mozilla-lockbox/lockbox-datastore/issues) has an issue this patch addresses.
+
+Then, please [create a new pull request in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-datastore/pull/new/master), based on `master` and compared against your changes.
+
+Be sure to provide unit tests that cover your changes as best as possible, and note in the pull request description which issue(s) will be fixed.
+
+Team members will make the best effort to review your changes within 48 hours, or at least acknowledge the pull request.
