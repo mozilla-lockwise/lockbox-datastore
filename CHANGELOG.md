@@ -1,7 +1,26 @@
 # Lockbox Datastore
 
+<a name="0.2.0"></a>
+# 0.2.0
+
+_Date: 2018-01-16_
+
+**NOTE**: This release requires applications to specify an `appKey` when initializing or unlocking.
+
+## What's New
+
+* Rwmoved the default `appKey`.  Consumers of this API _must_ specify an `appKey` when initializing or unlocking the datastore instance.
+* Exports the `DataStore` class to allow for extending it.
+* Updated various dependencies to their latest versions.
+
+## What's Fixed
+
+_No issues fixed_
+
 <a name="0.1.0"></a>
 # 0.1.0
+
+_Date: 2017-12-14_
 
 **NOTE**: This release now uses a symmetric key to lock/unlock the datastore, instead of a master password.  Any previous data from a previous instance is now lost.
 
