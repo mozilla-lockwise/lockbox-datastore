@@ -14,9 +14,16 @@ after_success:
   - npm run doc
 
 deploy:
-  provider: pages
+- provider: pages
   skip_cleanup: true
   local_dir: site
   github_token: $GITHUB_TOKEN
   on:
     branch: master
+- provider: npm
+  email: linuxwolf@outer-planes.net
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
+    repo: mozilla-lockbox/lockbox-datastore
+    branch: production
