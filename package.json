@@ -65,13 +65,13 @@
     "karma-mocha-reporter": "^2.2.3",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.4",
-    "mocha": "^4.0.1",
+    "mocha": "^5.0.0",
     "nyc": "^11.0.3",
     "password": "^0.1.1",
     "promisified-fs": "^1.0.1",
     "watch": "^1.0.2",
     "webpack": "^3.4.0",
-    "yargs": "^10.0.3"
+    "yargs": "^11.0.0"
   },
   "dependencies": {
     "dexie": "^2.0.1",
