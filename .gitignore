@@ -2,3 +2,4 @@
 /docs/api.md
 /node_modules
 /site
+.npmrc

@@ -1,0 +1,12 @@
+.babelrc
+.eslint*
+.nycrc
+.travis.yml
+.vscode
+jsdoc.conf.js
+karma.*.js
+mkdocs.yml
+webpack.config.js
+build-utils/
+coverage/
+test/
