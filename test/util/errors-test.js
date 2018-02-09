@@ -16,6 +16,7 @@ describe("util/errors", () => {
       assert.strictEqual(DataStoreError.INITIALIZED, "INITIALIZED");
       assert.strictEqual(DataStoreError.MISSING_APP_KEY, "MISSING_APP_KEY");
       assert.strictEqual(DataStoreError.WRONG_APP_KEY, "WRONG_APP_KEY");
+      assert.strictEqual(DataStoreError.CRYPTO, "CRYPTO");
       assert.strictEqual(DataStoreError.LOCKED, "LOCKED");
       assert.strictEqual(DataStoreError.INVALID_ITEM, "INVALID_ITEM");
       assert.strictEqual(DataStoreError.MISSING_ITEM, "MISSING_ITEM");
