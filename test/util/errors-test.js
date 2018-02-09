@@ -14,8 +14,8 @@ describe("util/errors", () => {
       assert.strictEqual(DataStoreError.LOCALDB_VERSION, "LOCALDB_VERSION");
       assert.strictEqual(DataStoreError.NOT_INITIALIZED, "NOT_INITIALIZED");
       assert.strictEqual(DataStoreError.INITIALIZED, "INITIALIZED");
-      assert.strictEqual(DataStoreError.MISSING_MASTER_KEY, "MISSING_MASTER_KEY");
-      assert.strictEqual(DataStoreError.WRONG_MASTER_KEY, "WRONG_MASTER_KEY");
+      assert.strictEqual(DataStoreError.MISSING_APP_KEY, "MISSING_APP_KEY");
+      assert.strictEqual(DataStoreError.WRONG_APP_KEY, "WRONG_APP_KEY");
       assert.strictEqual(DataStoreError.LOCKED, "LOCKED");
       assert.strictEqual(DataStoreError.INVALID_ITEM, "INVALID_ITEM");
       assert.strictEqual(DataStoreError.MISSING_ITEM, "MISSING_ITEM");
