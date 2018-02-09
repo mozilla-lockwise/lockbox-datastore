@@ -23,6 +23,7 @@ describe("util/errors", () => {
       assert.strictEqual(DataStoreError.OFFLINE, "OFFLINE");
       assert.strictEqual(DataStoreError.AUTH, "AUTH");
       assert.strictEqual(DataStoreError.NETWORK, "NETWORK");
+      assert.strictEqual(DataStoreError.SYNC_LOCKED, "SYNC_LOCKED");
       assert.strictEqual(DataStoreError.GENERIC_ERROR, "GENERIC_ERROR");
     });
   });
