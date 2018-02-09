@@ -3,10 +3,13 @@
 .nycrc
 .travis.yml
 .vscode
+CHANGELOG.md
 jsdoc.conf.js
 karma.*.js
 mkdocs.yml
 webpack.config.js
 build-utils/
 coverage/
+docs/
+site/
 test/
