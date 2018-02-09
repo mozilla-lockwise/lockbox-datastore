@@ -15,7 +15,7 @@
     "lint": "eslint . --ext=.js --ext=.json",
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
-    ":test:node": "mocha test",
+    ":test:node": "mocha --recursive test",
     "test": "npm run :test:node && npm run :test:karma",
     "predebug": "npm run lint",
     "debug": "karma start karma.conf-debug.js",

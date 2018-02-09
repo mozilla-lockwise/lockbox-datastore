@@ -29,7 +29,7 @@ describe("items", () => {
           notes: "some notes for the entry"
         }
       };
-      
+
       let result = Items.prepare(item);
       assert(item !== result);
       assert.hasAllKeys(result, ITEM_MEMBERS);
@@ -73,7 +73,7 @@ describe("items", () => {
         created: new Date().toISOString(),
         patch: jsonmergepatch.generate(item.entry, source.entry)
       });
-      
+
       let result = Items.prepare(item, source);
       assert(result !== item);
       assert(result !== source);
@@ -92,7 +92,7 @@ describe("items", () => {
           password: "secret"
         }
       };
-      
+
       let result = Items.prepare(item);
       assert(result !== item);
       assert.hasAllKeys(result, ITEM_MEMBERS);
@@ -129,7 +129,7 @@ describe("items", () => {
         created: new Date().toISOString(),
         patch: jsonmergepatch.generate(item.entry, source.entry)
       });
-      
+
       let result = Items.prepare(item, source);
       assert(result !== item);
       assert.hasAllKeys(result, ITEM_MEMBERS);
@@ -150,14 +150,14 @@ describe("items", () => {
           username: "someone"
         }
       };
-      
+
       let result = Items.prepare(item);
       assert(result !== item);
       assert.hasAllKeys(result, ITEM_MEMBERS);
       assert.hasAllKeys(result.entry, ENTRY_MEMBERS);
     });
   });
-  
+
   describe("sad", () => {
     function packString(max) {
       const ALPHA = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ";
@@ -182,7 +182,7 @@ describe("items", () => {
       }
       return item;
     }
-    
+
     it("fails to prepare an item without an entry", () => {
       let item = {
         title: "some title",
@@ -193,7 +193,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           entry: "any.required"
@@ -214,7 +213,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           entry: "any.required"
@@ -237,7 +235,6 @@ describe("items", () => {
         Items.prepare(item);
         assert(false, "expected failure");
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           title: "string.max"
@@ -259,7 +256,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           origins: "string.max"
@@ -282,7 +278,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           origins: "array.max"
@@ -304,7 +299,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           tags: "string.max"
@@ -328,7 +322,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           tags: "array.max"
@@ -351,14 +344,13 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           "entry.username": "string.max"
         });
       }
     });
-    it("fails to prepare an item with excessive entry.psssword", () => {
+    it("fails to prepare an item with excessive entry.passsword", () => {
       let item = {
         title: "some title",
         origins: ["example.com"],
@@ -374,7 +366,6 @@ describe("items", () => {
       try {
         Items.prepare(item);
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           "entry.password": "string.max"
@@ -398,7 +389,6 @@ describe("items", () => {
         Items.prepare(item);
         assert(false, "expected failure");
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           "entry.notes": "string.max"
@@ -423,7 +413,6 @@ describe("items", () => {
         Items.prepare(item);
         assert(false, "expected failure");
       } catch (err) {
-        assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
         assert.deepEqual(err.details, {
           "title": "string.max",

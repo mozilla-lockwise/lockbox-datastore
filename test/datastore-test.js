@@ -121,10 +121,10 @@ describe("datastore", () => {
         await ds.initialize({ appKey  });
       } catch (err) {
         assert.strictEqual(err.reason, DataStoreError.INITIALIZED);
-        assert.strictEqual(err.message, "already initialized");
+        assert.strictEqual(err.message, "INITIALIZED");
       }
     });
-    it("resets an initialized datatore", async () => {
+    it("resets an initialized datastore", async () => {
       let ds = await setupTest()();
 
       assert(ds.initialized);
@@ -134,7 +134,7 @@ describe("datastore", () => {
       assert(!ds.initialized);
       assert.strictEqual(result, ds);
     });
-    it("resets an uninitialized datatore", async () => {
+    it("resets an uninitialized datastore", async () => {
       let ds = new DataStore();
 
       assert(!ds.initialized);

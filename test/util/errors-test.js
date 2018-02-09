@@ -4,45 +4,47 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = Object.assign({}, require("chai").assert, {
-  reasonMatches: (actual, expected) => {
-    assert.typeOf(actual, "symbol");
-    assert.strictEqual(actual.toString(), `Symbol(${expected})`);
-  }
-});
+const assert = require("chai").assert;
 
 const DataStoreError = require("../../lib/util/errors");
 
 describe("util/errors", () => {
   describe("Reasons", () => {
     it("checks for expected reasons", () => {
-      assert.reasonMatches(DataStoreError.NOT_INITIALIZED, "NOT_INITIALIZED");
-      assert.reasonMatches(DataStoreError.INITIALIZED, "INITIALIZED");
-      assert.reasonMatches(DataStoreError.LOCKED, "LOCKED");
-      assert.reasonMatches(DataStoreError.INVALID_ITEM, "INVALID_ITEM");
-      assert.reasonMatches(DataStoreError.GENERIC_ERROR, "GENERIC_ERROR");
+      assert.strictEqual(DataStoreError.LOCALDB_VERSION, "LOCALDB_VERSION");
+      assert.strictEqual(DataStoreError.NOT_INITIALIZED, "NOT_INITIALIZED");
+      assert.strictEqual(DataStoreError.INITIALIZED, "INITIALIZED");
+      assert.strictEqual(DataStoreError.MISSING_MASTER_KEY, "MISSING_MASTER_KEY");
+      assert.strictEqual(DataStoreError.WRONG_MASTER_KEY, "WRONG_MASTER_KEY");
+      assert.strictEqual(DataStoreError.LOCKED, "LOCKED");
+      assert.strictEqual(DataStoreError.INVALID_ITEM, "INVALID_ITEM");
+      assert.strictEqual(DataStoreError.MISSING_ITEM, "MISSING_ITEM");
+      assert.strictEqual(DataStoreError.OFFLINE, "OFFLINE");
+      assert.strictEqual(DataStoreError.AUTH, "AUTH");
+      assert.strictEqual(DataStoreError.NETWORK, "NETWORK");
+      assert.strictEqual(DataStoreError.GENERIC_ERROR, "GENERIC_ERROR");
     });
   });
   describe("DataStoreError", () => {
     it("creates with all arguments", () => {
       let err;
-      err = new DataStoreError("some generic error", DataStoreError.GENERIC_ERROR);
-      assert.strictEqual(err.message, "some generic error");
+      err = new DataStoreError(DataStoreError.GENERIC_ERROR, "some generic error");
+      assert.strictEqual(err.message, "GENERIC_ERROR: some generic error");
       assert.strictEqual(err.reason, DataStoreError.GENERIC_ERROR);
       assert.notEmpty(err.stack);
     });
     it("creates with missing reason", () => {
       let err;
-      err = new DataStoreError("some other error");
-      assert.strictEqual(err.message, "some other error");
+      err = new DataStoreError("some generic error");
       assert.strictEqual(err.reason, DataStoreError.GENERIC_ERROR);
+      assert.strictEqual(err.message, `${DataStoreError.GENERIC_ERROR}: some generic error`);
       assert.notEmpty(err.stack);
     });
     it("creates with missing message", () => {
       let err;
       err = new DataStoreError(DataStoreError.GENERIC_ERROR);
-      assert.strictEqual(err.message, "GENERIC_ERROR");
       assert.strictEqual(err.reason, DataStoreError.GENERIC_ERROR);
+      assert.strictEqual(err.message, DataStoreError.GENERIC_ERROR);
       assert.notEmpty(err.stack);
     });
   });
