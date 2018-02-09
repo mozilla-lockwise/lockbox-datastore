@@ -110,7 +110,7 @@ describe("datastore", () => {
       return init().then(() => {
         assert.ok(false, "unexpected success");
       }).catch((err) => {
-        assert.strictEqual(err.message, "invalid app key");
+        assert.strictEqual(err.reason, DataStoreError.MISSING_APP_KEY);
       });
     });
     it("fails on the second initialization", async () => {
@@ -121,7 +121,6 @@ describe("datastore", () => {
         await ds.initialize({ appKey  });
       } catch (err) {
         assert.strictEqual(err.reason, DataStoreError.INITIALIZED);
-        assert.strictEqual(err.message, "INITIALIZED");
       }
     });
     it("resets an initialized datastore", async () => {
