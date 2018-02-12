@@ -8,7 +8,8 @@ const assert = require("chai").assert,
       jose = require("node-jose"),
       UUID = require("uuid");
 
-const ItemKeyStore = require("../lib/itemkeystore");
+const ItemKeyStore = require("../lib/itemkeystore"),
+      DataStoreError = require("../lib/util/errors");
 
 async function loadMasterKey() {
   let bundle = require("./setup/key-bundle.json");
@@ -113,7 +114,7 @@ describe("ItemKeyStore", () => {
         await iks.load();
         assert(false, "unexpected success");
       } catch (err) {
-        assert.strictEqual(err.message, "invalid master key");
+        assert.strictEqual(err.reason, DataStoreError.MISSING_APP_KEY);
       }
     });
     it("fails with no encrypted data", async () => {
@@ -124,7 +125,8 @@ describe("ItemKeyStore", () => {
         await iks.load();
         assert(false, "unexpected success");
       } catch (err) {
-        assert.strictEqual(err.message, "not encrypted");
+        assert.strictEqual(err.reason, DataStoreError.CRYPTO);
+        assert.strictEqual(err.message, `${DataStoreError.CRYPTO}: keystore not encrypted`);
       }
     });
   });
@@ -204,7 +206,7 @@ describe("ItemKeyStore", () => {
         await iks.save();
         assert.ok(false, "unexpected success");
       } catch (err) {
-        assert.strictEqual(err.message, "invalid master key");
+        assert.strictEqual(err.reason, DataStoreError.MISSING_APP_KEY);
       }
     });
   });

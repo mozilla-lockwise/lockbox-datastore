@@ -14,6 +14,10 @@ const DataStore = require("../lib/datastore"),
       localdatabase = require("../lib/localdatabase"),
       DataStoreError = require("../lib/util/errors");
 
+function failOnSuccess() {
+  assert.ok(false, "unexpected success");
+}
+
 function loadAppKey(bundle) {
   // master key contains secret
   if (!bundle) {
@@ -107,10 +111,8 @@ describe("datastore", () => {
     it("initializes with given app key", setupTest());
     it("fails to initialize without app key", async () => {
       const init = setupTest("");
-      return init().then(() => {
-        assert.ok(false, "unexpected success");
-      }).catch((err) => {
-        assert.strictEqual(err.message, "invalid app key");
+      return init().then(failOnSuccess, (err) => {
+        assert.strictEqual(err.reason, DataStoreError.MISSING_APP_KEY);
       });
     });
     it("fails on the second initialization", async () => {
@@ -121,10 +123,9 @@ describe("datastore", () => {
         await ds.initialize({ appKey  });
       } catch (err) {
         assert.strictEqual(err.reason, DataStoreError.INITIALIZED);
-        assert.strictEqual(err.message, "already initialized");
       }
     });
-    it("resets an initialized datatore", async () => {
+    it("resets an initialized datastore", async () => {
       let ds = await setupTest()();
 
       assert(ds.initialized);
@@ -134,7 +135,7 @@ describe("datastore", () => {
       assert(!ds.initialized);
       assert.strictEqual(result, ds);
     });
-    it("resets an uninitialized datatore", async () => {
+    it("resets an uninitialized datastore", async () => {
       let ds = new DataStore();
 
       assert(!ds.initialized);
@@ -168,10 +169,12 @@ describe("datastore", () => {
       assert(ds.initialized);
       assert(!ds.locked);
 
-      let result, appKey;
+      let result, appKey, salt;
       appKey = await setupAppKey();
+      salt = UUID();
       result = await ds.initialize({
         appKey,
+        salt,
         rebase: true
       });
       assert(ds.initialized);
@@ -186,6 +189,26 @@ describe("datastore", () => {
 
       let all = await ds.list();
       assert.deepEqual(all, cache);
+    });
+    it("fails to rebase a datastore when locked", async () => {
+      let ds = await setupTest()();
+
+      assert(ds.initialized);
+      assert(!ds.locked);
+
+      await ds.lock();
+
+      let appKey;
+      appKey = await setupAppKey();
+      try {
+        await ds.initialize({
+          appKey,
+          rebase: true
+        });
+        failOnSuccess();
+      } catch (err) {
+        assert.strictEqual(err.reason, DataStoreError.LOCKED);
+      }
     });
   });
 
@@ -230,6 +253,12 @@ describe("datastore", () => {
       result = await main.unlock(appKey);
       assert.strictEqual(result, main);
       assert.ok(!main.locked);
+      result = await main.unlock(appKey);
+      assert.strictEqual(result, main);
+      assert.ok(!main.locked);
+      result = await main.lock();
+      assert.strictEqual(result, main);
+      assert.ok(main.locked);
       result = await main.lock();
       assert.strictEqual(result, main);
       assert.ok(main.locked);
@@ -382,6 +411,45 @@ describe("datastore", () => {
       result = await main.get(result.id);
       assert(!result);
     });
+    it("fails to add nothing", async () => {
+      await main.unlock(appKey);
+
+      try {
+        await main.add();
+        failOnSuccess();
+      } catch (err) {
+        assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
+      }
+    });
+    it("fails to update nothing", async () => {
+      await main.unlock();
+
+      try {
+        await main.update();
+        failOnSuccess();
+      } catch (err) {
+        assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
+      }
+    });
+    it("fails to update missing item", async () => {
+      await main.unlock();
+      let something = {
+        id: "d50fd808-8c0f-47f8-99bc-896750a2cc0e",
+        title: "Some other item",
+        entry: {
+          kind: "login",
+          username: "bilbo.baggins",
+          password: "hidden treasure"
+        }
+      };
+
+      try {
+        await main.update(something);
+        failOnSuccess();
+      } catch (err) {
+        assert.strictEqual(err.reason, DataStoreError.MISSING_ITEM);
+      }
+    });
 
     describe("locked failures", () => {
       const item = {
@@ -432,6 +500,49 @@ describe("datastore", () => {
         } catch (err) {
           assert.strictEqual(err.reason, DataStoreError.LOCKED);
         }
+      });
+    });
+
+    describe("uninitialized failures", () => {
+      function checkNotInitialized(err) {
+        assert.strictEqual(err.reason, DataStoreError.NOT_INITIALIZED);
+      }
+
+      before(async () => {
+        return main.reset();
+      });
+
+      it("fails to list when uninitialized", async () => {
+        return main.list().then(failOnSuccess, checkNotInitialized);
+      });
+      it("fails to get when uninitialized", async () => {
+        const id = "f96eb083-6103-41f8-9cbc-231efa2957af";
+        return main.get(id).then(failOnSuccess, checkNotInitialized);
+      });
+      it("fails to add when uninitialized", async () => {
+        const item = {
+          entry: {
+            kind: "login",
+            username: "frodo.baggins",
+            password: "keepitsecretkeepitsafe"
+          }
+        };
+        return main.add(item).then(failOnSuccess, checkNotInitialized);
+      });
+      it("fails to update when uninitialized", async () => {
+        const item = {
+          id: "f96eb083-6103-41f8-9cbc-231efa2957af",
+          entry: {
+            kind: "login",
+            username: "frodo.baggins",
+            password: "keepitsecretkeepitsafe"
+          }
+        };
+        return main.update(item).then(failOnSuccess, checkNotInitialized);
+      });
+      it("fails to remove when uninitialized", async () => {
+        const id = "f96eb083-6103-41f8-9cbc-231efa2957af";
+        return main.remove(id).then(failOnSuccess, checkNotInitialized);
       });
     });
   });
