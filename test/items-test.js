@@ -350,7 +350,7 @@ describe("items", () => {
         });
       }
     });
-    it("fails to prepare an item with excessive entry.passsword", () => {
+    it("fails to prepare an item with excessive entry.password", () => {
       let item = {
         title: "some title",
         origins: ["example.com"],
