@@ -16,7 +16,7 @@
     "pretest": "npm run lint && npm run :clean:coverage",
     ":test:karma": "karma start",
     ":test:node": "mocha --recursive test",
-    "test": "npm run :test:node && npm run :test:karma",
+    "test": "npm run :test:karma",
     "predebug": "npm run lint",
     "debug": "karma start karma.conf-debug.js",
     "watch": "watch --interval=10 'npm run test && npm run doc' ./lib ./test",

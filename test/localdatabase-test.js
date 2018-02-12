@@ -36,11 +36,14 @@ describe("localdatabase", () => {
     const name = "lockbox-bad";
     let prep = await localdatabase.open(name);
     await prep.close();
-    await prep.version(0.2);
+    await prep.version(2000);
+    await prep.open();
+    prep.close();
+
     try {
       ldb = await localdatabase.open(name);
+      assert.ok(false, "unexpected success");
     } catch (err) {
-      console.log(`failure ${err.message}`); //eslint-disable-line
       assert.strictEqual(err.reason, DataStoreError.LOCALDB_VERSION);
     }
   });
