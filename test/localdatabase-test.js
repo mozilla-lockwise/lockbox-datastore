@@ -7,7 +7,8 @@
 const assert = require("chai").assert;
 
 const DataStoreError = require("../lib/util/errors"),
-      localdatabase = require("../lib/localdatabase");
+      localdatabase = require("../lib/localdatabase"),
+      constants = require("../lib/constants");
 
 describe("localdatabase", () => {
   let ldb;
@@ -46,5 +47,33 @@ describe("localdatabase", () => {
     } catch (err) {
       assert.strictEqual(err.reason, DataStoreError.LOCALDB_VERSION);
     }
+  });
+
+  describe("upgrades", () => {
+    it("upgrades 0.1 ==> 0.2", async () => {
+      const bucket = localdatabase.DEFAULT_BUCKET;
+
+      // prepare "old" database
+      const oldDB = new localdatabase.Dexie(bucket);
+      localdatabase.VERSIONS["0.1"](oldDB);
+
+      const record = {
+        encrypted: require("./setup/encrypted-empty.json").encrypted,
+        group: ""
+      };
+      await oldDB.open();
+      await oldDB.keystores.add(record);
+      await oldDB.close();
+
+      const currDB = await localdatabase.open(bucket);
+      const actual = await currDB.keystores.get(constants.DEFAULT_KEYSTORE_GROUP);
+      const expected = {
+        id: constants.DEFAULT_KEYSTORE_ID,
+        group: constants.DEFAULT_KEYSTORE_GROUP,
+        encrypted: record.encrypted
+      };
+
+      assert.deepEqual(actual, expected);
+    });
   });
 });

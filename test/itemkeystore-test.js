@@ -9,7 +9,8 @@ const assert = require("chai").assert,
       UUID = require("uuid");
 
 const ItemKeyStore = require("../lib/itemkeystore"),
-      DataStoreError = require("../lib/util/errors");
+      DataStoreError = require("../lib/util/errors"),
+      constants = require("../lib/constants");
 
 async function loadMasterKey() {
   let bundle = require("./setup/key-bundle.json");
@@ -33,6 +34,7 @@ describe("ItemKeyStore", () => {
       assert.isUndefined(iks.encrypted);
 
       assert.deepEqual(iks.toJSON(), {
+        id: constants.DEFAULT_KEYSTORE_ID,
         group: "",
         encrypted: undefined
       });
@@ -43,12 +45,16 @@ describe("ItemKeyStore", () => {
       assert.isEmpty(iks.group);
       assert.isUndefined(iks.encrypted);
       assert.deepEqual(iks.toJSON(), {
+        id: constants.DEFAULT_KEYSTORE_ID,
         group: "",
         encrypted: undefined
       });
     });
-    it("creates an ItemKeyStore with the given configuration", () => {
+    it("creates an ItemKeyStore with the given configuration", async () => {
+      const id = await jose.JWA.digest("SHA-256", jose.util.asBuffer("my-group")).
+        then((r) => r.toString("hex"));
       let context = {
+        id,
         group: "my-group",
         encrypted: "not-real-data"
       };

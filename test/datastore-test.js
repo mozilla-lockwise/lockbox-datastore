@@ -576,7 +576,7 @@ describe("datastore", () => {
       await localdatabase.teardown();
     });
 
-    it("add a value to 1st datatore", async () => {
+    it("add a value to first datastore", async () => {
       const appKey = await setupAppKey();
       let main = new DataStore();
       main = await main.prepare();
