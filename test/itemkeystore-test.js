@@ -30,24 +30,28 @@ describe("ItemKeyStore", () => {
   describe("ctor", () => {
     it("creates an ItemKeyStore", () => {
       let iks = new ItemKeyStore();
+      assert.strictEqual(iks.id, constants.DEFAULT_KEYSTORE_ID);
       assert.isEmpty(iks.group);
       assert.isUndefined(iks.encrypted);
 
       assert.deepEqual(iks.toJSON(), {
         id: constants.DEFAULT_KEYSTORE_ID,
         group: "",
-        encrypted: undefined
+        encrypted: undefined,
+        last_modified: undefined,
       });
     });
     it("creates an ItemKeyStore with the given (empty) configuration", () => {
       let context = {};
       let iks = new ItemKeyStore(context);
+      assert.strictEqual(iks.id, constants.DEFAULT_KEYSTORE_ID);
       assert.isEmpty(iks.group);
       assert.isUndefined(iks.encrypted);
       assert.deepEqual(iks.toJSON(), {
         id: constants.DEFAULT_KEYSTORE_ID,
         group: "",
-        encrypted: undefined
+        encrypted: undefined,
+        last_modified: undefined,
       });
     });
     it("creates an ItemKeyStore with the given configuration", async () => {
@@ -56,11 +60,13 @@ describe("ItemKeyStore", () => {
       let context = {
         id,
         group: "my-group",
-        encrypted: "not-real-data"
+        encrypted: "not-real-data",
+        last_modified: undefined,
       };
       let expected = { ...context };
 
       let iks = new ItemKeyStore(context);
+      assert.strictEqual(iks.id, expected.id);
       assert.strictEqual(iks.group, expected.group);
       assert.strictEqual(iks.encrypted, expected.encrypted);
       assert.deepEqual(iks.toJSON(), expected);
