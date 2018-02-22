@@ -48,7 +48,7 @@
     "codecov": "^3.0.0",
     "documentation": "^5.3.2",
     "eslint": "^4.3.0",
-    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsdoc": "3.5.0",
     "eslint-plugin-json": "1.2.0",
