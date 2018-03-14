@@ -411,6 +411,47 @@ describe("datastore", () => {
       result = await main.get(result.id);
       assert(!result);
     });
+    it("touches", async () => {
+      await main.unlock(appKey);
+      let cached = new Map(),
+          stored;
+      stored = await main.list();
+      checkList(stored, cached);
+
+      let something = {
+        title: "My Item",
+        entry: {
+          kind: "login",
+          username: "foo",
+          password: "bar"
+        }
+      };
+
+      let result, expected = [];
+      result = await main.add(something);
+      checkMetrics([
+        {
+          method: "added",
+          id: result.id,
+          fields: undefined
+        }
+      ]);
+
+      expected = result;
+      result = await main.touch(expected);
+      let time = new Date().toISOString();
+      assert.dateInRange(result.last_used, time);
+      cached.set(result.id, result);
+      stored = await main.list();
+      checkList(stored, cached);
+      checkMetrics([
+        {
+          method: "touched",
+          id: result.id,
+          fields: undefined
+        }
+      ]);
+    });
     it("fails to add nothing", async () => {
       await main.unlock(appKey);
 
@@ -445,6 +486,25 @@ describe("datastore", () => {
 
       try {
         await main.update(something);
+        failOnSuccess();
+      } catch (err) {
+        assert.strictEqual(err.reason, DataStoreError.MISSING_ITEM);
+      }
+    });
+    it("fails to touch missing item", async () => {
+      await main.unlock();
+      let something = {
+        id: "d50fd808-8c0f-47f8-99bc-896750a2cc0e",
+        title: "Some other item",
+        entry: {
+          kind: "login",
+          username: "bilbo.baggins",
+          password: "hidden treasure"
+        }
+      };
+
+      try {
+        await main.touch(something);
         failOnSuccess();
       } catch (err) {
         assert.strictEqual(err.reason, DataStoreError.MISSING_ITEM);
@@ -494,6 +554,13 @@ describe("datastore", () => {
           assert.strictEqual(err.reason, DataStoreError.LOCKED);
         }
       });
+      it("fails touch if locked", async () => {
+        try {
+          await main.touch(item);
+        } catch (err) {
+          assert.strictEqual(err.reason, DataStoreError.LOCKED);
+        }
+      });
       it("fails remove if locked", async () => {
         try {
           await main.remove(item);
@@ -539,6 +606,17 @@ describe("datastore", () => {
           }
         };
         return main.update(item).then(failOnSuccess, checkNotInitialized);
+      });
+      it("fails to touch when uninitialized", async () => {
+        const item = {
+          id: "f96eb083-6103-41f8-9cbc-231efa2957af",
+          entry: {
+            kind: "login",
+            username: "frodo.baggins",
+            password: "keepitsecretkeepitsafe"
+          }
+        };
+        return main.touch(item).then(failOnSuccess, checkNotInitialized);
       });
       it("fails to remove when uninitialized", async () => {
         const id = "f96eb083-6103-41f8-9cbc-231efa2957af";
