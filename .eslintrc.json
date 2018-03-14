@@ -23,6 +23,7 @@
     "security/detect-non-literal-fs-filename": "off",
     "security/detect-object-injection": "off",
 
+    "no-console": "off",
     "eqeqeq": "error",
     "indent": ["error", 2, {"SwitchCase": 1, "VariableDeclarator": {"var": 2, "let": 2, "const": 3}}],
     "linebreak-style": ["error", "unix"],

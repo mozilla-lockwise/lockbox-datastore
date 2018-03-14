@@ -13,7 +13,7 @@ const jsonmergepatch = require("json-merge-patch"),
 const DataStoreError = require("../lib/util/errors"),
       Items = require("../lib/items");
 
-const ITEM_MEMBERS = [ "id", "title", "origins", "tags", "entry", "disabled", "created", "modified", "history" ];
+const ITEM_MEMBERS = [ "id", "title", "origins", "tags", "entry", "disabled", "created", "modified", "history", "last_used" ];
 const ENTRY_MEMBERS = ["kind", "username", "password", "notes"];
 describe("items", () => {
   describe("happy", () => {
@@ -38,6 +38,7 @@ describe("items", () => {
         disabled: false,
         created: new Date().toISOString(),
         modified: new Date().toISOString(),
+        last_used: null,
         history: []
       }));
     });
@@ -56,6 +57,7 @@ describe("items", () => {
         disabled: false,
         created: new Date().toISOString(),
         modified: new Date().toISOString(),
+        last_used: null,
         history: []
       };
       let item = {
@@ -100,6 +102,7 @@ describe("items", () => {
         disabled: false,
         created: new Date().toISOString(),
         modified: new Date().toISOString(),
+        last_used: null,
         history: []
       }));
     });
@@ -138,6 +141,7 @@ describe("items", () => {
         disabled: false,
         created: new Date().toISOString(),
         modified: new Date().toISOString(),
+        last_used: null,
         history
       }));
     });
