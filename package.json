@@ -64,7 +64,7 @@
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.3",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^2.0.4",
+    "karma-webpack": "^3.0.0",
     "mocha": "^5.0.0",
     "nyc": "^11.0.3",
     "password": "^0.1.1",
