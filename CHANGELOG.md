@@ -1,36 +1,54 @@
 # Lockbox Datastore
 
+<a name="0.2.1"></a>
+## 0.2.1
+
+_Date: 2018-05-21_
+
+**NOTE:** This update includes changes to dependencies to address security vulnerabilities.
+
+### What's New
+
+* Added a `touch()` method to record when an item is used.
+* Updated local database schema in preparations for syncing.
+* Updated various dependencies to their latest versions.
+
+### What's Fixed
+
+_No issues fixed_
+
+
 <a name="0.2.0"></a>
-# 0.2.0
+## 0.2.0
 
 _Date: 2018-01-16_
 
 **NOTE**: This release requires applications to specify an `appKey` when initializing or unlocking.
 
-## What's New
+### What's New
 
 * Rwmoved the default `appKey`.  Consumers of this API _must_ specify an `appKey` when initializing or unlocking the datastore instance.
 * Exports the `DataStore` class to allow for extending it.
 * Updated various dependencies to their latest versions.
 
-## What's Fixed
+### What's Fixed
 
 _No issues fixed_
 
 <a name="0.1.0"></a>
-# 0.1.0
+## 0.1.0
 
 _Date: 2017-12-14_
 
 **NOTE**: This release now uses a symmetric key to lock/unlock the datastore, instead of a master password.  Any previous data from a previous instance is now lost.
 
-## What's New
+### What's New
 
 * Lock/unlock the datastore using a 
 * Full item validation and completion
 * Generate history patches
 
-## What's Fixed
+### What's Fixed
 
 * API documentation is generated correctly, and checked.
 * A Datastore can be re-initialized (updated) to use a different symmetric key
