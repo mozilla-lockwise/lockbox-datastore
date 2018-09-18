@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>API Guide - Lockbox DataStore</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "API Guide";
+    var mkdocs_page_input_path = "api.md";
+    var mkdocs_page_url = "/api/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lockbox DataStore</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../install/">Installing</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../contributing/">Contributing</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../code_of_conduct/">Code of Conduct</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">API Guide</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#table-of-contents">Table of Contents</a></li>
+    
+
+    <li class="toctree-l2"><a href="#itemkeystore">ItemKeyStore</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#parameters">Parameters</a></li>
+        
+            <li><a class="toctree-l3" href="#encryptkey">encryptKey</a></li>
+        
+            <li><a class="toctree-l3" href="#id">id</a></li>
+        
+            <li><a class="toctree-l3" href="#group">group</a></li>
+        
+            <li><a class="toctree-l3" href="#encrypted">encrypted</a></li>
+        
+            <li><a class="toctree-l3" href="#tojson">toJSON</a></li>
+        
+            <li><a class="toctree-l3" href="#load">load</a></li>
+        
+            <li><a class="toctree-l3" href="#save">save</a></li>
+        
+            <li><a class="toctree-l3" href="#clear">clear</a></li>
+        
+            <li><a class="toctree-l3" href="#size">size</a></li>
+        
+            <li><a class="toctree-l3" href="#all">all</a></li>
+        
+            <li><a class="toctree-l3" href="#get">get</a></li>
+        
+            <li><a class="toctree-l3" href="#add">add</a></li>
+        
+            <li><a class="toctree-l3" href="#delete">delete</a></li>
+        
+            <li><a class="toctree-l3" href="#protect">protect</a></li>
+        
+            <li><a class="toctree-l3" href="#unprotect">unprotect</a></li>
+        
+            <li><a class="toctree-l3" href="#default_keystore_id">DEFAULT_KEYSTORE_ID</a></li>
+        
+            <li><a class="toctree-l3" href="#default_keystore_group">DEFAULT_KEYSTORE_GROUP</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#datastore">DataStore</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#parameters_8">Parameters</a></li>
+        
+            <li><a class="toctree-l3" href="#prepare">prepare</a></li>
+        
+            <li><a class="toctree-l3" href="#initialized">initialized</a></li>
+        
+            <li><a class="toctree-l3" href="#initialize">initialize</a></li>
+        
+            <li><a class="toctree-l3" href="#reset">reset</a></li>
+        
+            <li><a class="toctree-l3" href="#locked">locked</a></li>
+        
+            <li><a class="toctree-l3" href="#lock">lock</a></li>
+        
+            <li><a class="toctree-l3" href="#unlock">unlock</a></li>
+        
+            <li><a class="toctree-l3" href="#list">list</a></li>
+        
+            <li><a class="toctree-l3" href="#get_1">get</a></li>
+        
+            <li><a class="toctree-l3" href="#add_1">add</a></li>
+        
+            <li><a class="toctree-l3" href="#update">update</a></li>
+        
+            <li><a class="toctree-l3" href="#touch">touch</a></li>
+        
+            <li><a class="toctree-l3" href="#remove">remove</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#open">open</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#parameters_16">Parameters</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#default_bucket">DEFAULT_BUCKET</a></li>
+    
+
+    <li class="toctree-l2"><a href="#database_version">DATABASE_VERSION</a></li>
+    
+
+    <li class="toctree-l2"><a href="#open_1">open</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#parameters_17">Parameters</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerror">DataStoreError</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#parameters_18">Parameters</a></li>
+        
+            <li><a class="toctree-l3" href="#reason">reason</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorlocked">DataStoreError.LOCKED</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorlocaldb_version">DataStoreError.LOCALDB_VERSION</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrornot_initialized">DataStoreError.NOT_INITIALIZED</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorinitialized">DataStoreError.INITIALIZED</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrormissing_app_key">DataStoreError.MISSING_APP_KEY</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorwrong_app_key">DataStoreError.WRONG_APP_KEY</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerroroffline">DataStoreError.OFFLINE</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorinvalid_item">DataStoreError.INVALID_ITEM</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrormissing_item">DataStoreError.MISSING_ITEM</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorgeneric_error">DataStoreError.GENERIC_ERROR</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorsync_locked">DataStoreError.SYNC_LOCKED</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrornetwork">DataStoreError.NETWORK</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorauth">DataStoreError.AUTH</a></li>
+    
+
+    <li class="toctree-l2"><a href="#datastoreerrorcrypto">DataStoreError.CRYPTO</a></li>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lockbox DataStore</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>API Guide</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/mozilla-lockbox/lockbox-datastore/edit/master/docs/api.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <!-- Generated by documentation.js. Update this documentation by updating the source code. -->
+
+<h3 id="table-of-contents">Table of Contents</h3>
+<ul>
+<li><a href="#itemkeystore">ItemKeyStore</a><ul>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#encryptkey">encryptKey</a></li>
+<li><a href="#id">id</a></li>
+<li><a href="#group">group</a></li>
+<li><a href="#encrypted">encrypted</a></li>
+<li><a href="#tojson">toJSON</a></li>
+<li><a href="#load">load</a><ul>
+<li><a href="#parameters-1">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#save">save</a></li>
+<li><a href="#clear">clear</a><ul>
+<li><a href="#parameters-2">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#size">size</a></li>
+<li><a href="#all">all</a></li>
+<li><a href="#get">get</a><ul>
+<li><a href="#parameters-3">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#add">add</a><ul>
+<li><a href="#parameters-4">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#delete">delete</a><ul>
+<li><a href="#parameters-5">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#protect">protect</a><ul>
+<li><a href="#parameters-6">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#unprotect">unprotect</a><ul>
+<li><a href="#parameters-7">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#default_keystore_id">DEFAULT_KEYSTORE_ID</a></li>
+<li><a href="#default_keystore_group">DEFAULT_KEYSTORE_GROUP</a></li>
+</ul>
+</li>
+<li><a href="#datastore">DataStore</a><ul>
+<li><a href="#parameters-8">Parameters</a></li>
+<li><a href="#prepare">prepare</a></li>
+<li><a href="#initialized">initialized</a></li>
+<li><a href="#initialize">initialize</a><ul>
+<li><a href="#parameters-9">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#reset">reset</a></li>
+<li><a href="#locked">locked</a></li>
+<li><a href="#lock">lock</a></li>
+<li><a href="#unlock">unlock</a><ul>
+<li><a href="#parameters-10">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#list">list</a></li>
+<li><a href="#get-1">get</a><ul>
+<li><a href="#parameters-11">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#add-1">add</a><ul>
+<li><a href="#parameters-12">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#update">update</a><ul>
+<li><a href="#parameters-13">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#touch">touch</a><ul>
+<li><a href="#parameters-14">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#remove">remove</a><ul>
+<li><a href="#parameters-15">Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#open">open</a><ul>
+<li><a href="#parameters-16">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#default_bucket">DEFAULT_BUCKET</a></li>
+<li><a href="#database_version">DATABASE_VERSION</a></li>
+<li><a href="#open-1">open</a><ul>
+<li><a href="#parameters-17">Parameters</a></li>
+</ul>
+</li>
+<li><a href="#datastoreerror">DataStoreError</a><ul>
+<li><a href="#parameters-18">Parameters</a></li>
+<li><a href="#reason">reason</a></li>
+</ul>
+</li>
+<li><a href="#datastoreerrorlocked">DataStoreError.LOCKED</a></li>
+<li><a href="#datastoreerrorlocaldb_version">DataStoreError.LOCALDB_VERSION</a></li>
+<li><a href="#datastoreerrornot_initialized">DataStoreError.NOT_INITIALIZED</a></li>
+<li><a href="#datastoreerrorinitialized">DataStoreError.INITIALIZED</a></li>
+<li><a href="#datastoreerrormissing_app_key">DataStoreError.MISSING_APP_KEY</a></li>
+<li><a href="#datastoreerrorwrong_app_key">DataStoreError.WRONG_APP_KEY</a></li>
+<li><a href="#datastoreerroroffline">DataStoreError.OFFLINE</a></li>
+<li><a href="#datastoreerrorinvalid_item">DataStoreError.INVALID_ITEM</a></li>
+<li><a href="#datastoreerrormissing_item">DataStoreError.MISSING_ITEM</a></li>
+<li><a href="#datastoreerrorgeneric_error">DataStoreError.GENERIC_ERROR</a></li>
+<li><a href="#datastoreerrorsync_locked">DataStoreError.SYNC_LOCKED</a></li>
+<li><a href="#datastoreerrornetwork">DataStoreError.NETWORK</a></li>
+<li><a href="#datastoreerrorauth">DataStoreError.AUTH</a></li>
+<li><a href="#datastoreerrorcrypto">DataStoreError.CRYPTO</a></li>
+</ul>
+<h2 id="itemkeystore">ItemKeyStore</h2>
+<p>Manages a set of item keys. This includes generation, encryption, and
+decryption of the set.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><code>self</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?</strong> The properties of this ItemKeyStore</li>
+</ul>
+<h3 id="encryptkey">encryptKey</h3>
+<p>The master encryption key.</p>
+<p>Type: jose.JWK.Key</p>
+<h3 id="id">id</h3>
+<p>The keystore identifier.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h3 id="group">group</h3>
+<p>The group name.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h3 id="encrypted">encrypted</h3>
+<p>The encrypted key set, as a Compact JWE.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h3 id="tojson">toJSON</h3>
+<p>Creates a JSON representation of this ItemKeyStore.  This method returns
+a plain Object with the following properties:</p>
+<ul>
+<li><code>group</code> {<strong>String</strong>} The name of the keystore's group</li>
+<li><code>encrypted</code> {<strong>Stirng</strong>} The encrypted map of keys</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The JSON representation</p>
+<h3 id="load">load</h3>
+<p>Loads the item keys.  This method decrypts the stored encrypted key set
+using the current or specified master encryption key.</p>
+<p>If <code>{master}</code> is provided, it overwrites the current master encryption
+key.</p>
+<h4 id="parameters_1">Parameters</h4>
+<ul>
+<li>
+<p><code>master</code> <strong>jose.JWK.Key?</strong> The new master encryption key to use</p>
+</li>
+<li>
+<p>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></strong> If the master encryption key is not set, or there is
+            no encrypted key set, or encryption fails</p>
+</li>
+</ul>
+<p>Returns <strong><a href="#itemkeystore">ItemKeyStore</a></strong> This ItemKeyStore</p>
+<h3 id="save">save</h3>
+<p>Saves the item keys.  This method serializes the item keys into and
+encrypts them using the current master encryption key.</p>
+<p>Once this method completes, <code>{encrypted}</code> is set to the newly encrypted
+key set.</p>
+<ul>
+<li>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></strong> If the master encryption key is invalid, or encryption
+            fails</li>
+</ul>
+<p>Returns <strong><a href="#itemkeystore">ItemKeyStore</a></strong> This ItemKeyStore</p>
+<h3 id="clear">clear</h3>
+<p>Clears all decrypted values.  Optionally, it also clears the
+encrypted store.</p>
+<h4 id="parameters_2">Parameters</h4>
+<ul>
+<li><code>all</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></strong> <code>true</code> to also delete encrypted keys (optional, default <code>false</code>)</li>
+</ul>
+<p>Returns <strong><a href="#itemkeystore">ItemKeyStore</a></strong> This ItemKeyStore</p>
+<h3 id="size">size</h3>
+<p>The number of item keys available (not encrypted).</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></p>
+<h3 id="all">all</h3>
+<p>Retrieves all of the item keys.  The returned map is a snapshot of
+the current state, and will not reflect any changes made after this
+method is called.</p>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&lt;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, jose.JWK.Key&gt;</strong> The list of item keys.</p>
+<h3 id="get">get</h3>
+<p>Retrieves an item key for the given id.</p>
+<h4 id="parameters_3">Parameters</h4>
+<ul>
+<li><code>id</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The item key identifier</li>
+</ul>
+<p>Returns <strong>jose.JWK.Key</strong> The item key, or <code>undefined</code> if not known</p>
+<h3 id="add">add</h3>
+<p>Adds an item key for the given id.  If a key for <code>{id}</code> is already
+known, it is returned instead of generating a new one.</p>
+<h4 id="parameters_4">Parameters</h4>
+<ul>
+<li><code>id</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The item key identifier</li>
+</ul>
+<p>Returns <strong>jose.JWK.Key</strong> The new or existing item key</p>
+<h3 id="delete">delete</h3>
+<p>Removes the item key for the given id.</p>
+<h4 id="parameters_5">Parameters</h4>
+<ul>
+<li><code>id</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The item key identifier</li>
+</ul>
+<p>Returns <strong>void</strong> </p>
+<h3 id="protect">protect</h3>
+<p>Encrypts an item.</p>
+<p>The <code>{item}</code> is expected to have a string <code>id</code> property, which is
+used to match it its key.  If a key for the item's id does not exist,
+it is first created.</p>
+<h4 id="parameters_6">Parameters</h4>
+<ul>
+<li>
+<p><code>item</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The item to encrypt</p>
+</li>
+<li>
+<p>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></strong> if <code>{item}</code> is invalid, or if encryption failed</p>
+</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The encrypted item as a compact JWE</p>
+<h3 id="unprotect">unprotect</h3>
+<p>Decrypts an item.</p>
+<h4 id="parameters_7">Parameters</h4>
+<ul>
+<li><code>id</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The item id</li>
+<li>
+<p><code>jwe</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The encrypted item as a compact JWE</p>
+</li>
+<li>
+<p>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></strong> if <code>{id}</code> or <code>{jwe}</code> is invalid, or if decryption failed</p>
+</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The decrypted item</p>
+<h3 id="default_keystore_id">DEFAULT_KEYSTORE_ID</h3>
+<p>Default keystore identifier.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h3 id="default_keystore_group">DEFAULT_KEYSTORE_GROUP</h3>
+<p>Default keystore group name.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastore">DataStore</h2>
+<p>Represents item storage.</p>
+<h3 id="parameters_8">Parameters</h3>
+<ul>
+<li><code>cfg</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The configuration parameters.</li>
+</ul>
+<h3 id="prepare">prepare</h3>
+<p>Prepares this DataStore. This method:</p>
+<ol>
+<li>initializes and opens the local database; and</li>
+<li>loads any stored keys from the local database.</li>
+</ol>
+<p>If the database is already prepared, this method does nothing.</p>
+<p>Returns <strong><a href="#datastore">DataStore</a></strong> This DataStore.</p>
+<h3 id="initialized">initialized</h3>
+<p>Indicates whether this DataStore is initialized.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></p>
+<h3 id="initialize">initialize</h3>
+<p>Initializes this DataStore with the given options. This method
+creates an empty item keystore, and encrypts it using the password
+specified in <code>{opts}</code>.</p>
+<p><strong>NOTE:</strong> If {salt} is provided here, it overrides and replaces any
+previously set salt, including from {DataStore.open}.</p>
+<h4 id="parameters_9">Parameters</h4>
+<ul>
+<li><code>opts</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The initialization options<ul>
+<li><code>opts.appKey</code> <strong>jose.JWK.Key?</strong> The master app key to setup with</li>
+<li><code>opts.salt</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</strong> The salt to use in deriving the master
+           keys</li>
+<li><code>opts.rebase</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></strong> Rebase an already initialized
+           DataStore to use a new password (optional, default <code>false</code>)</li>
+</ul>
+</li>
+</ul>
+<p>Returns <strong><a href="#datastore">DataStore</a></strong> This datastore</p>
+<h3 id="reset">reset</h3>
+<p>Resets this Datastore. This method deletes all items and keys stored.
+This is not a recoverable action.</p>
+<p>Returns <strong><a href="#datastore">DataStore</a></strong> This datastore instance</p>
+<h3 id="locked">locked</h3>
+<p>Indicates if this datastore is locked or unlocked.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></p>
+<h3 id="lock">lock</h3>
+<p>Locks this datastore.</p>
+<p>Returns <strong><a href="#datastore">DataStore</a></strong> This DataStore once locked</p>
+<h3 id="unlock">unlock</h3>
+<p>Attempts to unlock this datastore.</p>
+<h4 id="parameters_10">Parameters</h4>
+<ul>
+<li><code>appKey</code> <strong>jose.JWK.Key</strong> The application key to unlock the datastore</li>
+</ul>
+<p>Returns <strong><a href="#datastore">DataStore</a></strong> This DataStore once unlocked</p>
+<h3 id="list">list</h3>
+<p>Retrieves all of the items stored in this DataStore.</p>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&lt;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>&gt;</strong> The map of stored item, by id</p>
+<h3 id="get_1">get</h3>
+<p>Retrieves a single item from this DataStore</p>
+<h4 id="parameters_11">Parameters</h4>
+<ul>
+<li><code>id</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The item id to retrieve</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The JSON representing the item, or <code>null</code> if there is
+         no item for <code>{id}</code></p>
+<h3 id="add_1">add</h3>
+<p>Adds a new item to this DataStore.</p>
+<p>The <code>{id}</code> of the item is replaced with a new UUID.</p>
+<h4 id="parameters_12">Parameters</h4>
+<ul>
+<li>
+<p><code>item</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The item to add</p>
+</li>
+<li>
+<p>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a></strong> if <code>item</code> is invalid</p>
+</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The added item, with all fields completed</p>
+<h3 id="update">update</h3>
+<p>Updates an existing item in this DataStore.</p>
+<p><code>{item}</code> is expected to be a complete object; any (mutable) fields missing
+are removed from the stored value.  API users should call <a href="#get">#get</a>,
+then make the desired changes to the returned value.</p>
+<h4 id="parameters_13">Parameters</h4>
+<ul>
+<li>
+<p><code>item</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The item to update</p>
+</li>
+<li>
+<p>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></strong> if this item does not exist</p>
+</li>
+<li>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a></strong> if <code>item</code> is not an object with a <code>id</code> member</li>
+<li>Throws <strong><a href="#datastoreerror">DataStoreError</a></strong> if the <code>item</code> violates the schema</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The updated item</p>
+<h3 id="touch">touch</h3>
+<p>Touches an existing item in this DataStore.</p>
+<p><code>{item}</code> is expected to be a complete object. API users should call
+<a href="#get">#get</a>, then pass the returned value to <code>{touch}</code></p>
+<h4 id="parameters_14">Parameters</h4>
+<ul>
+<li>
+<p><code>item</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The item to touch</p>
+</li>
+<li>
+<p>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></strong> if this item does not exist</p>
+</li>
+<li>Throws <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a></strong> if <code>item</code> is not an object with a <code>id</code> member</li>
+<li>Throws <strong><a href="#datastoreerror">DataStoreError</a></strong> if the <code>item</code> violates the schema</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The updated item</p>
+<h3 id="remove">remove</h3>
+<p>Removes an item from this DataStore.</p>
+<h4 id="parameters_15">Parameters</h4>
+<ul>
+<li><code>id</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The item id to remove</li>
+</ul>
+<p>Returns <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></strong> The removed item, or <code>null</code> if no item was removed</p>
+<h2 id="open">open</h2>
+<p>Creates a new {DataStore} using the given configuration, and prepares it
+for use.  This method calls <a href="#datastoreprepare">DataStore#prepare</a>, returning the
+(promised) DataStore once it's ready for use.</p>
+<p>The signature for <code>{recordMetric}</code> (if provided) should conform to
+ the following:</p>
+<pre><code>async function recordMetric(method, id, fields) {
+  // {method} is one of "added" | "updated" | "deleted"
+  // {id} is the item.id
+  // {fields} either:
+  // * array strings denoting which fields were changed (if method === "updated")
+  // * undefined (otherwise)
+}
+</code></pre>
+<h3 id="parameters_16">Parameters</h3>
+<ul>
+<li><code>cfg</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?</strong> The configuration parameters<ul>
+<li><code>cfg.bucket</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The bucket to persist data to (optional, default <code>"lockbox"</code>)</li>
+<li><code>cfg.salt</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</strong> the salt to use for key derivations</li>
+<li><code>cfg.recordMetric</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?</strong> The function to record item metrics
+           events</li>
+</ul>
+</li>
+</ul>
+<p>Returns <strong><a href="#datastore">DataStore</a></strong> A new (prepared) DataStore</p>
+<h2 id="default_bucket">DEFAULT_BUCKET</h2>
+<p>Default bucket name to use for <a href="../localdatabase.open">localdatabase.open</a>.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="database_version">DATABASE_VERSION</h2>
+<p>The current (local) database version number.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></p>
+<h2 id="open_1">open</h2>
+<p>Opens a (Dexie) Database with the given (bucket) name. This method:
+1. creates a new Dexie instance;
+2. initializes up to the latest; and
+3. opens the database</p>
+<h3 id="parameters_17">Parameters</h3>
+<ul>
+<li><code>bucket</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</strong> The name of the database.</li>
+</ul>
+<p>Returns <strong>Dexie</strong> The initialized and opened Dexie database.</p>
+<h2 id="datastoreerror">DataStoreError</h2>
+<p><strong>Extends Error</strong></p>
+<p>Errors specific to DataStore operations.</p>
+<h3 id="parameters_18">Parameters</h3>
+<ul>
+<li><code>reason</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></strong> The reason for the error (optional, default <code>DataStoreError.GENERIC_ERROR</code>)</li>
+<li><code>message</code> <strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</strong> The error message</li>
+</ul>
+<h3 id="reason">reason</h3>
+<p>The reason name for this DataStoreError.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorlocked">DataStoreError.LOCKED</h2>
+<p>An attempt was made to use a datastore that is still locked.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorlocaldb_version">DataStoreError.LOCALDB_VERSION</h2>
+<p>When opening a local database, the actual database version does not match the expected version.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrornot_initialized">DataStoreError.NOT_INITIALIZED</h2>
+<p>The datastore is not yet initialized.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorinitialized">DataStoreError.INITIALIZED</h2>
+<p>An attempt was made to initialize a datastore that is already initialized.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrormissing_app_key">DataStoreError.MISSING_APP_KEY</h2>
+<p>No master key was provided.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorwrong_app_key">DataStoreError.WRONG_APP_KEY</h2>
+<p>The master key is not valid for the encrypted data.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerroroffline">DataStoreError.OFFLINE</h2>
+<p>An operation requires network connectivity, but there is none.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorinvalid_item">DataStoreError.INVALID_ITEM</h2>
+<p>The item to be added/updated is invalid.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrormissing_item">DataStoreError.MISSING_ITEM</h2>
+<p>The item to be updated does not exist.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorgeneric_error">DataStoreError.GENERIC_ERROR</h2>
+<p>An otherwise unspecified error occurred with the datastore.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorsync_locked">DataStoreError.SYNC_LOCKED</h2>
+<p>An attempt was made to sync a datastore, but cannot be completed until unlocked.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrornetwork">DataStoreError.NETWORK</h2>
+<p>An operation encountered a (generic) network error.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorauth">DataStoreError.AUTH</h2>
+<p>An operation requires (remote) authentication before it can be performed.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+<h2 id="datastoreerrorcrypto">DataStoreError.CRYPTO</h2>
+<p>There was a cryptographic error.</p>
+<p>Type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../code_of_conduct/" class="btn btn-neutral" title="Code of Conduct"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/mozilla-lockbox/lockbox-datastore/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../code_of_conduct/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>

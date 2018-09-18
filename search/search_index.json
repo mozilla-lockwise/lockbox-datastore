@@ -1,0 +1,434 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Welcome to Lockbox's DataStore documentation\n\n\nNote: This is no longer an actively-developed prototype and not\nofficially supported.\n\n\nThis is just one component of the Lockbox product. Please see the\n\nLockbox website\n for more documentation and context.", 
+            "title": "Introduction"
+        }, 
+        {
+            "location": "/#welcome-to-lockboxs-datastore-documentation", 
+            "text": "Note: This is no longer an actively-developed prototype and not\nofficially supported.  This is just one component of the Lockbox product. Please see the Lockbox website  for more documentation and context.", 
+            "title": "Welcome to Lockbox's DataStore documentation"
+        }, 
+        {
+            "location": "/install/", 
+            "text": "Installing\n\n\nTo use \nlockbox-datastore\n in your own projects, install it from the repository:\n\n\nnpm install --save git+https://github.com/mozilla-lockbox/lockbox-datastore.git\n\n\n\n\nBuilding\n\n\nTo build \nlockbox-datastore\n, first clone this repository then install dependencies:\n\n\ngit clone https://github.com/mozilla-lockbox/lockbox-datastore.git\ncd lockbox-datastore\nnpm install\n\n\n\n\nTo run tests in a web browser:\n\n\nnpm test", 
+            "title": "Installing"
+        }, 
+        {
+            "location": "/install/#installing", 
+            "text": "To use  lockbox-datastore  in your own projects, install it from the repository:  npm install --save git+https://github.com/mozilla-lockbox/lockbox-datastore.git", 
+            "title": "Installing"
+        }, 
+        {
+            "location": "/install/#building", 
+            "text": "To build  lockbox-datastore , first clone this repository then install dependencies:  git clone https://github.com/mozilla-lockbox/lockbox-datastore.git\ncd lockbox-datastore\nnpm install  To run tests in a web browser:  npm test", 
+            "title": "Building"
+        }, 
+        {
+            "location": "/contributing/", 
+            "text": "Contributing\n\n\nThank you for considering and taking the time to contribute! \nPlease note: this project is not currently or actively planning to fix non-critical (data loss, security related) bugs or implement new features.\n This is an experimental prototype.\n\n\nCode of Conduct\n\n\nThis repository is governed by Mozilla's code of conduct and etiquette guidelines. For more details please see the \nMozilla Community Participation Guidelines\n and \nDeveloper Etiquette Guidelines\n.\n\n\nHow to Get Started\n\n\nPlease refer to installation and build instructions in the \ndocumentation\n.\n\n\nHow to Report Bugs\n\n\nPlease open \na new issue in the GitHub repository\n with steps to reproduce the problem you're experiencing.\n\n\nBe sure to include as much information including screenshots, text output, and both your expected and actual results.\n\n\nIf you believe that you've found a security vulnerability, please report it by sending email to the addresses: security@mozilla.org and lockbox-dev@mozilla.com\n\n\nHow to Request Enhancements\n\n\nFirst, please refer to the applicable \nGitHub repository\n and search \nthe repository's GitHub issues\n to make sure your idea has not been (or is not still) considered.\n\n\nThen, please \ncreate a new issue in the GitHub repository\n describing your enhancement.\n\n\nBe sure to include as much detail as possible including step-by-step descriptions, specific examples, screenshots or mockups, and reasoning for why the enhancement might be worthwhile.\n\n\nPlease keep in mind, by opening an issue we provide no guarantee the enhancement will be implemented.", 
+            "title": "Contributing"
+        }, 
+        {
+            "location": "/contributing/#contributing", 
+            "text": "Thank you for considering and taking the time to contribute!  Please note: this project is not currently or actively planning to fix non-critical (data loss, security related) bugs or implement new features.  This is an experimental prototype.", 
+            "title": "Contributing"
+        }, 
+        {
+            "location": "/contributing/#code-of-conduct", 
+            "text": "This repository is governed by Mozilla's code of conduct and etiquette guidelines. For more details please see the  Mozilla Community Participation Guidelines  and  Developer Etiquette Guidelines .", 
+            "title": "Code of Conduct"
+        }, 
+        {
+            "location": "/contributing/#how-to-get-started", 
+            "text": "Please refer to installation and build instructions in the  documentation .", 
+            "title": "How to Get Started"
+        }, 
+        {
+            "location": "/contributing/#how-to-report-bugs", 
+            "text": "Please open  a new issue in the GitHub repository  with steps to reproduce the problem you're experiencing.  Be sure to include as much information including screenshots, text output, and both your expected and actual results.  If you believe that you've found a security vulnerability, please report it by sending email to the addresses: security@mozilla.org and lockbox-dev@mozilla.com", 
+            "title": "How to Report Bugs"
+        }, 
+        {
+            "location": "/contributing/#how-to-request-enhancements", 
+            "text": "First, please refer to the applicable  GitHub repository  and search  the repository's GitHub issues  to make sure your idea has not been (or is not still) considered.  Then, please  create a new issue in the GitHub repository  describing your enhancement.  Be sure to include as much detail as possible including step-by-step descriptions, specific examples, screenshots or mockups, and reasoning for why the enhancement might be worthwhile.  Please keep in mind, by opening an issue we provide no guarantee the enhancement will be implemented.", 
+            "title": "How to Request Enhancements"
+        }, 
+        {
+            "location": "/code_of_conduct/", 
+            "text": "Code of Conduct\n\n\nThis repository is governed by Mozilla's code of conduct and etiquette guidelines. For more details please see the \nMozilla Community Participation Guidelines\n and \nDeveloper Etiquette Guidelines\n.", 
+            "title": "Code of Conduct"
+        }, 
+        {
+            "location": "/code_of_conduct/#code-of-conduct", 
+            "text": "This repository is governed by Mozilla's code of conduct and etiquette guidelines. For more details please see the  Mozilla Community Participation Guidelines  and  Developer Etiquette Guidelines .", 
+            "title": "Code of Conduct"
+        }, 
+        {
+            "location": "/api/", 
+            "text": "Table of Contents\n\n\n\n\nItemKeyStore\n\n\nParameters\n\n\nencryptKey\n\n\nid\n\n\ngroup\n\n\nencrypted\n\n\ntoJSON\n\n\nload\n\n\nParameters\n\n\n\n\n\n\nsave\n\n\nclear\n\n\nParameters\n\n\n\n\n\n\nsize\n\n\nall\n\n\nget\n\n\nParameters\n\n\n\n\n\n\nadd\n\n\nParameters\n\n\n\n\n\n\ndelete\n\n\nParameters\n\n\n\n\n\n\nprotect\n\n\nParameters\n\n\n\n\n\n\nunprotect\n\n\nParameters\n\n\n\n\n\n\nDEFAULT_KEYSTORE_ID\n\n\nDEFAULT_KEYSTORE_GROUP\n\n\n\n\n\n\nDataStore\n\n\nParameters\n\n\nprepare\n\n\ninitialized\n\n\ninitialize\n\n\nParameters\n\n\n\n\n\n\nreset\n\n\nlocked\n\n\nlock\n\n\nunlock\n\n\nParameters\n\n\n\n\n\n\nlist\n\n\nget\n\n\nParameters\n\n\n\n\n\n\nadd\n\n\nParameters\n\n\n\n\n\n\nupdate\n\n\nParameters\n\n\n\n\n\n\ntouch\n\n\nParameters\n\n\n\n\n\n\nremove\n\n\nParameters\n\n\n\n\n\n\n\n\n\n\nopen\n\n\nParameters\n\n\n\n\n\n\nDEFAULT_BUCKET\n\n\nDATABASE_VERSION\n\n\nopen\n\n\nParameters\n\n\n\n\n\n\nDataStoreError\n\n\nParameters\n\n\nreason\n\n\n\n\n\n\nDataStoreError.LOCKED\n\n\nDataStoreError.LOCALDB_VERSION\n\n\nDataStoreError.NOT_INITIALIZED\n\n\nDataStoreError.INITIALIZED\n\n\nDataStoreError.MISSING_APP_KEY\n\n\nDataStoreError.WRONG_APP_KEY\n\n\nDataStoreError.OFFLINE\n\n\nDataStoreError.INVALID_ITEM\n\n\nDataStoreError.MISSING_ITEM\n\n\nDataStoreError.GENERIC_ERROR\n\n\nDataStoreError.SYNC_LOCKED\n\n\nDataStoreError.NETWORK\n\n\nDataStoreError.AUTH\n\n\nDataStoreError.CRYPTO\n\n\n\n\nItemKeyStore\n\n\nManages a set of item keys. This includes generation, encryption, and\ndecryption of the set.\n\n\nParameters\n\n\n\n\nself\n \nObject\n?\n The properties of this ItemKeyStore\n\n\n\n\nencryptKey\n\n\nThe master encryption key.\n\n\nType: jose.JWK.Key\n\n\nid\n\n\nThe keystore identifier.\n\n\nType: \nstring\n\n\ngroup\n\n\nThe group name.\n\n\nType: \nstring\n\n\nencrypted\n\n\nThe encrypted key set, as a Compact JWE.\n\n\nType: \nstring\n\n\ntoJSON\n\n\nCreates a JSON representation of this ItemKeyStore.  This method returns\na plain Object with the following properties:\n\n\n\n\ngroup\n {\nString\n} The name of the keystore's group\n\n\nencrypted\n {\nStirng\n} The encrypted map of keys\n\n\n\n\nReturns \nObject\n The JSON representation\n\n\nload\n\n\nLoads the item keys.  This method decrypts the stored encrypted key set\nusing the current or specified master encryption key.\n\n\nIf \n{master}\n is provided, it overwrites the current master encryption\nkey.\n\n\nParameters\n\n\n\n\n\n\nmaster\n \njose.JWK.Key?\n The new master encryption key to use\n\n\n\n\n\n\nThrows \nError\n If the master encryption key is not set, or there is\n            no encrypted key set, or encryption fails\n\n\n\n\n\n\nReturns \nItemKeyStore\n This ItemKeyStore\n\n\nsave\n\n\nSaves the item keys.  This method serializes the item keys into and\nencrypts them using the current master encryption key.\n\n\nOnce this method completes, \n{encrypted}\n is set to the newly encrypted\nkey set.\n\n\n\n\nThrows \nError\n If the master encryption key is invalid, or encryption\n            fails\n\n\n\n\nReturns \nItemKeyStore\n This ItemKeyStore\n\n\nclear\n\n\nClears all decrypted values.  Optionally, it also clears the\nencrypted store.\n\n\nParameters\n\n\n\n\nall\n \nboolean\n \ntrue\n to also delete encrypted keys (optional, default \nfalse\n)\n\n\n\n\nReturns \nItemKeyStore\n This ItemKeyStore\n\n\nsize\n\n\nThe number of item keys available (not encrypted).\n\n\nType: \nnumber\n\n\nall\n\n\nRetrieves all of the item keys.  The returned map is a snapshot of\nthe current state, and will not reflect any changes made after this\nmethod is called.\n\n\nReturns \nMap\nstring\n, jose.JWK.Key\n The list of item keys.\n\n\nget\n\n\nRetrieves an item key for the given id.\n\n\nParameters\n\n\n\n\nid\n \nstring\n The item key identifier\n\n\n\n\nReturns \njose.JWK.Key\n The item key, or \nundefined\n if not known\n\n\nadd\n\n\nAdds an item key for the given id.  If a key for \n{id}\n is already\nknown, it is returned instead of generating a new one.\n\n\nParameters\n\n\n\n\nid\n \nstring\n The item key identifier\n\n\n\n\nReturns \njose.JWK.Key\n The new or existing item key\n\n\ndelete\n\n\nRemoves the item key for the given id.\n\n\nParameters\n\n\n\n\nid\n \nstring\n The item key identifier\n\n\n\n\nReturns \nvoid\n \n\n\nprotect\n\n\nEncrypts an item.\n\n\nThe \n{item}\n is expected to have a string \nid\n property, which is\nused to match it its key.  If a key for the item's id does not exist,\nit is first created.\n\n\nParameters\n\n\n\n\n\n\nitem\n \nObject\n The item to encrypt\n\n\n\n\n\n\nThrows \nError\n if \n{item}\n is invalid, or if encryption failed\n\n\n\n\n\n\nReturns \nstring\n The encrypted item as a compact JWE\n\n\nunprotect\n\n\nDecrypts an item.\n\n\nParameters\n\n\n\n\nid\n \nstring\n The item id\n\n\n\n\njwe\n \nstring\n The encrypted item as a compact JWE\n\n\n\n\n\n\nThrows \nError\n if \n{id}\n or \n{jwe}\n is invalid, or if decryption failed\n\n\n\n\n\n\nReturns \nObject\n The decrypted item\n\n\nDEFAULT_KEYSTORE_ID\n\n\nDefault keystore identifier.\n\n\nType: \nstring\n\n\nDEFAULT_KEYSTORE_GROUP\n\n\nDefault keystore group name.\n\n\nType: \nstring\n\n\nDataStore\n\n\nRepresents item storage.\n\n\nParameters\n\n\n\n\ncfg\n \nObject\n The configuration parameters.\n\n\n\n\nprepare\n\n\nPrepares this DataStore. This method:\n\n\n\n\ninitializes and opens the local database; and\n\n\nloads any stored keys from the local database.\n\n\n\n\nIf the database is already prepared, this method does nothing.\n\n\nReturns \nDataStore\n This DataStore.\n\n\ninitialized\n\n\nIndicates whether this DataStore is initialized.\n\n\nType: \nboolean\n\n\ninitialize\n\n\nInitializes this DataStore with the given options. This method\ncreates an empty item keystore, and encrypts it using the password\nspecified in \n{opts}\n.\n\n\nNOTE:\n If {salt} is provided here, it overrides and replaces any\npreviously set salt, including from {DataStore.open}.\n\n\nParameters\n\n\n\n\nopts\n \nObject\n The initialization options\n\n\nopts.appKey\n \njose.JWK.Key?\n The master app key to setup with\n\n\nopts.salt\n \nstring\n?\n The salt to use in deriving the master\n           keys\n\n\nopts.rebase\n \nboolean\n Rebase an already initialized\n           DataStore to use a new password (optional, default \nfalse\n)\n\n\n\n\n\n\n\n\nReturns \nDataStore\n This datastore\n\n\nreset\n\n\nResets this Datastore. This method deletes all items and keys stored.\nThis is not a recoverable action.\n\n\nReturns \nDataStore\n This datastore instance\n\n\nlocked\n\n\nIndicates if this datastore is locked or unlocked.\n\n\nType: \nboolean\n\n\nlock\n\n\nLocks this datastore.\n\n\nReturns \nDataStore\n This DataStore once locked\n\n\nunlock\n\n\nAttempts to unlock this datastore.\n\n\nParameters\n\n\n\n\nappKey\n \njose.JWK.Key\n The application key to unlock the datastore\n\n\n\n\nReturns \nDataStore\n This DataStore once unlocked\n\n\nlist\n\n\nRetrieves all of the items stored in this DataStore.\n\n\nReturns \nMap\nstring\n, \nObject\n The map of stored item, by id\n\n\nget\n\n\nRetrieves a single item from this DataStore\n\n\nParameters\n\n\n\n\nid\n \nstring\n The item id to retrieve\n\n\n\n\nReturns \nObject\n The JSON representing the item, or \nnull\n if there is\n         no item for \n{id}\n\n\nadd\n\n\nAdds a new item to this DataStore.\n\n\nThe \n{id}\n of the item is replaced with a new UUID.\n\n\nParameters\n\n\n\n\n\n\nitem\n \nObject\n The item to add\n\n\n\n\n\n\nThrows \nTypeError\n if \nitem\n is invalid\n\n\n\n\n\n\nReturns \nObject\n The added item, with all fields completed\n\n\nupdate\n\n\nUpdates an existing item in this DataStore.\n\n\n{item}\n is expected to be a complete object; any (mutable) fields missing\nare removed from the stored value.  API users should call \n#get\n,\nthen make the desired changes to the returned value.\n\n\nParameters\n\n\n\n\n\n\nitem\n \nObject\n The item to update\n\n\n\n\n\n\nThrows \nError\n if this item does not exist\n\n\n\n\nThrows \nTypeError\n if \nitem\n is not an object with a \nid\n member\n\n\nThrows \nDataStoreError\n if the \nitem\n violates the schema\n\n\n\n\nReturns \nObject\n The updated item\n\n\ntouch\n\n\nTouches an existing item in this DataStore.\n\n\n{item}\n is expected to be a complete object. API users should call\n\n#get\n, then pass the returned value to \n{touch}\n\n\nParameters\n\n\n\n\n\n\nitem\n \nObject\n The item to touch\n\n\n\n\n\n\nThrows \nError\n if this item does not exist\n\n\n\n\nThrows \nTypeError\n if \nitem\n is not an object with a \nid\n member\n\n\nThrows \nDataStoreError\n if the \nitem\n violates the schema\n\n\n\n\nReturns \nObject\n The updated item\n\n\nremove\n\n\nRemoves an item from this DataStore.\n\n\nParameters\n\n\n\n\nid\n \nstring\n The item id to remove\n\n\n\n\nReturns \nObject\n The removed item, or \nnull\n if no item was removed\n\n\nopen\n\n\nCreates a new {DataStore} using the given configuration, and prepares it\nfor use.  This method calls \nDataStore#prepare\n, returning the\n(promised) DataStore once it's ready for use.\n\n\nThe signature for \n{recordMetric}\n (if provided) should conform to\n the following:\n\n\nasync function recordMetric(method, id, fields) {\n  // {method} is one of \"added\" | \"updated\" | \"deleted\"\n  // {id} is the item.id\n  // {fields} either:\n  // * array strings denoting which fields were changed (if method === \"updated\")\n  // * undefined (otherwise)\n}\n\n\n\nParameters\n\n\n\n\ncfg\n \nObject\n?\n The configuration parameters\n\n\ncfg.bucket\n \nstring\n The bucket to persist data to (optional, default \n\"lockbox\"\n)\n\n\ncfg.salt\n \nstring\n?\n the salt to use for key derivations\n\n\ncfg.recordMetric\n \nFunction\n?\n The function to record item metrics\n           events\n\n\n\n\n\n\n\n\nReturns \nDataStore\n A new (prepared) DataStore\n\n\nDEFAULT_BUCKET\n\n\nDefault bucket name to use for \nlocaldatabase.open\n.\n\n\nType: \nstring\n\n\nDATABASE_VERSION\n\n\nThe current (local) database version number.\n\n\nType: \nnumber\n\n\nopen\n\n\nOpens a (Dexie) Database with the given (bucket) name. This method:\n1. creates a new Dexie instance;\n2. initializes up to the latest; and\n3. opens the database\n\n\nParameters\n\n\n\n\nbucket\n \nstring\n?\n The name of the database.\n\n\n\n\nReturns \nDexie\n The initialized and opened Dexie database.\n\n\nDataStoreError\n\n\nExtends Error\n\n\nErrors specific to DataStore operations.\n\n\nParameters\n\n\n\n\nreason\n \nstring\n The reason for the error (optional, default \nDataStoreError.GENERIC_ERROR\n)\n\n\nmessage\n \nstring\n?\n The error message\n\n\n\n\nreason\n\n\nThe reason name for this DataStoreError.\n\n\nType: \nstring\n\n\nDataStoreError.LOCKED\n\n\nAn attempt was made to use a datastore that is still locked.\n\n\nType: \nstring\n\n\nDataStoreError.LOCALDB_VERSION\n\n\nWhen opening a local database, the actual database version does not match the expected version.\n\n\nType: \nstring\n\n\nDataStoreError.NOT_INITIALIZED\n\n\nThe datastore is not yet initialized.\n\n\nType: \nstring\n\n\nDataStoreError.INITIALIZED\n\n\nAn attempt was made to initialize a datastore that is already initialized.\n\n\nType: \nstring\n\n\nDataStoreError.MISSING_APP_KEY\n\n\nNo master key was provided.\n\n\nType: \nstring\n\n\nDataStoreError.WRONG_APP_KEY\n\n\nThe master key is not valid for the encrypted data.\n\n\nType: \nstring\n\n\nDataStoreError.OFFLINE\n\n\nAn operation requires network connectivity, but there is none.\n\n\nType: \nstring\n\n\nDataStoreError.INVALID_ITEM\n\n\nThe item to be added/updated is invalid.\n\n\nType: \nstring\n\n\nDataStoreError.MISSING_ITEM\n\n\nThe item to be updated does not exist.\n\n\nType: \nstring\n\n\nDataStoreError.GENERIC_ERROR\n\n\nAn otherwise unspecified error occurred with the datastore.\n\n\nType: \nstring\n\n\nDataStoreError.SYNC_LOCKED\n\n\nAn attempt was made to sync a datastore, but cannot be completed until unlocked.\n\n\nType: \nstring\n\n\nDataStoreError.NETWORK\n\n\nAn operation encountered a (generic) network error.\n\n\nType: \nstring\n\n\nDataStoreError.AUTH\n\n\nAn operation requires (remote) authentication before it can be performed.\n\n\nType: \nstring\n\n\nDataStoreError.CRYPTO\n\n\nThere was a cryptographic error.\n\n\nType: \nstring", 
+            "title": "API Guide"
+        }, 
+        {
+            "location": "/api/#table-of-contents", 
+            "text": "ItemKeyStore  Parameters  encryptKey  id  group  encrypted  toJSON  load  Parameters    save  clear  Parameters    size  all  get  Parameters    add  Parameters    delete  Parameters    protect  Parameters    unprotect  Parameters    DEFAULT_KEYSTORE_ID  DEFAULT_KEYSTORE_GROUP    DataStore  Parameters  prepare  initialized  initialize  Parameters    reset  locked  lock  unlock  Parameters    list  get  Parameters    add  Parameters    update  Parameters    touch  Parameters    remove  Parameters      open  Parameters    DEFAULT_BUCKET  DATABASE_VERSION  open  Parameters    DataStoreError  Parameters  reason    DataStoreError.LOCKED  DataStoreError.LOCALDB_VERSION  DataStoreError.NOT_INITIALIZED  DataStoreError.INITIALIZED  DataStoreError.MISSING_APP_KEY  DataStoreError.WRONG_APP_KEY  DataStoreError.OFFLINE  DataStoreError.INVALID_ITEM  DataStoreError.MISSING_ITEM  DataStoreError.GENERIC_ERROR  DataStoreError.SYNC_LOCKED  DataStoreError.NETWORK  DataStoreError.AUTH  DataStoreError.CRYPTO", 
+            "title": "Table of Contents"
+        }, 
+        {
+            "location": "/api/#itemkeystore", 
+            "text": "Manages a set of item keys. This includes generation, encryption, and\ndecryption of the set.", 
+            "title": "ItemKeyStore"
+        }, 
+        {
+            "location": "/api/#parameters", 
+            "text": "self   Object ?  The properties of this ItemKeyStore", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#encryptkey", 
+            "text": "The master encryption key.  Type: jose.JWK.Key", 
+            "title": "encryptKey"
+        }, 
+        {
+            "location": "/api/#id", 
+            "text": "The keystore identifier.  Type:  string", 
+            "title": "id"
+        }, 
+        {
+            "location": "/api/#group", 
+            "text": "The group name.  Type:  string", 
+            "title": "group"
+        }, 
+        {
+            "location": "/api/#encrypted", 
+            "text": "The encrypted key set, as a Compact JWE.  Type:  string", 
+            "title": "encrypted"
+        }, 
+        {
+            "location": "/api/#tojson", 
+            "text": "Creates a JSON representation of this ItemKeyStore.  This method returns\na plain Object with the following properties:   group  { String } The name of the keystore's group  encrypted  { Stirng } The encrypted map of keys   Returns  Object  The JSON representation", 
+            "title": "toJSON"
+        }, 
+        {
+            "location": "/api/#load", 
+            "text": "Loads the item keys.  This method decrypts the stored encrypted key set\nusing the current or specified master encryption key.  If  {master}  is provided, it overwrites the current master encryption\nkey.", 
+            "title": "load"
+        }, 
+        {
+            "location": "/api/#parameters_1", 
+            "text": "master   jose.JWK.Key?  The new master encryption key to use    Throws  Error  If the master encryption key is not set, or there is\n            no encrypted key set, or encryption fails    Returns  ItemKeyStore  This ItemKeyStore", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#save", 
+            "text": "Saves the item keys.  This method serializes the item keys into and\nencrypts them using the current master encryption key.  Once this method completes,  {encrypted}  is set to the newly encrypted\nkey set.   Throws  Error  If the master encryption key is invalid, or encryption\n            fails   Returns  ItemKeyStore  This ItemKeyStore", 
+            "title": "save"
+        }, 
+        {
+            "location": "/api/#clear", 
+            "text": "Clears all decrypted values.  Optionally, it also clears the\nencrypted store.", 
+            "title": "clear"
+        }, 
+        {
+            "location": "/api/#parameters_2", 
+            "text": "all   boolean   true  to also delete encrypted keys (optional, default  false )   Returns  ItemKeyStore  This ItemKeyStore", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#size", 
+            "text": "The number of item keys available (not encrypted).  Type:  number", 
+            "title": "size"
+        }, 
+        {
+            "location": "/api/#all", 
+            "text": "Retrieves all of the item keys.  The returned map is a snapshot of\nthe current state, and will not reflect any changes made after this\nmethod is called.  Returns  Map string , jose.JWK.Key  The list of item keys.", 
+            "title": "all"
+        }, 
+        {
+            "location": "/api/#get", 
+            "text": "Retrieves an item key for the given id.", 
+            "title": "get"
+        }, 
+        {
+            "location": "/api/#parameters_3", 
+            "text": "id   string  The item key identifier   Returns  jose.JWK.Key  The item key, or  undefined  if not known", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#add", 
+            "text": "Adds an item key for the given id.  If a key for  {id}  is already\nknown, it is returned instead of generating a new one.", 
+            "title": "add"
+        }, 
+        {
+            "location": "/api/#parameters_4", 
+            "text": "id   string  The item key identifier   Returns  jose.JWK.Key  The new or existing item key", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#delete", 
+            "text": "Removes the item key for the given id.", 
+            "title": "delete"
+        }, 
+        {
+            "location": "/api/#parameters_5", 
+            "text": "id   string  The item key identifier   Returns  void", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#protect", 
+            "text": "Encrypts an item.  The  {item}  is expected to have a string  id  property, which is\nused to match it its key.  If a key for the item's id does not exist,\nit is first created.", 
+            "title": "protect"
+        }, 
+        {
+            "location": "/api/#parameters_6", 
+            "text": "item   Object  The item to encrypt    Throws  Error  if  {item}  is invalid, or if encryption failed    Returns  string  The encrypted item as a compact JWE", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#unprotect", 
+            "text": "Decrypts an item.", 
+            "title": "unprotect"
+        }, 
+        {
+            "location": "/api/#parameters_7", 
+            "text": "id   string  The item id   jwe   string  The encrypted item as a compact JWE    Throws  Error  if  {id}  or  {jwe}  is invalid, or if decryption failed    Returns  Object  The decrypted item", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#default_keystore_id", 
+            "text": "Default keystore identifier.  Type:  string", 
+            "title": "DEFAULT_KEYSTORE_ID"
+        }, 
+        {
+            "location": "/api/#default_keystore_group", 
+            "text": "Default keystore group name.  Type:  string", 
+            "title": "DEFAULT_KEYSTORE_GROUP"
+        }, 
+        {
+            "location": "/api/#datastore", 
+            "text": "Represents item storage.", 
+            "title": "DataStore"
+        }, 
+        {
+            "location": "/api/#parameters_8", 
+            "text": "cfg   Object  The configuration parameters.", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#prepare", 
+            "text": "Prepares this DataStore. This method:   initializes and opens the local database; and  loads any stored keys from the local database.   If the database is already prepared, this method does nothing.  Returns  DataStore  This DataStore.", 
+            "title": "prepare"
+        }, 
+        {
+            "location": "/api/#initialized", 
+            "text": "Indicates whether this DataStore is initialized.  Type:  boolean", 
+            "title": "initialized"
+        }, 
+        {
+            "location": "/api/#initialize", 
+            "text": "Initializes this DataStore with the given options. This method\ncreates an empty item keystore, and encrypts it using the password\nspecified in  {opts} .  NOTE:  If {salt} is provided here, it overrides and replaces any\npreviously set salt, including from {DataStore.open}.", 
+            "title": "initialize"
+        }, 
+        {
+            "location": "/api/#parameters_9", 
+            "text": "opts   Object  The initialization options  opts.appKey   jose.JWK.Key?  The master app key to setup with  opts.salt   string ?  The salt to use in deriving the master\n           keys  opts.rebase   boolean  Rebase an already initialized\n           DataStore to use a new password (optional, default  false )     Returns  DataStore  This datastore", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#reset", 
+            "text": "Resets this Datastore. This method deletes all items and keys stored.\nThis is not a recoverable action.  Returns  DataStore  This datastore instance", 
+            "title": "reset"
+        }, 
+        {
+            "location": "/api/#locked", 
+            "text": "Indicates if this datastore is locked or unlocked.  Type:  boolean", 
+            "title": "locked"
+        }, 
+        {
+            "location": "/api/#lock", 
+            "text": "Locks this datastore.  Returns  DataStore  This DataStore once locked", 
+            "title": "lock"
+        }, 
+        {
+            "location": "/api/#unlock", 
+            "text": "Attempts to unlock this datastore.", 
+            "title": "unlock"
+        }, 
+        {
+            "location": "/api/#parameters_10", 
+            "text": "appKey   jose.JWK.Key  The application key to unlock the datastore   Returns  DataStore  This DataStore once unlocked", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#list", 
+            "text": "Retrieves all of the items stored in this DataStore.  Returns  Map string ,  Object  The map of stored item, by id", 
+            "title": "list"
+        }, 
+        {
+            "location": "/api/#get_1", 
+            "text": "Retrieves a single item from this DataStore", 
+            "title": "get"
+        }, 
+        {
+            "location": "/api/#parameters_11", 
+            "text": "id   string  The item id to retrieve   Returns  Object  The JSON representing the item, or  null  if there is\n         no item for  {id}", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#add_1", 
+            "text": "Adds a new item to this DataStore.  The  {id}  of the item is replaced with a new UUID.", 
+            "title": "add"
+        }, 
+        {
+            "location": "/api/#parameters_12", 
+            "text": "item   Object  The item to add    Throws  TypeError  if  item  is invalid    Returns  Object  The added item, with all fields completed", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#update", 
+            "text": "Updates an existing item in this DataStore.  {item}  is expected to be a complete object; any (mutable) fields missing\nare removed from the stored value.  API users should call  #get ,\nthen make the desired changes to the returned value.", 
+            "title": "update"
+        }, 
+        {
+            "location": "/api/#parameters_13", 
+            "text": "item   Object  The item to update    Throws  Error  if this item does not exist   Throws  TypeError  if  item  is not an object with a  id  member  Throws  DataStoreError  if the  item  violates the schema   Returns  Object  The updated item", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#touch", 
+            "text": "Touches an existing item in this DataStore.  {item}  is expected to be a complete object. API users should call #get , then pass the returned value to  {touch}", 
+            "title": "touch"
+        }, 
+        {
+            "location": "/api/#parameters_14", 
+            "text": "item   Object  The item to touch    Throws  Error  if this item does not exist   Throws  TypeError  if  item  is not an object with a  id  member  Throws  DataStoreError  if the  item  violates the schema   Returns  Object  The updated item", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#remove", 
+            "text": "Removes an item from this DataStore.", 
+            "title": "remove"
+        }, 
+        {
+            "location": "/api/#parameters_15", 
+            "text": "id   string  The item id to remove   Returns  Object  The removed item, or  null  if no item was removed", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#open", 
+            "text": "Creates a new {DataStore} using the given configuration, and prepares it\nfor use.  This method calls  DataStore#prepare , returning the\n(promised) DataStore once it's ready for use.  The signature for  {recordMetric}  (if provided) should conform to\n the following:  async function recordMetric(method, id, fields) {\n  // {method} is one of \"added\" | \"updated\" | \"deleted\"\n  // {id} is the item.id\n  // {fields} either:\n  // * array strings denoting which fields were changed (if method === \"updated\")\n  // * undefined (otherwise)\n}", 
+            "title": "open"
+        }, 
+        {
+            "location": "/api/#parameters_16", 
+            "text": "cfg   Object ?  The configuration parameters  cfg.bucket   string  The bucket to persist data to (optional, default  \"lockbox\" )  cfg.salt   string ?  the salt to use for key derivations  cfg.recordMetric   Function ?  The function to record item metrics\n           events     Returns  DataStore  A new (prepared) DataStore", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#default_bucket", 
+            "text": "Default bucket name to use for  localdatabase.open .  Type:  string", 
+            "title": "DEFAULT_BUCKET"
+        }, 
+        {
+            "location": "/api/#database_version", 
+            "text": "The current (local) database version number.  Type:  number", 
+            "title": "DATABASE_VERSION"
+        }, 
+        {
+            "location": "/api/#open_1", 
+            "text": "Opens a (Dexie) Database with the given (bucket) name. This method:\n1. creates a new Dexie instance;\n2. initializes up to the latest; and\n3. opens the database", 
+            "title": "open"
+        }, 
+        {
+            "location": "/api/#parameters_17", 
+            "text": "bucket   string ?  The name of the database.   Returns  Dexie  The initialized and opened Dexie database.", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#datastoreerror", 
+            "text": "Extends Error  Errors specific to DataStore operations.", 
+            "title": "DataStoreError"
+        }, 
+        {
+            "location": "/api/#parameters_18", 
+            "text": "reason   string  The reason for the error (optional, default  DataStoreError.GENERIC_ERROR )  message   string ?  The error message", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/api/#reason", 
+            "text": "The reason name for this DataStoreError.  Type:  string", 
+            "title": "reason"
+        }, 
+        {
+            "location": "/api/#datastoreerrorlocked", 
+            "text": "An attempt was made to use a datastore that is still locked.  Type:  string", 
+            "title": "DataStoreError.LOCKED"
+        }, 
+        {
+            "location": "/api/#datastoreerrorlocaldb_version", 
+            "text": "When opening a local database, the actual database version does not match the expected version.  Type:  string", 
+            "title": "DataStoreError.LOCALDB_VERSION"
+        }, 
+        {
+            "location": "/api/#datastoreerrornot_initialized", 
+            "text": "The datastore is not yet initialized.  Type:  string", 
+            "title": "DataStoreError.NOT_INITIALIZED"
+        }, 
+        {
+            "location": "/api/#datastoreerrorinitialized", 
+            "text": "An attempt was made to initialize a datastore that is already initialized.  Type:  string", 
+            "title": "DataStoreError.INITIALIZED"
+        }, 
+        {
+            "location": "/api/#datastoreerrormissing_app_key", 
+            "text": "No master key was provided.  Type:  string", 
+            "title": "DataStoreError.MISSING_APP_KEY"
+        }, 
+        {
+            "location": "/api/#datastoreerrorwrong_app_key", 
+            "text": "The master key is not valid for the encrypted data.  Type:  string", 
+            "title": "DataStoreError.WRONG_APP_KEY"
+        }, 
+        {
+            "location": "/api/#datastoreerroroffline", 
+            "text": "An operation requires network connectivity, but there is none.  Type:  string", 
+            "title": "DataStoreError.OFFLINE"
+        }, 
+        {
+            "location": "/api/#datastoreerrorinvalid_item", 
+            "text": "The item to be added/updated is invalid.  Type:  string", 
+            "title": "DataStoreError.INVALID_ITEM"
+        }, 
+        {
+            "location": "/api/#datastoreerrormissing_item", 
+            "text": "The item to be updated does not exist.  Type:  string", 
+            "title": "DataStoreError.MISSING_ITEM"
+        }, 
+        {
+            "location": "/api/#datastoreerrorgeneric_error", 
+            "text": "An otherwise unspecified error occurred with the datastore.  Type:  string", 
+            "title": "DataStoreError.GENERIC_ERROR"
+        }, 
+        {
+            "location": "/api/#datastoreerrorsync_locked", 
+            "text": "An attempt was made to sync a datastore, but cannot be completed until unlocked.  Type:  string", 
+            "title": "DataStoreError.SYNC_LOCKED"
+        }, 
+        {
+            "location": "/api/#datastoreerrornetwork", 
+            "text": "An operation encountered a (generic) network error.  Type:  string", 
+            "title": "DataStoreError.NETWORK"
+        }, 
+        {
+            "location": "/api/#datastoreerrorauth", 
+            "text": "An operation requires (remote) authentication before it can be performed.  Type:  string", 
+            "title": "DataStoreError.AUTH"
+        }, 
+        {
+            "location": "/api/#datastoreerrorcrypto", 
+            "text": "There was a cryptographic error.  Type:  string", 
+            "title": "DataStoreError.CRYPTO"
+        }
+    ]
+}
