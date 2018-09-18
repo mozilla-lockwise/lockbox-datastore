@@ -6,6 +6,9 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/mozilla-lockbox/lockbox-datastore.svg)](https://greenkeeper.io/)
 
+:warning: **Note: This is no longer an actively-developed prototype and not
+officially supported.**
+
 The data storage module for Lockbox. This module maintains the collection of
 entries, protected behind a preconfigured secret.
 

@@ -1,5 +1,8 @@
 # Welcome to Lockbox's DataStore documentation!
 
+:warning: **Note: This is no longer an actively-developed prototype and not
+officially supported.**
+
 You can read this documentation [online][online-docs-link] or by browsing the
 [`docs` directory on GitHub][repo-docs-link].
 
