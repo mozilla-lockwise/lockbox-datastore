@@ -24,6 +24,9 @@ For detailed documentation and installation instructions, please see the
 
 ## Contributing ##
 
+:warning: **Note: This is not an actively-developed prototype and we are not
+actively seeking contributions at this time.**
+
 See the [guidelines][contributing-link] for contributing to this project.
 
 This project is governed by a [Code Of Conduct][coc-link].

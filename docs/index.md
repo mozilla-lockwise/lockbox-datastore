@@ -1,6 +1,6 @@
 # Welcome to Lockbox's DataStore documentation
 
-:warning: **Note: This is no longer an actively-developed prototype and not
+**Note: This is no longer an actively-developed prototype and not
 officially supported.**
 
 *This is just one component of the Lockbox product. Please see the
