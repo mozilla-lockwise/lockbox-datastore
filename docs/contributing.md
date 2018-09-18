@@ -1,5 +1,8 @@
 # Contributing
 
+:warning: **Note: This is no longer an actively-developed prototype and not
+officially supported.**
+
 Thank you for considering and taking the time to contribute!
 
 The following are guidelines for contributing to this project.
@@ -17,6 +20,8 @@ Please refer to installation and build instructions in the [documentation](insta
 Please open [a new issue in the GitHub repository](https://github.com/mozilla-lockbox/lockbox-datastore/issues/new) with steps to reproduce the problem you're experiencing.
 
 Be sure to include as much information including screenshots, text output, and both your expected and actual results.
+
+If you believe that you've found a security vulnerability, please report it by sending email to the addresses: security@mozilla.org and lockbox-dev@mozilla.com
 
 ## How to Request Enhancements
 

@@ -28,6 +28,9 @@ See the [guidelines][contributing-link] for contributing to this project.
 
 This project is governed by a [Code Of Conduct][coc-link].
 
+To disclose potential a security vulnerability please see our
+[security][security-link] documentation.
+
 ## [License][license-link]
 
 This module is licensed under the [Mozilla Public License,
@@ -43,4 +46,5 @@ version 2.0][license-link].
 [org-website]: https://mozilla-lockbox.github.io/
 [contributing-link]: docs/contributing.md
 [coc-link]: docs/code_of_conduct.md
+[security-link]: docs/SECURITY.md
 [license-link]: /LICENSE
